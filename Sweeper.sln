@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sweeper", "Sweeper\Sweeper\Sweeper.csproj", "{52E577A1-E11A-4DF3-A0E5-8ADB250BBA8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sweeper", "Sweeper\Sweeper\Sweeper.csproj", "{52E577A1-E11A-4DF3-A0E5-8ADB250BBA8B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sweeper.Android", "Sweeper\Sweeper.Android\Sweeper.Android.csproj", "{4AAB5949-B967-4B1D-B108-80D1F6E73751}"
 EndProject

@@ -1,9 +1,13 @@
 using System;
+using System.Linq;
 using Prism;
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Unity;
 using Sweeper.Infrastructure;
+using Sweeper.Models;
 
 namespace Sweeper.ViewModels
 {
@@ -16,9 +20,9 @@ namespace Sweeper.ViewModels
 
         public bool IsActive { get; set; }
 
-        SettingsPageViewModel
-        public GamePageViewModel(INavigationService navigationService) : base (navigationService)
+        public GamePageViewModel(INavigationService navigationService, ISettingsModel settingsModel ) : base (navigationService)
         {
+            var settings = settingsModel;
         }
     }
 }

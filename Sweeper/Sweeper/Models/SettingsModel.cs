@@ -10,8 +10,8 @@ using Xamarin.Forms;
 
 namespace Sweeper.Models
 {
-    public class SettingsModel : BaseModel
-    { 
+    public class SettingsModel : BaseModel, ISettingsModel
+    {
         public enum GameTypes
         {
             BEGINNER,
@@ -32,7 +32,7 @@ namespace Sweeper.Models
         public string Theme
         {
             get { return _theme; }
-            set { SetProperty (ref _theme, value); }
+            set { SetProperty(ref _theme, value); }
         }
 
         private int _mineCount;
@@ -46,7 +46,7 @@ namespace Sweeper.Models
         public int Rows
         {
             get { return _rows; }
-            private set { SetProperty(ref _rows, value) ; }
+            private set { SetProperty(ref _rows, value); }
         }
 
         private int _columns;
@@ -56,9 +56,10 @@ namespace Sweeper.Models
             private set { SetProperty(ref _columns, value); }
         }
 
-        public  List<standardMode> StandardSettings 
-        {   get => _standardSettings; 
-            set { SetProperty(ref _standardSettings, value); } 
+        public List<standardMode> StandardSettings
+        {
+            get => _standardSettings;
+            set { SetProperty(ref _standardSettings, value); }
         }
 
         public List<string> Themes
@@ -67,7 +68,7 @@ namespace Sweeper.Models
             set { SetProperty(ref _themes, value); }
         }
 
-        public SettingsModel(int nMines, int rows, int columns )
+        public SettingsModel(int nMines, int rows, int columns)
         {
             this.GameType = GameTypes.CUSTOM;
         }
@@ -84,44 +85,38 @@ namespace Sweeper.Models
         }
         public bool Save()
         {
-
+            return true;
         }
 
         public bool Load()
         {
+            return true;
 
         }
         private static List<string> _themes;
         private static List<standardMode> _standardSettings;
         static SettingsModel()
         {
+            var str = Resources.Resources.Themes;
             _themes = new List<string>() { "Default", "Chocolate", "Copper", "Key West", "Powder Puff" };
-            _standardSettings = new List<standardMode>() 
-            { 
-                new standardMode(10, 10, 10), 
-                new standardMode(20, 20, 20), 
-                new standardMode(40, 40, 40) 
+            _standardSettings = new List<standardMode>()
+            {
+                new standardMode(10, 10, 10),
+                new standardMode(20, 20, 20),
+                new standardMode(40, 40, 40)
             };
         }
 
-        public SettingsModel(GameTypes gameType)
+        public SettingsModel()
         {
 
-            if (gameType == GameTypes.CUSTOM)
-            {
-                throw new ArgumentException(
-                    "When creating a Custon Game you must use alternate "+
-                    "constructor SettingsModel(int nMines, int rows, int columns )"
-                );
 
-            }else
-            {
-                GameType = gameType;
-                int ndx = (int)gameType;
+                GameType = GameTypes.BEGINNER;
+                int ndx = (int)GameType;
                 Rows = _standardSettings[ndx].rows;
                 Columns = _standardSettings[ndx].cols;
                 MineCount = _standardSettings[ndx].mines;
-            }
+           
         }
     }
 }

@@ -5,9 +5,42 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controls\UniformGrid.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Controls\UniformGrid.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Controls\UniformGrid.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.7.0.1239" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.2.0.1422" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.0.1.698" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Controls\UniformGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

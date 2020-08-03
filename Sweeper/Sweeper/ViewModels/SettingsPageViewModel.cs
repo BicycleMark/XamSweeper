@@ -1,8 +1,11 @@
 using System;
+using System.Linq;
 using Prism;
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Unity;
 using Sweeper.Infrastructure;
 using Sweeper.Models;
 
@@ -17,16 +20,11 @@ namespace Sweeper.ViewModels
 
         public bool IsActive { get; set; }
 
-        public SettingsModel Model;
-
+        Sweeper.Models.SettingsModel SettingsModel;
         public SettingsPageViewModel(INavigationService navigationService) : base (navigationService)
         {
-            Model.PropertyChanged += Model_PropertyChanged;
-        }
-
-        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            
+           
+            SettingsModel = App.Current.Container.Resolve<SettingsModel>();
         }
     }
 }
