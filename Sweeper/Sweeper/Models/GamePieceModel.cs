@@ -1,4 +1,5 @@
-﻿using Sweeper.Infrastructure;
+﻿using Prism.Mvvm;
+using Sweeper.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -8,15 +9,15 @@ namespace Sweeper.Models
 {
     public struct GridPoint
     {
-        public int X, Y;
-        public GridPoint(int x, int y)
+        public int R, C;
+        public GridPoint(int r, int c)
         {
-            X = x;
-            Y = y;
+            R = r;
+            C = c;
         }
     }
 
-    public class GamePieceModel : BaseModel
+    public class GamePieceModel : BindableBase
     {       
         public enum PieceValues
         {
@@ -71,9 +72,9 @@ namespace Sweeper.Models
             set { _gridPoint = value; }
         }
 
-        public GamePieceModel(int x, int y)
+        public GamePieceModel(int r, int c)
         {
-            GridPoint = new GridPoint(x, y);
+            GridPoint = new GridPoint(r,c);
             _isPlayed = false;
             ShownValue = PieceValues.BUTTON;
         }

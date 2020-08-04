@@ -40,16 +40,15 @@ namespace Sweeper
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
 
-           // ContainerRegistry = containerRegistry;
+          
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<GamePage, GamePageViewModel>();
             containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
-            containerRegistry.RegisterSingleton<SettingsModel>();
-            var instance = new SettingsModel();
-
-            this.Container.GetContainer().RegisterInstance<ISettingsModel>(instance);
-            var s = Container.GetContainer().Resolve<ISettingsModel>();
+            var repo = new NullRepo();
+            var instance = new SettingsModel(repo);
+            containerRegistry.GetContainer().RegisterInstance<ISettings>(instance);
+            var s = containerRegistry.GetContainer().Resolve<ISettings>();
            
 
         }

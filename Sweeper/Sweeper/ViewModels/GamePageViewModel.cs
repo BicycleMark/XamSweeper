@@ -20,7 +20,7 @@ namespace Sweeper.ViewModels
 
         public bool IsActive { get; set; }
 
-        public GamePageViewModel(INavigationService navigationService, ISettingsModel settingsModel ) : base (navigationService)
+        public GamePageViewModel(INavigationService navigationService, ISettings settingsModel ) : base (navigationService)
         {
             var settings = settingsModel;
         }

@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace Sweeper.Models
 {
-    public class SettingsModel : BaseModel, ISettingsModel
+    public class SettingsModel : BaseModel, ISettings
     {
         public enum GameTypes
         {
@@ -25,7 +25,7 @@ namespace Sweeper.Models
         public GameTypes GameType
         {
             get { return _gameType; }
-            private set { SetProperty(ref _gameType, value); }
+            set { SetProperty(ref _gameType, value); }
         }
 
         private string _theme = "Default";
@@ -39,21 +39,21 @@ namespace Sweeper.Models
         public int MineCount
         {
             get { return _mineCount; }
-            private set { SetProperty(ref _mineCount, value); }
+            set { SetProperty(ref _mineCount, value); }
         }
 
         private int _rows;
         public int Rows
         {
             get { return _rows; }
-            private set { SetProperty(ref _rows, value); }
+            set { SetProperty(ref _rows, value); }
         }
 
         private int _columns;
         public int Columns
         {
             get { return _columns; }
-            private set { SetProperty(ref _columns, value); }
+            set { SetProperty(ref _columns, value); }
         }
 
         public List<standardMode> StandardSettings
@@ -68,7 +68,7 @@ namespace Sweeper.Models
             set { SetProperty(ref _themes, value); }
         }
 
-        public SettingsModel(int nMines, int rows, int columns)
+        public SettingsModel(IPropertyRepository repo, int nMines, int rows, int columns) :base (repo)
         {
             this.GameType = GameTypes.CUSTOM;
         }
@@ -94,6 +94,7 @@ namespace Sweeper.Models
 
         }
         private static List<string> _themes;
+        
         private static List<standardMode> _standardSettings;
         static SettingsModel()
         {
@@ -107,7 +108,7 @@ namespace Sweeper.Models
             };
         }
 
-        public SettingsModel()
+        public SettingsModel(IPropertyRepository repo) : base(repo)
         {
 
 

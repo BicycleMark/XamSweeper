@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Sweeper.Infrastructure
 {
-    public interface ISettingsModel
+    public interface ISettings
     {
-        int Columns { get; }
-        SettingsModel.GameTypes GameType { get; }
-        int MineCount { get; }
-        int Rows { get; }
+        int Columns { get; set; }
+        SettingsModel.GameTypes GameType { get; set; }
+        int MineCount { get; set; }
+        int Rows { get; set;  }
         List<SettingsModel.standardMode> StandardSettings { get; set; }
         string Theme { get; set; }
         List<string> Themes { get; set; }

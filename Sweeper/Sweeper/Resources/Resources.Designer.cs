@@ -61,6 +61,24 @@ namespace Sweeper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You cannot randomly place mines when game-board is loaded from repository.
+        /// </summary>
+        internal static string ExceptionCannotPlaceMinesFromBoardLoadedFromRepo {
+            get {
+                return ResourceManager.GetString("ExceptionCannotPlaceMinesFromBoardLoadedFromRepo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exclude point is outside the bounds of the board.
+        /// </summary>
+        internal static string ExceptionExcludePointIsOutOfBounds {
+            get {
+                return ResourceManager.GetString("ExceptionExcludePointIsOutOfBounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string ExceptionInvalidArguments {
