@@ -9,6 +9,7 @@ using Prism.Unity;
 using Unity;
 using Sweeper.Infrastructure;
 using Unity.Lifetime;
+using System.Threading.Tasks;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Sweeper
@@ -57,5 +58,7 @@ namespace Sweeper
         {
             return InstanceLifetime.Singleton;
         }
+        
+       
     }
 }

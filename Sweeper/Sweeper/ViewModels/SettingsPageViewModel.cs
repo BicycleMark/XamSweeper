@@ -63,12 +63,14 @@ namespace Sweeper.ViewModels
         public List<string> Themes { get => _settingsModel.Themes;  }
 
         Sweeper.Models.SettingsModel _settingsModel;
-        public SettingsPageViewModel(INavigationService navigationService) : base (navigationService)
+        ISettings set;
+        public SettingsPageViewModel(INavigationService navigationService, ISettings settings) : base (navigationService)
         {
+            set = settings;
 
-            _settingsModel = App.Current.Container.Resolve<SettingsModel>();
-            _settingsModel.PropertyChanged += _settingsModel_PropertyChanged;
-            _settingsModel.Load();
+           // _settingsModel = App.Current.Container.Resolve<SettingsModel>();
+           // _settingsModel.PropertyChanged += _settingsModel_PropertyChanged;
+           // _settingsModel.Load();
 
         }
 

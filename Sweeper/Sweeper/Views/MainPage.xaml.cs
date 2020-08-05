@@ -8,5 +8,7 @@ namespace Sweeper.Views
         {
             InitializeComponent();
         }
+
+       
     }
 }
