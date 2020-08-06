@@ -9,12 +9,13 @@ using Sweeper.Models;
 namespace Sweeper.Test.Models
 {
     [TestClass]
-    public class GameStateModel
+    public class SettingsModel
     {
         [TestMethod]
-        public void  TestConstruction()
+        public void TestConstruction()
         {
 
         }
     }
+  
 }

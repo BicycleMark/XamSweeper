@@ -15,6 +15,7 @@ namespace Sweeper.Models
             R = r;
             C = c;
         }
+      
     }
 
     public class GamePieceModel : BindableBase
@@ -30,21 +31,19 @@ namespace Sweeper.Models
             SIXMINE,
             SEVENMINE,
             EIGHTMINE,
-            BLANK,
+            WRONGCHOICE,
+            MINE,
+
+            // Following Values indicate the Item is not yet played
+
+            BLANK,  
             BUTTON,
             PRESSED,
-            FLAGGED,
-            WRONGCHOICE,
-            MINE
+            FLAGGED
         }
-        private bool  _isPlayed;
 
-        public bool  IsPlayed
-        {
-            get { return _isPlayed; }
-            set { SetProperty(ref _isPlayed, value); }
-        }
-        
+        public bool IsPlayed => _shownValue <= PieceValues.BLANK;
+     
         public bool IsFlagged
         {
             get { return ShownValue == PieceValues.FLAGGED; }
@@ -62,32 +61,51 @@ namespace Sweeper.Models
         public PieceValues ShownValue
         {
             get { return _shownValue; }
-            set { SetProperty(ref _shownValue, value); }
+            set {
+                    SetProperty(ref _shownValue,
+                                value,
+                                notifyRelatedProperties); 
+                }
         }
 
+        private void notifyRelatedProperties()
+        {
+            RaisePropertyChanged(nameof(IsFlagged));
+            RaisePropertyChanged(nameof(IsPlayed));
+        }
+
+       
         private GridPoint  _gridPoint;
         public GridPoint GridPoint 
         {
             get { return _gridPoint; }
-            set { _gridPoint = value; }
+            private set { _gridPoint = value; }
         }
 
         public GamePieceModel(int r, int c)
         {
             GridPoint = new GridPoint(r,c);
-            _isPlayed = false;
             ShownValue = PieceValues.BUTTON;
             ItemValue = PieceValues.NOMINE;
         }
 
         public void ToggleFlag()
         {
-            if (_shownValue == PieceValues.BUTTON)
-            {          
-                ShownValue = PieceValues.FLAGGED;
-            }else
+            switch (_shownValue)
             {
-                ShownValue = PieceValues.BUTTON;
+                case (PieceValues.BUTTON):
+                    {
+                        ShownValue = PieceValues.FLAGGED;
+                        break;
+                    }
+                    
+                case (PieceValues.FLAGGED):
+                    {
+                        ShownValue = PieceValues.BUTTON;
+                        break;
+                    }
+                default:
+                    break;
             }
         }
     }

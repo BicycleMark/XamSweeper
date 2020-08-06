@@ -1,11 +1,8 @@
-﻿using Prism.Mvvm;
-using Sweeper.Infrastructure;
+﻿using Sweeper.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 
 namespace Sweeper.Models
 {
@@ -56,45 +53,129 @@ namespace Sweeper.Models
             }       
         }
 
-        public void Play()
+        public bool Play(GridPoint gp)
         {
+            ///////////////////////////////////////LOCAL////////////////////////////////////////////////////////////
+            void setNeighborCounts()
+            {
+                var mines = Model.Where(p => p.ItemValue == GamePieceModel.PieceValues.MINE);
+                foreach (var p in mines)
+                {
+                    var mincol = p.GridPoint.C - 1; //it does not matter if it is < 0 the Query wont return any values
+                    var maxcol = p.GridPoint.C + 1; //it does not matter if it is > Borad.Columns the Query wont return any values
+                    var minrow = p.GridPoint.R - 1; //it does not matter if it is < 0 the Query wont return any values
+                    var maxrow = p.GridPoint.R + 1; //it does not matter if it is > Borad.Rows the Query wont return any value
+                    var neighbors = Model.Where(evalPiece => evalPiece.GridPoint.C >= mincol &&
+                                                             evalPiece.GridPoint.C <= mincol &&
+                                                             evalPiece.GridPoint.R >= minrow &&
+                                                             evalPiece.GridPoint.R <= maxrow &&
+                                                             evalPiece.ItemValue != GamePieceModel.PieceValues.MINE);
+                    foreach (var n in neighbors)
+                    {
+                        var val = (int)n.ItemValue + 1;
+                        n.ItemValue = (GamePieceModel.PieceValues)val;
+                    }
+                }
+            }
+            ///////////////////////////////////////LOCAL////////////////////////////////////////////////////////////
+            void placeMines(GridPoint ep)
+            {
+                int max = Model.Count;
+                Random random = new Random();
+                while (boardSettings.MineCount <
+                       Model.Count(p => p.ItemValue == GamePieceModel.PieceValues.MINE))
+                {
+                    int proposedIndex = random.Next(max);
+                    var propsedGridPoint = Model[proposedIndex].GridPoint;
+                    if (Model[proposedIndex].ItemValue != GamePieceModel.PieceValues.MINE &&
+                        // Don't put mine under the first played item
+                        !(propsedGridPoint.R == ep.R && propsedGridPoint.C == ep.C))
+                    {
+                        Model[proposedIndex].ItemValue = GamePieceModel.PieceValues.MINE;
+                    }
+                }
+            }
+            ///////////////////////// Main function ////////////////////////////////////////////////////////////
+            {
+                // Exclude Out of Bounds points
+                if (gp.R >= boardSettings.Rows ||
+                    gp.C >= boardSettings.Columns)
+                {
+                    throw new InvalidEnumArgumentException(Resources.Sweeper.ExceptionExcludePointIsOutOfBounds);
+                }
+                var didLose = false;
+                var piece = this[gp.R, gp.C];
 
-        
+                if (!piece.IsFlagged &&
+                     piece.ShownValue == GamePieceModel.PieceValues.BUTTON)
+                {
+                    // If it was loaded from a repo Mine Count will be > 0
+                    if (Model.Count(p => p.IsPlayed) != 0)
+                    {
+                        switch (piece.ItemValue)
+                        {
+                            // You Lost
+                            case (GamePieceModel.PieceValues.MINE):
+                                {
+                                    piece.ShownValue = GamePieceModel.PieceValues.WRONGCHOICE;
+                                    didLose = true;
+                                    break;
+                                }
+                            // Cool Several Tiles will be turned (all Contiguous Blanks)
+                            case (GamePieceModel.PieceValues.NOMINE):
+                                {
+                                    PlayBlankNeighbors(gp);
+                                    break;
+                                }
+                            // A single Tile  
+                            default:
+                                {
+                                    piece.ShownValue = piece.ItemValue;
+                                    break;
+                                }
+                        }
+                    }
+                    else // So we need to Initialize the Board and Play the Point user selected 
+
+                    {
+                        placeMines(gp);
+                        setNeighborCounts();
+                        piece.ShownValue = this[piece.GridPoint.R, piece.GridPoint.C].ItemValue;
+                    }
+                }
+                return didLose;
+            }
         }
+
+        private void PlayBlankNeighbors(GridPoint gp)
+        {
+            bool inBounds(GridPoint point, GridPoint bounds)
+            {
+                return (point.R > 0 && point.R < bounds.R &&
+                        point.C > 0 && point.C < bounds.C);
+
+            }
+            {
+                GridPoint boundaries = new GridPoint(Rows, Columns);
+                if (!inBounds(gp, boundaries)
+                    || this[gp.R, gp.C].ItemValue != GamePieceModel.PieceValues.NOMINE
+                    || this[gp.R, gp.C].IsPlayed)
+                {
+                    return;
+                }
+                this[gp.R, gp.C].ShownValue = GamePieceModel.PieceValues.BLANK;
+                PlayBlankNeighbors(new GridPoint(gp.R + 1, gp.C));
+                PlayBlankNeighbors(new GridPoint(gp.R - 1, gp.C));
+                PlayBlankNeighbors(new GridPoint(gp.R, gp.C + 1));
+                PlayBlankNeighbors(new GridPoint(gp.R, gp.C - 1));
+            }   
+        }
+
         public void Save()
         {
             propRepo.SaveProperty(nameof(Model), Model);
         }
-
-        /// <summary>
-        /// Places the mines after FirstClick on Board
-        /// </summary>
-        /// <param name="excludePoint"> 
-        /// The point that was played first
-        /// </param>
-        private void PlaceMineAndNeighborValues(GridPoint excludePoint)
-        {
-            if (loadedFromRepo)
-            {
-                throw new InvalidOperationException(Resources.Resources.ExceptionCannotPlaceMinesFromBoardLoadedFromRepo);
-            }
-            if (excludePoint.R >= boardSettings.Rows    || 
-                excludePoint.C >= boardSettings.Columns     )
-            {
-                throw new InvalidEnumArgumentException(Resources.Resources.ExceptionExcludePointIsOutOfBounds);
-            }
-            int max = Model.Count;
-            Random random = new Random();
-            while (boardSettings.MineCount < 
-                   Model.Count(p => p.ItemValue == GamePieceModel.PieceValues.MINE) )
-            {
-                int proposedIndex = random.Next(max);
-                if (Model[proposedIndex].ItemValue != GamePieceModel.PieceValues.MINE)
-                {
-                    Model[proposedIndex].ItemValue = GamePieceModel.PieceValues.MINE;
-                }
-            }
-        }
+  
         public GamePieceModel this[int r, int c]
         {
             get 

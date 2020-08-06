@@ -22,14 +22,14 @@ namespace Sweeper.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class Sweeper {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Sweeper() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Sweeper.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sweeper.Resources.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sweeper.Resources.Sweeper", typeof(Sweeper).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -160,6 +160,96 @@ namespace Sweeper.Resources {
         internal static string face_wink {
             get {
                 return ResourceManager.GetString("face_wink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 30.
+        /// </summary>
+        internal static string GameAdvancedColumns {
+            get {
+                return ResourceManager.GetString("GameAdvancedColumns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 50.
+        /// </summary>
+        internal static string GameAdvancedMines {
+            get {
+                return ResourceManager.GetString("GameAdvancedMines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 30.
+        /// </summary>
+        internal static string GameAdvancedRows {
+            get {
+                return ResourceManager.GetString("GameAdvancedRows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10.
+        /// </summary>
+        internal static string GameBeginnerColumns {
+            get {
+                return ResourceManager.GetString("GameBeginnerColumns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10.
+        /// </summary>
+        internal static string GameBeginnerMines {
+            get {
+                return ResourceManager.GetString("GameBeginnerMines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10.
+        /// </summary>
+        internal static string GameBeginnerRows {
+            get {
+                return ResourceManager.GetString("GameBeginnerRows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 15.
+        /// </summary>
+        internal static string GameIntermediateColumns {
+            get {
+                return ResourceManager.GetString("GameIntermediateColumns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 20.
+        /// </summary>
+        internal static string GameIntermediateMines {
+            get {
+                return ResourceManager.GetString("GameIntermediateMines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 15.
+        /// </summary>
+        internal static string GameIntermediateRows {
+            get {
+                return ResourceManager.GetString("GameIntermediateRows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1000.
+        /// </summary>
+        internal static string GameMaxTime {
+            get {
+                return ResourceManager.GetString("GameMaxTime", resourceCulture);
             }
         }
         

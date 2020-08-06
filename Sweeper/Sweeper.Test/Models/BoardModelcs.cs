@@ -15,7 +15,7 @@ namespace Sweeper.Test.Models
     public class BoardModelTest
     {
         [TestMethod]
-        public void TestBoardConstruction()
+        public void TestConstruction()
         {
             var repo =  new Moq.Mock<IPropertyRepository>();
             repo.SetupAllProperties();

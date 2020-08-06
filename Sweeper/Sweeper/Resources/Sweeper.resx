@@ -139,6 +139,36 @@
   <data name="face_wink" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>svg\face-wink.svg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="GameAdvancedColumns" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="GameAdvancedMines" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="GameAdvancedRows" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="GameBeginnerColumns" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="GameBeginnerMines" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="GameBeginnerRows" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="GameIntermediateColumns" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="GameIntermediateMines" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="GameIntermediateRows" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="GameMaxTime" xml:space="preserve">
+    <value>1000</value>
+  </data>
   <data name="tango_face_sad" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>svg\tango-face-sad.svg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

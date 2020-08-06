@@ -98,7 +98,7 @@ namespace Sweeper.Models
         private static List<standardMode> _standardSettings;
         static SettingsModel()
         {
-            var str = Resources.Resources.Themes;
+            var str = Resources.Sweeper.Themes;
             _themes = new List<string>() { "Default", "Chocolate", "Copper", "Key West", "Powder Puff" };
             _standardSettings = new List<standardMode>()
             {

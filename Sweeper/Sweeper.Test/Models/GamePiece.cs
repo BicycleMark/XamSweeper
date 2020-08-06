@@ -12,14 +12,12 @@ namespace Sweeper.Test.Models
     public class GamePieceTest
     {
         [TestMethod]
-        public void TestGamePieceConstruction()
+        public void TestConstruction()
         {
 
             GamePieceModel gpm = new GamePieceModel(1,1);
             Assert.AreEqual(GamePieceModel.PieceValues.BUTTON, gpm.ShownValue);
             Assert.AreEqual(GamePieceModel.PieceValues.NOMINE, gpm.ItemValue);
-
-
         }
 
     }
