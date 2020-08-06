@@ -16,6 +16,18 @@ namespace Sweeper.Models
         private bool loadedFromRepo;
       
         public ObservableCollection<GamePieceModel> Model { get; private set; }
+
+        public int Rows
+        {
+            get { return boardSettings.Rows; }
+            set { boardSettings.Rows = value; }
+        }
+        public int Columns
+        {
+            get { return boardSettings.Columns; }
+            set { boardSettings.Columns = value; }
+        }
+
         public BoardModel(IPropertyRepository repo, ISettings settings, bool loadFromRepo ) : base(repo)
         {        
             propRepo = repo;
@@ -44,6 +56,11 @@ namespace Sweeper.Models
             }       
         }
 
+        public void Play()
+        {
+
+        
+        }
         public void Save()
         {
             propRepo.SaveProperty(nameof(Model), Model);
@@ -55,7 +72,7 @@ namespace Sweeper.Models
         /// <param name="excludePoint"> 
         /// The point that was played first
         /// </param>
-        public void PlaceMineAndNeighborValues(GridPoint excludePoint)
+        private void PlaceMineAndNeighborValues(GridPoint excludePoint)
         {
             if (loadedFromRepo)
             {
@@ -78,7 +95,6 @@ namespace Sweeper.Models
                 }
             }
         }
-
         public GamePieceModel this[int r, int c]
         {
             get 

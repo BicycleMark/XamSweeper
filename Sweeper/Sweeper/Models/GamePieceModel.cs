@@ -77,6 +77,7 @@ namespace Sweeper.Models
             GridPoint = new GridPoint(r,c);
             _isPlayed = false;
             ShownValue = PieceValues.BUTTON;
+            ItemValue = PieceValues.NOMINE;
         }
 
         public void ToggleFlag()
