@@ -86,7 +86,6 @@
     <Compile Include="Models\GamePiece.cs" />
     <Compile Include="Models\GameStateModel.cs" />
     <Compile Include="Models\SettingsModel.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\AboutPageViewModel.cs" />
     <Compile Include="ViewModel\GamePageViewModel.cs" />

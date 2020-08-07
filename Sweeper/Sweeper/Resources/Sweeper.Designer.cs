@@ -61,7 +61,7 @@ namespace Sweeper.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You cannot randomly place mines when game-board is loaded from repository.
+        ///   Looks up a localized string similar to You cannot randomly place mines when game-board is loaded from repository..
         /// </summary>
         internal static string ExceptionCannotPlaceMinesFromBoardLoadedFromRepo {
             get {
@@ -70,7 +70,7 @@ namespace Sweeper.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exclude point is outside the bounds of the board.
+        ///   Looks up a localized string similar to Exclude point is outside the bounds of the board..
         /// </summary>
         internal static string ExceptionExcludePointIsOutOfBounds {
             get {
@@ -250,6 +250,15 @@ namespace Sweeper.Resources {
         internal static string GameMaxTime {
             get {
                 return ResourceManager.GetString("GameMaxTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot Play any pieces when a mine was previously selected. .
+        /// </summary>
+        internal static string InvalidBoardOperationException {
+            get {
+                return ResourceManager.GetString("InvalidBoardOperationException", resourceCulture);
             }
         }
         
