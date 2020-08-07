@@ -11,7 +11,7 @@ namespace Sweeper.Models
         private IPropertyRepository propRepo;
         private ISettings boardSettings;
         private bool loadedFromRepo;
-      
+        
         public ObservableCollection<GamePieceModel> Model { get; private set; }
 
         public int Rows
@@ -55,11 +55,11 @@ namespace Sweeper.Models
 
         public bool Play(GridPoint gp)
         {
-            ///////////////////////////////////////LOCAL////////////////////////////////////////////////////////////
+            /////////////////////////////////////// LOCAL ////////////////////////////////////////////////////////////
             void setNeighborCounts()
             {
-                var mines = Model.Where(p => p.ItemValue == GamePieceModel.PieceValues.MINE);
-                foreach (var p in mines)
+                var mines = from gpm in Model where gpm.ItemValue == GamePieceModel.PieceValues.MINE select gpm;
+                foreach (GamePieceModel p in mines)
                 {
                     var mincol = p.GridPoint.C - 1; //it does not matter if it is < 0 the Query wont return any values
                     var maxcol = p.GridPoint.C + 1; //it does not matter if it is > Borad.Columns the Query wont return any values
@@ -77,12 +77,12 @@ namespace Sweeper.Models
                     }
                 }
             }
-            ///////////////////////////////////////LOCAL////////////////////////////////////////////////////////////
+            /////////////////////////////////////// LOCAL ////////////////////////////////////////////////////////////
             void placeMines(GridPoint ep)
             {
                 int max = Model.Count;
                 Random random = new Random();
-                while (boardSettings.MineCount <
+                while (boardSettings.MineCount >
                        Model.Count(p => p.ItemValue == GamePieceModel.PieceValues.MINE))
                 {
                     int proposedIndex = random.Next(max);
@@ -98,8 +98,7 @@ namespace Sweeper.Models
             ///////////////////////// Main function ////////////////////////////////////////////////////////////
             {
                 // Exclude Out of Bounds points
-                if (gp.R >= boardSettings.Rows ||
-                    gp.C >= boardSettings.Columns)
+                if (!inBounds(gp))
                 {
                     throw new InvalidEnumArgumentException(Resources.Sweeper.ExceptionExcludePointIsOutOfBounds);
                 }
@@ -140,35 +139,40 @@ namespace Sweeper.Models
                     {
                         placeMines(gp);
                         setNeighborCounts();
-                        piece.ShownValue = this[piece.GridPoint.R, piece.GridPoint.C].ItemValue;
+                        if (piece.ItemValue == GamePieceModel.PieceValues.NOMINE)
+                        {
+                            piece.ShownValue = GamePieceModel.PieceValues.BLANK;
+                        }
+                        else
+                        {
+                            piece.ShownValue = piece.ItemValue;
+                        } 
+                       
                     }
                 }
                 return didLose;
             }
         }
 
+        bool inBounds(GridPoint point)
+        {
+            return (point.R > 0 && point.R < Rows &&
+                    point.C > 0 && point.C < Columns);
+
+        }
         private void PlayBlankNeighbors(GridPoint gp)
         {
-            bool inBounds(GridPoint point, GridPoint bounds)
+            if (!inBounds(gp)
+                || this[gp.R, gp.C].ItemValue != GamePieceModel.PieceValues.NOMINE
+                || this[gp.R, gp.C].IsPlayed)
             {
-                return (point.R > 0 && point.R < bounds.R &&
-                        point.C > 0 && point.C < bounds.C);
-
+                return;
             }
-            {
-                GridPoint boundaries = new GridPoint(Rows, Columns);
-                if (!inBounds(gp, boundaries)
-                    || this[gp.R, gp.C].ItemValue != GamePieceModel.PieceValues.NOMINE
-                    || this[gp.R, gp.C].IsPlayed)
-                {
-                    return;
-                }
-                this[gp.R, gp.C].ShownValue = GamePieceModel.PieceValues.BLANK;
-                PlayBlankNeighbors(new GridPoint(gp.R + 1, gp.C));
-                PlayBlankNeighbors(new GridPoint(gp.R - 1, gp.C));
-                PlayBlankNeighbors(new GridPoint(gp.R, gp.C + 1));
-                PlayBlankNeighbors(new GridPoint(gp.R, gp.C - 1));
-            }   
+            this[gp.R, gp.C].ShownValue = GamePieceModel.PieceValues.BLANK;
+            PlayBlankNeighbors(new GridPoint(gp.R + 1, gp.C));
+            PlayBlankNeighbors(new GridPoint(gp.R - 1, gp.C));
+            PlayBlankNeighbors(new GridPoint(gp.R, gp.C + 1));
+            PlayBlankNeighbors(new GridPoint(gp.R, gp.C - 1));             
         }
 
         public void Save()

@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AboutModel.cs" />
-    <Compile Include="Models\BoardModelcs.cs" />
+    <Compile Include="Models\BoardModel.cs" />
     <Compile Include="Models\GamePiece.cs" />
     <Compile Include="Models\GameStateModel.cs" />
     <Compile Include="Models\SettingsModel.cs" />
