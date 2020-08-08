@@ -119,6 +119,7 @@ namespace Sweeper.Test.Models
             BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, true);
             Assert.IsTrue(rows * cols> bm.Model.Count(m => m.IsPlayed == false));
         }
+
         [DataRow(10, 10, 10, 20,20,20)]
         [DataTestMethod]
         public void Test_Resize(int r1, int c1, int m1, int r2, int c2, int m2)
@@ -142,11 +143,37 @@ namespace Sweeper.Test.Models
             {
                 for (int j = 0; j < bm.Columns; j++)
                 {
-                    bm[i, j].ItemValue = GamePieceModel.PieceValues.FLAGGED; 
-
+                    bm[i, j] = new GamePieceModel(i,j); 
                 }
             }
 
+        }
+        [DataRow(10, 10, 10,10)]
+        [DataRow(15, 15, 15,15)]
+        [DataRow(20, 20, 20,20)]
+        [DataTestMethod]
+        public void PlayOutOfBounds(int r, int c, int obr, int obc)
+        {
+            BoardModel bm = PrepareBoardWithMocks(10, 10, 10, true);
+
+            try
+            {
+                bm.Play(new GridPoint(obr, obc));
+
+            }catch(ArgumentOutOfRangeException)
+            {
+                Assert.IsTrue(true);
+                return;
+
+            }
+            Assert.IsTrue(false);
+
+        }
+
+        [TestMethod]
+        public void LoadFromRepo()
+        {
+            Assert.Inconclusive();
         }
     }
 }

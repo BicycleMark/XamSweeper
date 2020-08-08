@@ -25,12 +25,12 @@ namespace Sweeper.Test.Models
         [DataRow(GamePieceModel.PieceValues.SEVENMINE, true)]
         [DataRow(GamePieceModel.PieceValues.EIGHTMINE, true)]
         [DataRow(GamePieceModel.PieceValues.WRONGCHOICE, true)]
-        [DataRow(GamePieceModel.PieceValues.MINE, true)]
+        [DataRow(GamePieceModel.PieceValues.MINE, true)] 
 
-        [DataRow(GamePieceModel.PieceValues.BLANK, false)]
+        [DataRow(GamePieceModel.PieceValues.BLANK, true)]
         [DataRow(GamePieceModel.PieceValues.BUTTON, false)]
         [DataRow(GamePieceModel.PieceValues.PRESSED, false)]
-        [DataRow(GamePieceModel.PieceValues.FLAGGED, true)]       
+        [DataRow(GamePieceModel.PieceValues.FLAGGED, true)]     
         [DataTestMethod]
         public void Test_IsPlayed_Returns_Notification_And_Queries_Correct_Value(GamePieceModel.PieceValues pieceValue, bool shouldReturnIsPlayed)
         {
@@ -56,6 +56,21 @@ namespace Sweeper.Test.Models
             gpm.ToggleFlag();     
             Assert.IsFalse( gpm.IsPlayed);
             Assert.IsFalse(gpm.IsFlagged);
+        }
+
+        [TestMethod]
+        public void Test_ToggleFlag_With_Out_Of_Range_Values()
+        {
+            GamePieceModel gpm = new GamePieceModel(1, 1);
+            int played = 0;
+            Assert.IsFalse(gpm.IsPlayed);
+            gpm.PropertyChanged += (s, e) => { if (e.PropertyName == "IsPlayed") ++played; };
+
+            gpm.ShownValue = GamePieceModel.PieceValues.EIGHTMINE;
+            gpm.ToggleFlag();
+           
+            Assert.IsFalse(gpm.IsFlagged);
+           
         }
     }
 }

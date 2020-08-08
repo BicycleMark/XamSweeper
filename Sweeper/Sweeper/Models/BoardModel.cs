@@ -17,12 +17,12 @@ namespace Sweeper.Models
         public int Rows
         {
             get { return boardSettings.Rows; }
-            private set { boardSettings.Rows = value; }
+            //private set { boardSettings.Rows = value; }
         }
         public int Columns
         {
             get { return boardSettings.Columns; }
-            private set { boardSettings.Columns = value; }
+            //private set { boardSettings.Columns = value; }
         }
 
         public BoardModel(IPropertyRepository repo, ISettings settings, bool loadFromRepo ) : base(repo)
@@ -73,7 +73,7 @@ namespace Sweeper.Models
                 // Exclude Out of Bounds points
                 if (!inBounds(gp.R,gp.C))
                 {
-                    throw new InvalidEnumArgumentException(Resources.Sweeper.ExceptionExcludePointIsOutOfBounds);
+                    throw new ArgumentOutOfRangeException(Resources.Sweeper.ExceptionExcludePointIsOutOfBounds);
                 }
                 // Do not allow additional plays if a mine has already been selected
                 if (Model.Count(m=>m.ShownValue == GamePieceModel.PieceValues.WRONGCHOICE) > 0)

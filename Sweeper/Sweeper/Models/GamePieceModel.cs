@@ -44,7 +44,7 @@ namespace Sweeper.Models
 
         public bool IsPlayed { get
             {
-                bool retVal = (int)_shownValue < (int)PieceValues.BLANK || _shownValue == PieceValues.FLAGGED;
+                bool retVal = (int)_shownValue <= (int)PieceValues.BLANK || _shownValue == PieceValues.FLAGGED;
                 return retVal;
             }
         }
@@ -80,13 +80,12 @@ namespace Sweeper.Models
                 RaisePropertyChanged(nameof(IsFlagged));
             }
 
-            if (ShownValue < PieceValues.BLANK || ShownValue == PieceValues.FLAGGED)
+            if (ShownValue <= PieceValues.BLANK || ShownValue == PieceValues.FLAGGED)
             {
                 RaisePropertyChanged(nameof(IsPlayed));
             }
         }
-
-       
+   
         private GridPoint  _gridPoint;
         public GridPoint GridPoint 
         {
