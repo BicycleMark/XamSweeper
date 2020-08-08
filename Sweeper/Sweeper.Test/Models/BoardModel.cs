@@ -86,8 +86,6 @@ namespace Sweeper.Test.Models
             var postTestContiguousPieces = bm.Model.Count(m => m.ShownValue >= GamePieceModel.PieceValues.ONEMINE &&
                                                                m.ShownValue <= GamePieceModel.PieceValues.EIGHTMINE);
             Assert.AreEqual(tilesToEliminate, postTestContiguousPieces);
-           
-
         }
 
         [DataRow(10, 10, 10, true)]
@@ -120,6 +118,35 @@ namespace Sweeper.Test.Models
         {
             BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, true);
             Assert.IsTrue(rows * cols> bm.Model.Count(m => m.IsPlayed == false));
-        }      
+        }
+        [DataRow(10, 10, 10, 20,20,20)]
+        [DataTestMethod]
+        public void Test_Resize(int r1, int c1, int m1, int r2, int c2, int m2)
+        {
+            //Arrange
+            BoardModel bm = PrepareBoardWithMocks(r1, c1, m1, playFirstRandomPiece: false);
+            var settings = new Moq.Mock<ISettings>();
+            settings.SetupGet(m => m.Rows).Returns(r2);
+            settings.SetupGet(m => m.Columns).Returns(c2);
+            settings.SetupGet(m => m.MineCount).Returns(m2);
+            bm.Resize(settings.Object);
+            Assert.AreEqual(r2, bm.Rows);
+            Assert.AreEqual(c2, bm.Columns);
+        }
+
+        [TestMethod]
+        public void Test_IndexSetter()
+        {
+            BoardModel bm = PrepareBoardWithMocks(10, 10, 10, true);
+            for (int i = 0; i < bm.Rows; i++)
+            {
+                for (int j = 0; j < bm.Columns; j++)
+                {
+                    bm[i, j].ItemValue = GamePieceModel.PieceValues.FLAGGED; 
+
+                }
+            }
+
+        }
     }
 }

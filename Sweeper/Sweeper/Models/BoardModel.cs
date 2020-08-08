@@ -17,12 +17,12 @@ namespace Sweeper.Models
         public int Rows
         {
             get { return boardSettings.Rows; }
-            set { boardSettings.Rows = value; }
+            private set { boardSettings.Rows = value; }
         }
         public int Columns
         {
             get { return boardSettings.Columns; }
-            set { boardSettings.Columns = value; }
+            private set { boardSettings.Columns = value; }
         }
 
         public BoardModel(IPropertyRepository repo, ISettings settings, bool loadFromRepo ) : base(repo)
@@ -38,21 +38,33 @@ namespace Sweeper.Models
             else
             {
                 // Create a new Empty Board with all items shown with BUTTONS
-                Model = new ObservableCollection<GamePieceModel>();
-                var max = boardSettings.Rows * boardSettings.Columns;
-                for (int r = 0; r < settings.Rows; r++  )
-                {
-                    for (int c = 0; c < settings.Rows; c++)
-                    {   // At This point the GamePiece.ShownValue is Button
-                        // The reason we do not set the mines now is we wait for the caller to 
-                        // set them after the first played item is played. Don't want the user to 
-                        // lose on first play
-                        Model.Add(new GamePieceModel(r, c));
-                    }
-                }
+                InitializeBoard();
             }       
         }
 
+        public void Resize(ISettings settings)
+        {
+            boardSettings = settings;
+            InitializeBoard();
+        }
+
+        public void Save()
+        {
+            propRepo.SaveProperty(nameof(Model), Model);
+        }
+
+        public GamePieceModel this[int r, int c]
+        {
+            get
+            {
+                return Model.FirstOrDefault(p => p.GridPoint.R == r && p.GridPoint.C == c);
+            }
+            set
+            {
+                var item = Model.FirstOrDefault(p => p.GridPoint.R == r && p.GridPoint.C == c);
+                item = value;
+            }
+        }
         public bool Play(GridPoint gp)
         {
            
@@ -118,9 +130,27 @@ namespace Sweeper.Models
                 return !didLose;
             }
         }
-
-        /////////////////////////////////////// LOCAL ////////////////////////////////////////////////////////////
-        void setNeighborCounts()
+        private void InitializeBoard()
+        {
+            if (Model != null)
+            {
+                Model.Clear();
+            }
+            else
+            {
+                Model = new ObservableCollection<GamePieceModel>();
+            }
+            var max = boardSettings.Rows * boardSettings.Columns;
+            for (int r = 0; r < boardSettings.Rows; r++)
+            {
+                for (int c = 0; c < boardSettings.Rows; c++)
+                {   
+                    Model.Add(new GamePieceModel(r, c));
+                }
+            }
+        }
+/////////////////////////////////////// LOCAL ////////////////////////////////////////////////////////////
+private void setNeighborCounts()
         {
             var mines = from gpm in Model where gpm.ItemValue == GamePieceModel.PieceValues.MINE select gpm;
             foreach (GamePieceModel p in mines)
@@ -141,8 +171,8 @@ namespace Sweeper.Models
                 }
             }
         }
-        /////////////////////////////////////// LOCAL ////////////////////////////////////////////////////////////
-        void placeMines(GridPoint ep)
+       
+        private void placeMines(GridPoint ep)
         {
             int max = Model.Count;
             Random random = new Random();
@@ -160,7 +190,7 @@ namespace Sweeper.Models
             }
         }
 
-        bool inBounds(int r, int c)
+        private bool inBounds(int r, int c)
         {
             return (r >= 0 && r < Rows &&
                     c >= 0 && c < Columns);
@@ -175,29 +205,12 @@ namespace Sweeper.Models
             {
                 return;
             }
+            //Set To Fill Value
             this[r,c].ShownValue = GamePieceModel.PieceValues.BLANK;
             PlayBlankNeighbors(r + 1, c);
             PlayBlankNeighbors(r - 1, c);
             PlayBlankNeighbors(r, c+1  );
             PlayBlankNeighbors(r, c-1  );             
-        }
-
-        public void Save()
-        {
-            propRepo.SaveProperty(nameof(Model), Model);
-        }
-  
-        public GamePieceModel this[int r, int c]
-        {
-            get 
-            { 
-                return Model.FirstOrDefault(p => p.GridPoint.R == r && p.GridPoint.C == c);  
-            }
-            set
-            {
-                var item = Model.FirstOrDefault(p => p.GridPoint.R == r && p.GridPoint.C == c);
-                item = value;
-            }
-        }
+        } 
     }
 }

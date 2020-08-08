@@ -19,7 +19,7 @@ namespace Sweeper.Models
     }
 
     public class GamePieceModel : BindableBase
-    {       
+    {
         public enum PieceValues
         {
             NOMINE,
@@ -36,19 +36,19 @@ namespace Sweeper.Models
 
             // Following Values indicate the Item is not yet played
 
-            BLANK,  
+            BLANK,
             BUTTON,
             PRESSED,
             FLAGGED
         }
 
-        public bool IsPlayed { get 
+        public bool IsPlayed { get
             {
-                bool retVal = (int)_shownValue <= (int)PieceValues.BLANK;
-                return retVal; 
-            } 
+                bool retVal = (int)_shownValue < (int)PieceValues.BLANK || _shownValue == PieceValues.FLAGGED;
+                return retVal;
+            }
         }
-     
+
         public bool IsFlagged
         {
             get { return ShownValue == PieceValues.FLAGGED; }
@@ -58,7 +58,7 @@ namespace Sweeper.Models
         public PieceValues ItemValue
         {
             get { return _itemValue; }
-            set {_itemValue =  value; }
+            set { _itemValue = value; }
         }
 
         private PieceValues _shownValue;
@@ -67,16 +67,23 @@ namespace Sweeper.Models
         {
             get { return _shownValue; }
             set {
-                    SetProperty(ref _shownValue,
-                                value,
-                                notifyRelatedProperties); 
-                }
+                SetProperty(ref _shownValue,
+                            value,
+                            notifyRelatedProperties);
+            }
         }
 
         private void notifyRelatedProperties()
         {
-            RaisePropertyChanged(nameof(IsFlagged));
-            RaisePropertyChanged(nameof(IsPlayed));
+            if (_shownValue == PieceValues.FLAGGED)
+            {
+                RaisePropertyChanged(nameof(IsFlagged));
+            }
+
+            if (ShownValue < PieceValues.BLANK || ShownValue == PieceValues.FLAGGED)
+            {
+                RaisePropertyChanged(nameof(IsPlayed));
+            }
         }
 
        
