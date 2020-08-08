@@ -20,5 +20,19 @@ namespace Sweeper.Test.Models
             Assert.AreEqual(GamePieceModel.PieceValues.NOMINE, gpm.ItemValue);
         }
 
+        [TestMethod]
+        public void TestIsPlayed()
+        {
+            GamePieceModel gpm = new GamePieceModel(1, 1);
+            Assert.AreEqual(GamePieceModel.PieceValues.BUTTON, gpm.ShownValue);
+            Assert.AreEqual(GamePieceModel.PieceValues.NOMINE, gpm.ItemValue);
+            Assert.IsFalse(gpm.IsPlayed);
+            gpm.ShownValue = GamePieceModel.PieceValues.BLANK;
+            Assert.IsTrue(gpm.IsPlayed);
+
+
+        }
+
+
     }
 }

@@ -45,8 +45,6 @@ namespace Sweeper.Test.Models
             var testItems = bm.Model.Where(m => m.ItemValue == GamePieceModel.PieceValues.MINE).Take(2).ToArray();
             // Play Returns False when you hit a mine
             Assert.IsFalse(bm.Play(testItems[0].GridPoint));
-            // Prepare Board With Mocks has Playued Count to 1  second play has it up to two
-            Assert.IsTrue(bm.Model.Count(m => m.IsPlayed) == 2);
             // Play returns exception on second play 
             try
             {
@@ -64,7 +62,6 @@ namespace Sweeper.Test.Models
 
         [DataRow(10, 10, 10, false)]
         [DataRow(15, 15, 15, false)]
-        [DataRow(20, 20, 20, false)]
         [DataTestMethod]
         public void Test_Board_Play_First_Mine_Then_Eliminate_Contiguous_Pieces(int rows,
                                                                                 int cols,
@@ -73,41 +70,23 @@ namespace Sweeper.Test.Models
         {
             //Arrange
             BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, true);
-            // var contiguousPieces = bm.Model.Where(m => m.ItemValue >= GamePieceModel.PieceValues.ONEMINE &&
-            //                                            m.ItemValue <= GamePieceModel.PieceValues.EIGHTMINE).Select(;
+                                               
             var contiguousPieces = from cp in bm.Model
                                    where cp.ItemValue >= GamePieceModel.PieceValues.ONEMINE &&
                                          cp.ItemValue <= GamePieceModel.PieceValues.EIGHTMINE
                                    select new { cp.GridPoint };
-            int callcount = 0;
-            if (!verifyByQuery)
-            {
-                foreach(var p in contiguousPieces)
-                {
-                    bm[p.GridPoint.R,p.GridPoint.C].PropertyChanged += (s, e) => {  if (e.PropertyName == "IsPlayed")
-                                                                                          ++callcount; 
-                                                                                    
-                                                                                 };
-                }
-            }
-            int prePlayPlayedPlayedCount;
-            int postPlayPlayedCount;
+            
+            
+         
             int tilesToEliminate = contiguousPieces.Count();
             foreach (var gp in contiguousPieces)
             {
-                prePlayPlayedPlayedCount = bm.Model.Count(m => m.IsPlayed);
-                Assert.IsTrue(bm.Play(gp.GridPoint));
-                //Thread.Sleep(100);
-                postPlayPlayedCount = bm.Model.Count(m => m.IsPlayed);
-                //Thread.Sleep(100);
-                if (postPlayPlayedCount - prePlayPlayedPlayedCount != 1)
-                    Debugger.Break();
-                Assert.AreEqual(1, postPlayPlayedCount - prePlayPlayedPlayedCount);
+                Assert.IsTrue(bm.Play(gp.GridPoint));           
             }
             var postTestContiguousPieces = bm.Model.Count(m => m.ShownValue >= GamePieceModel.PieceValues.ONEMINE &&
                                                                m.ShownValue <= GamePieceModel.PieceValues.EIGHTMINE);
             Assert.AreEqual(tilesToEliminate, postTestContiguousPieces);
- //           Assert.AreEqual(callcount, tilesToEliminate);
+           
 
         }
 
@@ -115,15 +94,20 @@ namespace Sweeper.Test.Models
         [DataRow(15, 15, 15, true)]
         [DataRow(20, 20, 20, true)]
         [DataTestMethod]
-        public void Test_Board_Play_First_Mine_Then_Non_Contiguous_Pieces(int rows,
-                                                                          int cols,
-                                                                          int mines,
-                                                                          bool verifyByQuery)
+        public void Test_Board_Play_First_Mine_Then_All_Non_Contiguous_Pieces(  int rows,
+                                                                                int cols,
+                                                                                int mines,
+                                                                                bool verifyByQuery)
         {
             //Arrange
-            BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, true);
-
-
+            BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, playFirstRandomPiece: false);
+           
+           
+            foreach (var gp in bm.Model )
+            {
+                if (!gp.IsPlayed && gp.ItemValue == GamePieceModel.PieceValues.NOMINE)
+                   Assert.IsTrue( bm.Play(gp.GridPoint));
+            }
         }
 
         [DataRow(10, 10, 10)]
@@ -134,17 +118,8 @@ namespace Sweeper.Test.Models
                                         int cols,
                                         int mines)
         {
-
-            BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, false);
-            Assert.AreEqual(rows * cols, bm.Model.Count(m => m.IsPlayed == false));
-            Assert.AreEqual(rows * cols, bm.Model.Count());
-            for (int r = 0; r < bm.Rows; r++)
-                for (int c = 0; c < bm.Columns; c++)
-                {
-                    Assert.AreEqual(bm[r, c].ShownValue, GamePieceModel.PieceValues.BUTTON);
-                    Assert.AreEqual(bm[r, c].ItemValue, GamePieceModel.PieceValues.NOMINE);
-                }
+            BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, true);
+            Assert.IsTrue(rows * cols> bm.Model.Count(m => m.IsPlayed == false));
         }      
-           
     }
 }

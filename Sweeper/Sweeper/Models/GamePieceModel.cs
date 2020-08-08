@@ -42,7 +42,12 @@ namespace Sweeper.Models
             FLAGGED
         }
 
-        public bool IsPlayed => _shownValue <= PieceValues.WRONGCHOICE;
+        public bool IsPlayed { get 
+            {
+                bool retVal = (int)_shownValue <= (int)PieceValues.BLANK;
+                return retVal; 
+            } 
+        }
      
         public bool IsFlagged
         {

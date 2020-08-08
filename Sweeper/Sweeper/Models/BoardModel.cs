@@ -59,7 +59,7 @@ namespace Sweeper.Models
             ///////////////////////// Main function ////////////////////////////////////////////////////////////
             {
                 // Exclude Out of Bounds points
-                if (!inBounds(gp))
+                if (!inBounds(gp.R,gp.C))
                 {
                     throw new InvalidEnumArgumentException(Resources.Sweeper.ExceptionExcludePointIsOutOfBounds);
                 }
@@ -88,7 +88,7 @@ namespace Sweeper.Models
                             // Cool Several Tiles will be turned (all Contiguous Blanks)
                             case (GamePieceModel.PieceValues.NOMINE):
                                 {
-                                    PlayBlankNeighbors(gp);
+                                    PlayBlankNeighbors(gp.R,gp.C);
                                     break;
                                 }
                             // A single Tile  
@@ -104,9 +104,9 @@ namespace Sweeper.Models
                     {
                         placeMines(gp);
                         setNeighborCounts();
-                        if (piece.ItemValue == GamePieceModel.PieceValues.NOMINE)
+                        if (this[gp.R, gp.C].ItemValue == GamePieceModel.PieceValues.NOMINE)
                         {
-                            PlayBlankNeighbors(gp);
+                            PlayBlankNeighbors(gp.R,gp.C);
                         }
                         else
                         {
@@ -160,26 +160,26 @@ namespace Sweeper.Models
             }
         }
 
-        bool inBounds(GridPoint point)
+        bool inBounds(int r, int c)
         {
-            return (point.R >= 0 && point.R < Rows &&
-                    point.C >= 0 && point.C < Columns);
+            return (r >= 0 && r < Rows &&
+                    c >= 0 && c < Columns);
 
         }
 
-        private void PlayBlankNeighbors(GridPoint gp)
+        private void PlayBlankNeighbors(int r, int c)
         {
-            if (!inBounds(gp)
-                || this[gp.R, gp.C].ItemValue != GamePieceModel.PieceValues.NOMINE
-                || this[gp.R, gp.C].IsPlayed)
+            if (!inBounds(r,c)
+                || this[r,c].ItemValue != GamePieceModel.PieceValues.NOMINE
+                || this[r,c].IsPlayed)
             {
                 return;
             }
-            this[gp.R, gp.C].ShownValue = GamePieceModel.PieceValues.BLANK;
-            PlayBlankNeighbors(new GridPoint(gp.R + 1, gp.C));
-            PlayBlankNeighbors(new GridPoint(gp.R - 1, gp.C));
-            PlayBlankNeighbors(new GridPoint(gp.R, gp.C + 1));
-            PlayBlankNeighbors(new GridPoint(gp.R, gp.C - 1));             
+            this[r,c].ShownValue = GamePieceModel.PieceValues.BLANK;
+            PlayBlankNeighbors(r + 1, c);
+            PlayBlankNeighbors(r - 1, c);
+            PlayBlankNeighbors(r, c+1  );
+            PlayBlankNeighbors(r, c-1  );             
         }
 
         public void Save()
