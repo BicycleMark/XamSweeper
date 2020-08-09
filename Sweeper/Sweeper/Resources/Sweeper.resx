@@ -123,6 +123,9 @@
   <data name="ExceptionExcludePointIsOutOfBounds" xml:space="preserve">
     <value>Exclude point is outside the bounds of the board.</value>
   </data>
+  <data name="ExceptionGameDefsMustHave4Definitions" xml:space="preserve">
+    <value>You are required to have at least 4 Game Definitions</value>
+  </data>
   <data name="ExceptionInvalidArguments" xml:space="preserve">
     <value />
   </data>
@@ -139,35 +142,11 @@
   <data name="face_wink" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>svg\face-wink.svg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="GameAdvancedColumns" xml:space="preserve">
-    <value>30</value>
-  </data>
-  <data name="GameAdvancedMines" xml:space="preserve">
-    <value>50</value>
-  </data>
-  <data name="GameAdvancedRows" xml:space="preserve">
-    <value>30</value>
-  </data>
-  <data name="GameBeginnerColumns" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="GameBeginnerMines" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="GameBeginnerRows" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="GameIntermediateColumns" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="GameIntermediateMines" xml:space="preserve">
-    <value>20</value>
-  </data>
-  <data name="GameIntermediateRows" xml:space="preserve">
-    <value>15</value>
-  </data>
   <data name="GameMaxTime" xml:space="preserve">
     <value>1000</value>
+  </data>
+  <data name="GameTypeDefs" xml:space="preserve">
+    <value>Beginner,10,10,10|Intermediate,15,15,15|Advanced,20,20,20|Custom,25,25,25</value>
   </data>
   <data name="InvalidBoardOperationException" xml:space="preserve">
     <value>Cannot Play any pieces when a mine was previously selected. </value>

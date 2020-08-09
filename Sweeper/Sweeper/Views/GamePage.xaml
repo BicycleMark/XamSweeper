@@ -21,7 +21,7 @@
             <yummy:PancakeView Grid.Row="0" Padding="0">
                 <Grid ColumnDefinitions="*,*,*" Padding="0" >
                     <Frame Grid.Column="0">
-                        <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Binding"/>
+                        <Label HorizontalOptions="Center" VerticalOptions="Center" Text="{Binding Board.Rows}"/>
                     </Frame>
                     <Frame Grid.Column="1">
                         <Button Text="Ok"></Button>

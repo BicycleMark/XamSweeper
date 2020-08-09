@@ -2,10 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sweeper.Models;
-using System.Diagnostics;
 using Sweeper.Infrastructure;
-using System.Threading;
-using System.Diagnostics;
 
 namespace Sweeper.Test.Models
 {
@@ -16,7 +13,7 @@ namespace Sweeper.Test.Models
         {
             var repo = new Moq.Mock<IPropertyRepository>();
             repo.SetupAllProperties();
-            var settings = new Moq.Mock<ISettings>();
+            var settings = new Moq.Mock<ISettingsModel>();
             settings.SetupGet(m => m.Rows).Returns(rows);
             settings.SetupGet(m => m.Columns).Returns(cols);
             settings.SetupGet(m => m.MineCount).Returns(mines);
@@ -126,7 +123,7 @@ namespace Sweeper.Test.Models
         {
             //Arrange
             BoardModel bm = PrepareBoardWithMocks(r1, c1, m1, playFirstRandomPiece: false);
-            var settings = new Moq.Mock<ISettings>();
+            var settings = new Moq.Mock<ISettingsModel>();
             settings.SetupGet(m => m.Rows).Returns(r2);
             settings.SetupGet(m => m.Columns).Returns(c2);
             settings.SetupGet(m => m.MineCount).Returns(m2);

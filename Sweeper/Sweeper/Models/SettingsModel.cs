@@ -1,88 +1,124 @@
-﻿using Prism.Navigation;
-using Sweeper.Infrastructure;
+﻿using Sweeper.Infrastructure;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Reflection;
-using System.Text;
-using System.Xml.Linq;
-using Xamarin.Forms;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Sweeper.Models
 {
-    public class SettingsModel : BaseModel, ISettings
+    public class SettingsModel : BaseModel, ISettingsModel
     {
-        public enum GameTypes
+
+        public SettingsModel(IPropertyRepository repo) : base(repo)
         {
-            BEGINNER,
-            INTERMEDIATE,
-            ADVANCED,
-            CUSTOM
+            ThemeNames = new List<string>();
+            ThemeNames = Resources.Sweeper.Themes.Split(',').ToList<string>();
+
+            GameDefinitions = new ObservableCollection<GameDefintion>();
+            var gameDefString = Resources.Sweeper.GameTypeDefs;
+            var defs = gameDefString.Split('|');
+            foreach (var def in defs)
+            {
+                for (GameTypes gt = GameTypes.BEGINNER; gt <= GameTypes.CUSTOM; gt++)
+                {
+                    var fields = def.Split(',');
+                    if (fields.Length != 4)
+                    {
+                        throw new Exception(Resources.Sweeper.ExceptionGameDefsMustHave4Definitions);
+                    }
+                    else
+                    {
+
+                        
+                        this.GameDefinitions.Add(new GameDefintion(gt,
+                                                                    r: Int32.Parse(fields[1]),
+                                                                    c: Int32.Parse(fields[2]),
+                                                                    m: Int32.Parse(fields[3]),
+                                                                    name: fields[0]));
+
+                        
+                    }
+                }
+            }
+
+            SelectedGameType = GameTypes.BEGINNER;
+            CurrentThemeIndex = 0;
+
+        }
+
+        private int _currentThemeIndex = 0;
+        public int CurrentThemeIndex
+        {
+            get { return _currentThemeIndex; }
+            set { SetProperty(ref _currentThemeIndex, value, CurrentThemeIndexChanged); ; }
+        }
+
+        private void CurrentThemeIndexChanged()
+        {
+            RaisePropertyChanged(nameof(CurrentTheme));
+        }
+
+        List<string> _themeNames;
+        public List<string> ThemeNames
+        {
+            get => _themeNames;
+            private set => _themeNames = value;
+        }
+
+        public string CurrentTheme
+        {
+            get { return _themeNames.ToArray()[_currentThemeIndex]; }
+        }
+
+
+
+        #region GameTypes
+
+        ObservableCollection<GameDefintion> _gameDefinitions;
+        public ObservableCollection<GameDefintion> GameDefinitions
+        {
+            get { return _gameDefinitions; }
+            set { SetProperty(ref _gameDefinitions, value); }
         }
 
         private GameTypes _gameType = GameTypes.BEGINNER;
-
-        public GameTypes GameType
+        GameTypes _selectedGameType;
+        public GameTypes SelectedGameType
         {
-            get { return _gameType; }
-            set { SetProperty(ref _gameType, value); }
+            get { return _selectedGameType; }
+            set { SetProperty(ref _selectedGameType, value, SetGameType); }
         }
 
-        private string _theme = "Default";
-        public string Theme
+        private void SetGameType()
         {
-            get { return _theme; }
-            set { SetProperty(ref _theme, value); }
-        }
-
-        private int _mineCount;
-        public int MineCount
-        {
-            get { return _mineCount; }
-            set { SetProperty(ref _mineCount, value); }
-        }
-
-        private int _rows;
-        public int Rows
-        {
-            get { return _rows; }
-            set { SetProperty(ref _rows, value); }
-        }
-
-        private int _columns;
-        public int Columns
-        {
-            get { return _columns; }
-            set { SetProperty(ref _columns, value); }
-        }
-
-        public List<standardMode> StandardSettings
-        {
-            get => _standardSettings;
-            set { SetProperty(ref _standardSettings, value); }
-        }
-
-        public List<string> Themes
-        {
-            get { return _themes; }
-            set { SetProperty(ref _themes, value); }
-        }
-
-        public SettingsModel(IPropertyRepository repo, int nMines, int rows, int columns) :base (repo)
-        {
-            this.GameType = GameTypes.CUSTOM;
-        }
-
-        public struct standardMode
-        {
-            public int rows, cols, mines;
-            public standardMode(int r, int c, int m)
+            RaisePropertyChanged(nameof(MineCount));
+            RaisePropertyChanged(nameof(Rows));
+            RaisePropertyChanged(nameof(Columns));
+            if (_selectedGameType == GameTypes.CUSTOM)
             {
-                rows = r;
-                cols = c;
-                mines = m;
+                this.CustomMines = this.GameDefinitions[(int)GameTypes.CUSTOM].Mines;
+                this.CustomRows = this.GameDefinitions[(int)GameTypes.CUSTOM].Rows;
+                this.CustomColumns = this.GameDefinitions[(int)GameTypes.CUSTOM].Cols;
             }
         }
+
+        public int MineCount
+        {
+            get { return GameDefinitions[(int)_selectedGameType].Mines; }
+        }
+
+        public int Rows
+        {
+            get { return GameDefinitions[(int)_selectedGameType].Rows; }
+        }
+
+        public int Columns
+        {
+            get { return GameDefinitions[(int)_selectedGameType].Cols; }
+        }
+        #endregion
+
+     
         public bool Save()
         {
             return true;
@@ -93,31 +129,26 @@ namespace Sweeper.Models
             return true;
 
         }
-        private static List<string> _themes;
-        
-        private static List<standardMode> _standardSettings;
-        static SettingsModel()
+
+        int _customMines;
+        public int CustomMines
         {
-            var str = Resources.Sweeper.Themes;
-            _themes = new List<string>() { "Default", "Chocolate", "Copper", "Key West", "Powder Puff" };
-            _standardSettings = new List<standardMode>()
-            {
-                new standardMode(10, 10, 10),
-                new standardMode(20, 20, 20),
-                new standardMode(40, 40, 40)
-            };
+            get { return _customMines; }
+            set { SetProperty(ref _customMines, value); }
         }
 
-        public SettingsModel(IPropertyRepository repo) : base(repo)
+        int _customRows;
+        public int CustomRows
         {
-
-
-                GameType = GameTypes.BEGINNER;
-                int ndx = (int)GameType;
-                Rows = _standardSettings[ndx].rows;
-                Columns = _standardSettings[ndx].cols;
-                MineCount = _standardSettings[ndx].mines;
-           
+            get { return _customRows; }
+            set { SetProperty(ref _customRows, value); }
         }
+
+        int _customColumns;
+        public int CustomColumns
+        {
+            get { return _customColumns; }
+            set { SetProperty(ref _customColumns, value); }
+        }   
     }
 }

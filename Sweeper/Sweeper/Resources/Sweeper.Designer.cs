@@ -79,6 +79,15 @@ namespace Sweeper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are required to have at least 4 Game Definitions.
+        /// </summary>
+        internal static string ExceptionGameDefsMustHave4Definitions {
+            get {
+                return ResourceManager.GetString("ExceptionGameDefsMustHave4Definitions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string ExceptionInvalidArguments {
@@ -164,92 +173,20 @@ namespace Sweeper.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 30.
-        /// </summary>
-        internal static string GameAdvancedColumns {
-            get {
-                return ResourceManager.GetString("GameAdvancedColumns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 50.
-        /// </summary>
-        internal static string GameAdvancedMines {
-            get {
-                return ResourceManager.GetString("GameAdvancedMines", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 30.
-        /// </summary>
-        internal static string GameAdvancedRows {
-            get {
-                return ResourceManager.GetString("GameAdvancedRows", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 10.
-        /// </summary>
-        internal static string GameBeginnerColumns {
-            get {
-                return ResourceManager.GetString("GameBeginnerColumns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 10.
-        /// </summary>
-        internal static string GameBeginnerMines {
-            get {
-                return ResourceManager.GetString("GameBeginnerMines", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 10.
-        /// </summary>
-        internal static string GameBeginnerRows {
-            get {
-                return ResourceManager.GetString("GameBeginnerRows", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 15.
-        /// </summary>
-        internal static string GameIntermediateColumns {
-            get {
-                return ResourceManager.GetString("GameIntermediateColumns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 20.
-        /// </summary>
-        internal static string GameIntermediateMines {
-            get {
-                return ResourceManager.GetString("GameIntermediateMines", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 15.
-        /// </summary>
-        internal static string GameIntermediateRows {
-            get {
-                return ResourceManager.GetString("GameIntermediateRows", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 1000.
         /// </summary>
         internal static string GameMaxTime {
             get {
                 return ResourceManager.GetString("GameMaxTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beginner,10,10,10|Intermediate,15,15,15|Advanced,20,20,20|Custom,25,25,25.
+        /// </summary>
+        internal static string GameTypeDefs {
+            get {
+                return ResourceManager.GetString("GameTypeDefs", resourceCulture);
             }
         }
         

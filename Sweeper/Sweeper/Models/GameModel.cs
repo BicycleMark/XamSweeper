@@ -82,7 +82,7 @@ namespace Sweeper.Models
             }
         }
 
-        public GameModel(IPropertyRepository repo, SettingsModel settingModel) : base(repo)
+        public GameModel(IPropertyRepository repo, SettingsModel settingModel ) : base(repo)
         {
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;

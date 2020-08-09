@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace Sweeper.Models
 {
-    public class BoardModel : BaseModel
+    public class BoardModel : BaseModel, IBoardModel
     {
         private IPropertyRepository propRepo;
-        private ISettings boardSettings;
+        private ISettingsModel boardSettings;
         private bool loadedFromRepo;
-        
+
         public ObservableCollection<GamePieceModel> Model { get; private set; }
 
         public int Rows
@@ -25,8 +25,8 @@ namespace Sweeper.Models
             //private set { boardSettings.Columns = value; }
         }
 
-        public BoardModel(IPropertyRepository repo, ISettings settings, bool loadFromRepo ) : base(repo)
-        {        
+        public BoardModel(IPropertyRepository repo, ISettingsModel settings, bool loadFromRepo) : base(repo)
+        {
             propRepo = repo;
             boardSettings = settings;
             loadedFromRepo = loadFromRepo;
@@ -39,10 +39,10 @@ namespace Sweeper.Models
             {
                 // Create a new Empty Board with all items shown with BUTTONS
                 InitializeBoard();
-            }       
+            }
         }
 
-        public void Resize(ISettings settings)
+        public void Resize(ISettingsModel settings)
         {
             boardSettings = settings;
             InitializeBoard();
@@ -67,16 +67,16 @@ namespace Sweeper.Models
         }
         public bool Play(GridPoint gp)
         {
-           
+
             ///////////////////////// Main function ////////////////////////////////////////////////////////////
             {
                 // Exclude Out of Bounds points
-                if (!inBounds(gp.R,gp.C))
+                if (!inBounds(gp.R, gp.C))
                 {
                     throw new ArgumentOutOfRangeException(Resources.Sweeper.ExceptionExcludePointIsOutOfBounds);
                 }
                 // Do not allow additional plays if a mine has already been selected
-                if (Model.Count(m=>m.ShownValue == GamePieceModel.PieceValues.WRONGCHOICE) > 0)
+                if (Model.Count(m => m.ShownValue == GamePieceModel.PieceValues.WRONGCHOICE) > 0)
                 {
                     throw new InvalidOperationException(Resources.Sweeper.InvalidBoardOperationException);
                 }
@@ -100,7 +100,7 @@ namespace Sweeper.Models
                             // Cool Several Tiles will be turned (all Contiguous Blanks)
                             case (GamePieceModel.PieceValues.NOMINE):
                                 {
-                                    PlayBlankNeighbors(gp.R,gp.C);
+                                    PlayBlankNeighbors(gp.R, gp.C);
                                     break;
                                 }
                             // A single Tile  
@@ -118,13 +118,13 @@ namespace Sweeper.Models
                         setNeighborCounts();
                         if (this[gp.R, gp.C].ItemValue == GamePieceModel.PieceValues.NOMINE)
                         {
-                            PlayBlankNeighbors(gp.R,gp.C);
+                            PlayBlankNeighbors(gp.R, gp.C);
                         }
                         else
                         {
                             piece.ShownValue = piece.ItemValue;
-                        } 
-                       
+                        }
+
                     }
                 }
                 return !didLose;
@@ -144,13 +144,13 @@ namespace Sweeper.Models
             for (int r = 0; r < boardSettings.Rows; r++)
             {
                 for (int c = 0; c < boardSettings.Rows; c++)
-                {   
+                {
                     Model.Add(new GamePieceModel(r, c));
                 }
             }
         }
-/////////////////////////////////////// LOCAL ////////////////////////////////////////////////////////////
-private void setNeighborCounts()
+        /////////////////////////////////////// LOCAL ////////////////////////////////////////////////////////////
+        private void setNeighborCounts()
         {
             var mines = from gpm in Model where gpm.ItemValue == GamePieceModel.PieceValues.MINE select gpm;
             foreach (GamePieceModel p in mines)
@@ -171,7 +171,7 @@ private void setNeighborCounts()
                 }
             }
         }
-       
+
         private void placeMines(GridPoint ep)
         {
             int max = Model.Count;
@@ -199,18 +199,18 @@ private void setNeighborCounts()
 
         private void PlayBlankNeighbors(int r, int c)
         {
-            if (!inBounds(r,c)
-                || this[r,c].ItemValue != GamePieceModel.PieceValues.NOMINE
-                || this[r,c].IsPlayed)
+            if (!inBounds(r, c)
+                || this[r, c].ItemValue != GamePieceModel.PieceValues.NOMINE
+                || this[r, c].IsPlayed)
             {
                 return;
             }
             //Set To Fill Value
-            this[r,c].ShownValue = GamePieceModel.PieceValues.BLANK;
+            this[r, c].ShownValue = GamePieceModel.PieceValues.BLANK;
             PlayBlankNeighbors(r + 1, c);
             PlayBlankNeighbors(r - 1, c);
-            PlayBlankNeighbors(r, c+1  );
-            PlayBlankNeighbors(r, c-1  );             
-        } 
+            PlayBlankNeighbors(r, c + 1);
+            PlayBlankNeighbors(r, c - 1);
+        }
     }
 }

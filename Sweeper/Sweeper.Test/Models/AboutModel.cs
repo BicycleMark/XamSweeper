@@ -15,7 +15,7 @@ namespace Sweeper.Test.Models
         [TestMethod]
         public void TestConstruction()
         {
-
+            Assert.Inconclusive();
         }
     }
 }
