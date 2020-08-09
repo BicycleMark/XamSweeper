@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sweeper.Models;
 using Sweeper.Infrastructure;
+using Sweeper.Models.Game;
 
 namespace Sweeper.Test.Models
 {

@@ -10,6 +10,7 @@ using Unity;
 using Sweeper.Infrastructure;
 using Unity.Lifetime;
 using System.Threading.Tasks;
+using Sweeper.Models.Game;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Sweeper

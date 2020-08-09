@@ -9,7 +9,7 @@ using Sweeper.Models;
 namespace Sweeper.Test.Models
 {
     [TestClass]
-    public class GameStateModel
+    public class GameModelTest
     {
         [TestMethod]
         public void  TestConstruction()

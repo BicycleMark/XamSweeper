@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Text;
 
-namespace Sweeper.Models
+namespace Sweeper.Models.Game
 {
     public struct GridPoint
     {

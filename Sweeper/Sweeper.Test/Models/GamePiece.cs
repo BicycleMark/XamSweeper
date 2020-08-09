@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sweeper.Models;
+using Sweeper.Models.Game;
 
 namespace Sweeper.Test.Models
 {

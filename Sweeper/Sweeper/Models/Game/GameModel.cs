@@ -8,13 +8,35 @@ using System.Timers;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.TizenSpecific;
 
-namespace Sweeper.Models
+namespace Sweeper.Models.Game
 {
     public class GameModel : BaseModel, IDisposable
     {
+        private IBoardModel _board;
+        public IBoardModel Board
+        {
+            get { return _board; }
+            set { SetProperty(ref _board, value); }
+        }
+        private IGameModel _game;
+        public IGameModel Game
+        {
+            get { return _game; }
+            set { SetProperty(ref _game, value, SetGameComponents); }
+        }
 
-        private ObservableCollection<GamePieceModel> _board;
-        public ObservableCollection<GamePieceModel> Board { get => _board; private set => _board = value; }
+        private IPropertyRepository _repo;
+        public IPropertyRepository Repo
+        {
+            get { return _repo; }
+            set { SetProperty(ref _repo, value); }
+        }
+
+
+        private void SetGameComponents()
+        {
+            Board = _game.Board;
+        }
 
         private Timer _timer;
         public enum GameStates
@@ -34,10 +56,7 @@ namespace Sweeper.Models
         {
             get { return _mineCount; }
             set { _mineCount = value; }
-        }
-
-
-       
+        }  
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -82,11 +101,12 @@ namespace Sweeper.Models
             }
         }
 
-        public GameModel(IPropertyRepository repo, SettingsModel settingModel ) : base(repo)
+        public GameModel(IPropertyRepository repo, IGameModel game ) : base(repo)
         {
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
-            _board = new ObservableCollection<GamePieceModel>();
+            Repo = repo;
+            Game = game;
         }
 
         bool disposed = false;

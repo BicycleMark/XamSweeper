@@ -1,5 +1,7 @@
 ﻿using Sweeper.Infrastructure;
+using Sweeper.Models.Game;
 using System.Collections.ObjectModel;
+
 
 namespace Sweeper.Models
 {
