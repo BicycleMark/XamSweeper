@@ -146,7 +146,7 @@
     <value>1000</value>
   </data>
   <data name="GameTypeDefs" xml:space="preserve">
-    <value>Beginner,10,10,10|Intermediate,15,15,15|Advanced,20,20,20|Custom,25,25,25</value>
+    <value>BEGINNER,10,10,10|INTERMEDIATE,15,15,15|ADVANCED,20,20,20|CUSTOM,25,25,25</value>
   </data>
   <data name="InvalidBoardOperationException" xml:space="preserve">
     <value>Cannot Play any pieces when a mine was previously selected. </value>

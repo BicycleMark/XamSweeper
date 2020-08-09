@@ -21,8 +21,6 @@ namespace Sweeper.ViewModels
 
         public bool IsActive { get; set; }
 
-
-
         ISettingsModel _settingsModel;
         public ISettingsModel SettingsModel
         {
@@ -33,14 +31,15 @@ namespace Sweeper.ViewModels
         public SettingsPageViewModel(INavigationService navigationService, ISettingsModel settings) : base (navigationService)
         {
             SettingsModel = settings;
-           
-
+            //SettingsModel.PropertyChanged += SettingsModel_PropertyChanged;
         }
 
-        private void _settingsModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void SettingsModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             RaisePropertyChanged(e.PropertyName);
         }
+
+      
 
         public bool Load()
         {

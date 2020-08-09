@@ -12,23 +12,54 @@ namespace Sweeper.Test.Models
     [TestClass]
     public class SettingsModelTest
     {
+        ISettingsModel _settingsModel;
+        [TestInitialize]
+        public void Setup()
+        {
+            // Runs before each test. (Optional)
+            var repo = new Moq.Mock<IPropertyRepository>();
+            repo.SetupAllProperties();
+            _settingsModel = new SettingsModel(repo.Object);
+        }
         [TestMethod]
         public void TestConstruction()
         {
-            var repo = new Moq.Mock<IPropertyRepository>();
-            repo.SetupAllProperties();
-            ISettingsModel sm = new SettingsModel(repo.Object);
-            Assert.IsTrue(sm.ThemeNames.Count > 0);
-
+            
+            Assert.IsTrue(_settingsModel.ThemeNames.Count > 0);
+            Assert.IsTrue(_settingsModel.CurrentTheme == "Default");
+            Assert.IsTrue(_settingsModel.Rows == 10);
+            Assert.IsTrue(_settingsModel.Columns == 10);
+            Assert.IsTrue(_settingsModel.MineCount == 10);
+           
+        }
+        
+        [DataRow(GameTypes.BEGINNER, 10, 10, 10)]
+        [DataRow(GameTypes.INTERMEDIATE, 15, 15, 15)]
+        [DataRow(GameTypes.ADVANCED, 20, 20, 20)]
+        [DataRow(GameTypes.CUSTOM, 25, 25, 25)]
+        [DataTestMethod()]
+        public void TestChangeGameType(GameTypes gameType, int expectedRows, int expectedColumns, int expectedMines)
+        {
+            _settingsModel.SelectedGameType = gameType;
+            Assert.AreEqual(expectedRows, _settingsModel.Rows);
+            Assert.AreEqual(expectedColumns, _settingsModel.Columns);
+            Assert.AreEqual(expectedMines, _settingsModel.MineCount);
 
         }
+        [DataRow(0,"Default")]
+        [DataRow(1,"Chocolate")]
+        [DataRow(2,"Copper")]
+        [DataRow(3,"Key West")]
+        [DataRow(4,"Powder Puff")]
+        [DataTestMethod()]
+
         [TestMethod()]
-        public void TestTODO()
+        public void TestChangeTheme(int ndxToSet, string expectedTheme)
         {
-            
+            _settingsModel.CurrentThemeIndex = ndxToSet;
+            Assert.IsTrue(ndxToSet == _settingsModel.CurrentThemeIndex);
             Assert.Inconclusive();
-
-
+            //Assert.IsTrue(_settingsModel.CurrentTheme.Equals( expectedTheme));
         }
     }
   

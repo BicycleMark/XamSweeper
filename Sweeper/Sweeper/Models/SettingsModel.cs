@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
 namespace Sweeper.Models
@@ -13,13 +14,11 @@ namespace Sweeper.Models
         {
             ThemeNames = new List<string>();
             ThemeNames = Resources.Sweeper.Themes.Split(',').ToList<string>();
-
             GameDefinitions = new ObservableCollection<GameDefintion>();
             var gameDefString = Resources.Sweeper.GameTypeDefs;
             var defs = gameDefString.Split('|');
             foreach (var def in defs)
             {
-                for (GameTypes gt = GameTypes.BEGINNER; gt <= GameTypes.CUSTOM; gt++)
                 {
                     var fields = def.Split(',');
                     if (fields.Length != 4)
@@ -27,23 +26,23 @@ namespace Sweeper.Models
                         throw new Exception(Resources.Sweeper.ExceptionGameDefsMustHave4Definitions);
                     }
                     else
-                    {
-
-                        
-                        this.GameDefinitions.Add(new GameDefintion(gt,
-                                                                    r: Int32.Parse(fields[1]),
-                                                                    c: Int32.Parse(fields[2]),
-                                                                    m: Int32.Parse(fields[3]),
-                                                                    name: fields[0]));
-
-                        
+                    {           
+                        this.GameDefinitions.Add(new GameDefintion(type: (GameTypes)Enum.Parse(typeof(GameTypes), fields[0]),
+                                                                      r: Int32.Parse(fields[1]),
+                                                                      c: Int32.Parse(fields[2]),
+                                                                      m: Int32.Parse(fields[3]),
+                                                                   name: fields[0]));   
                     }
                 }
             }
-
+            //PropertyChanged += Changed;
             SelectedGameType = GameTypes.BEGINNER;
             CurrentThemeIndex = 0;
+        }
 
+        public void Changed(object sender, PropertyChangedEventArgs e)
+        {
+            RaisePropertyChanged(e.PropertyName);
         }
 
         private int _currentThemeIndex = 0;
@@ -70,10 +69,7 @@ namespace Sweeper.Models
             get { return _themeNames.ToArray()[_currentThemeIndex]; }
         }
 
-
-
         #region GameTypes
-
         ObservableCollection<GameDefintion> _gameDefinitions;
         public ObservableCollection<GameDefintion> GameDefinitions
         {
@@ -129,6 +125,8 @@ namespace Sweeper.Models
             return true;
 
         }
+
+        
 
         int _customMines;
         public int CustomMines

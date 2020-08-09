@@ -18,5 +18,6 @@ namespace Sweeper.Infrastructure
         List<string> ThemeNames { get; }
         bool Load();
         bool Save();
+        
     }
 }
