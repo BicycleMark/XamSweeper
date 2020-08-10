@@ -18,11 +18,12 @@ namespace Sweeper.Models.Game
             get { return _board; }
             set { SetProperty(ref _board, value); }
         }
-        private IGameModel _game;
-        public IGameModel Game
+
+        private ISettingsModel _settings;
+        public ISettingsModel Settings
         {
-            get { return _game; }
-            set { SetProperty(ref _game, value, SetGameComponents); }
+            get { return _settings; }
+            set { SetProperty(ref _settings, value); }
         }
 
         private IPropertyRepository _repo;
@@ -30,12 +31,6 @@ namespace Sweeper.Models.Game
         {
             get { return _repo; }
             set { SetProperty(ref _repo, value); }
-        }
-
-
-        private void SetGameComponents()
-        {
-            Board = _game.Board;
         }
 
         private Timer _timer;
@@ -91,12 +86,14 @@ namespace Sweeper.Models.Game
             }
         }
 
-        public GameModel(IPropertyRepository repo, IGameModel game) : base(repo)
+        public GameModel(IPropertyRepository repo, ISettingsModel settings, IBoardModel board) : base(repo)
         {
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = true;
+            Settings = settings;
             Repo = repo;
-            Game = game;
+            Board = board;
         }
 
         bool disposed = false;
@@ -119,7 +116,6 @@ namespace Sweeper.Models.Game
             }
             disposed = true;
         }
-
       
     }
 }

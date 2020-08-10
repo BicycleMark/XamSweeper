@@ -25,6 +25,13 @@ namespace Sweeper.Models.Game
             //private set { boardSettings.Columns = value; }
         }
 
+        public int Mines
+        {
+            get { return 12;//return boardSettings.Mine;
+            }
+            //private set { boardSettings.Columns = value; }
+        }
+
         public BoardModel(IPropertyRepository repo, ISettingsModel settings, bool loadFromRepo) : base(repo)
         {
             propRepo = repo;

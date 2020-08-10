@@ -8,7 +8,7 @@ namespace Sweeper.Infrastructure
     public interface IGameModel
     {
         IBoardModel Board { get; set; }
-        Infrastructure.IGameModel Game { get; set; }
+        ISettingsModel Settings { get; set; }
         GameStates GameState { get; set; }
         int GameTime { get; set; }
         int MineCount { get; set; }

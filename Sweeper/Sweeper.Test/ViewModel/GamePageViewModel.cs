@@ -26,7 +26,8 @@ namespace Sweeper.Test.ViewModel
             repo.SetupAllProperties();
             var settingsModel = new Moq.Mock<ISettingsModel>();
             var boardModel = new Moq.Mock<IBoardModel>();
-            _viewModel = new GamePageViewModel(nav.Object, settingsModel.Object, boardModel.Object);
+            var gameModel = new Moq.Mock<IGameModel>();
+            _viewModel = new GamePageViewModel(nav.Object, settingsModel.Object, boardModel.Object, gameModel.Object);
         }
 
         [TestMethod]

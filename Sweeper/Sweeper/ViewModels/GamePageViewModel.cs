@@ -29,15 +29,24 @@ namespace Sweeper.ViewModels
         private ISettingsModel _settings;
         public ISettingsModel Settings { get => _settings; 
                                     set => SetProperty(ref _settings, value); 
+
                                   }
+        private IGameModel _game;
+        public IGameModel Game
+        {
+            get => _game;
+            set => SetProperty(ref _game, value);
+        }
 
         public GamePageViewModel(INavigationService navigationService, 
                                  ISettingsModel          settingsModel, 
-                                 IBoardModel        board           ) : 
+                                 IBoardModel        board,
+                                 IGameModel         game) : 
                                  base(navigationService)
         {    
             Settings = settingsModel;
             Board = board;
+            Game = game;
         }
     }
 }
