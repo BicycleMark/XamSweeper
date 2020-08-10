@@ -10,9 +10,15 @@ using Sweeper.Infrastructure;
 namespace Sweeper.Test.Models
 {
     [TestClass]
-    public class AboutModel
+    public class AboutModelTests
     {
+        AboutModel _model;
+        [TestInitialize]
         [TestMethod]
+        public void Setup()
+        {
+            _model = new AboutModel();
+        }
         public void TestConstruction()
         {
             Assert.Inconclusive();
