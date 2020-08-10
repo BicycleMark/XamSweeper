@@ -10,7 +10,7 @@ using Xamarin.Forms.PlatformConfiguration.TizenSpecific;
 
 namespace Sweeper.Models.Game
 {
-    public class GameModel : BaseModel, IDisposable
+    public class GameModel : BaseModel, IDisposable, IGameModel
     {
         private IBoardModel _board;
         public IBoardModel Board
@@ -39,16 +39,6 @@ namespace Sweeper.Models.Game
         }
 
         private Timer _timer;
-        public enum GameStates
-        {
-            NOT_DETERMINED,
-            NOT_STARTED,
-            IN_DECISION,
-            IN_PLAY,
-            IN_BONUSPLAY,
-            WON,
-            LOST
-        }
 
         private int _mineCount;
 
@@ -56,7 +46,7 @@ namespace Sweeper.Models.Game
         {
             get { return _mineCount; }
             set { _mineCount = value; }
-        }  
+        }
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -101,7 +91,7 @@ namespace Sweeper.Models.Game
             }
         }
 
-        public GameModel(IPropertyRepository repo, IGameModel game ) : base(repo)
+        public GameModel(IPropertyRepository repo, IGameModel game) : base(repo)
         {
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
@@ -129,5 +119,7 @@ namespace Sweeper.Models.Game
             }
             disposed = true;
         }
+
+      
     }
 }

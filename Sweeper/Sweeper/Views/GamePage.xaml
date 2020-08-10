@@ -28,7 +28,7 @@
 
                     </Frame>
                     <Frame Grid.Column="2">
-                        <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Binding"/>
+                        <Label HorizontalOptions="Center" VerticalOptions="Center" Text="{Binding Game.Time}"/>
                     </Frame>
 
                 </Grid>
