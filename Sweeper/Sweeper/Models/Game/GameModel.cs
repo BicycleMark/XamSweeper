@@ -75,11 +75,6 @@ namespace Sweeper.Models.Game
         {
             if (GameState == GameStates.IN_PLAY || GameState == GameStates.NOT_STARTED)
             {
-                //if (GameTime >= 999)
-                //{
-                //    GameState = GameStates.LOST;
-                //    return GameState;
-                //}
                 if (Board.Play(new GridPoint(r, c)))
                 {
                     GameState = EvaluateGameState();

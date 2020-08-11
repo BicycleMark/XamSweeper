@@ -183,7 +183,7 @@ namespace Sweeper.Test.Models
                 {
                     foreach (var p in flaggedItems)
                     {
-                        p.ShownValue = GamePieceModel.PieceValues.FLAGGED;
+                        bm[p.GridPoint.R, p.GridPoint.C].ToggleFlag();
                     }
                 }else
                 {

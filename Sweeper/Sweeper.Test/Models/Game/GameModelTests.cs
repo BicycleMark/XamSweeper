@@ -158,7 +158,7 @@ namespace Sweeper.Test.Models
             var boardModel = new Moq.Mock<IBoardModel>();
 
             boardModel.Setup(m => m.Play(It.IsAny<GridPoint>())).Returns(playReturnValue);
-            boardModel.SetupProperty(m => m.AllCorrectlyFlagged, true);
+            boardModel.SetupGet(m => m.AllCorrectlyFlagged).Returns(true);
             _model = new GameModel(repo.Object, settingsModel.Object, boardModel.Object);
             _model.GameState = initialState;
             GameStates playVal;
@@ -175,11 +175,27 @@ namespace Sweeper.Test.Models
                     Assert.AreEqual(transitionsState, _model.GameState);
                 }
 
-            }
-            
-           
-           
+            }  
         }
 
+        [TestMethod]
+        public void Test_ToggleFlag()
+        {
+            var repo = new Moq.Mock<IPropertyRepository>();
+            repo.SetupAllProperties();
+            var settingsModel = new Moq.Mock<ISettingsModel>();
+            settingsModel.SetupGet(m => m.DisableTimerUpdatesForTesting).Returns(true);
+
+            var boardModel = new Moq.Mock<IBoardModel>();
+
+            boardModel.Setup(m => m.Play(It.IsAny<GridPoint>())).Returns(true);
+            _model = new GameModel(repo.Object, settingsModel.Object, boardModel.Object);
+            _model.Play(3, 3);
+            _model.ToggleFlag(2, 1);
+            Assert.IsTrue(_model.Board[2, 1].ShownValue == GamePieceModel.PieceValues.FLAGGED);
+        }
     }
+
+
+
 }
