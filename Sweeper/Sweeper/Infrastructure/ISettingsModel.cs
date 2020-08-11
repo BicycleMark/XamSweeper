@@ -14,6 +14,8 @@ namespace Sweeper.Infrastructure
         int CustomMines { get; set; }
         int CustomRows { get; set; }
         int MineCount { get; }
+
+        bool DisableTimerUpdatesForTesting { get; }
         
         List<string> ThemeNames { get; }
         bool Load();

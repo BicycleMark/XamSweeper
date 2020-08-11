@@ -12,6 +12,7 @@ namespace Sweeper.Infrastructure
         public BaseModel(IPropertyRepository repo)
         {
             repository = repo;
+            
         }
 
         public object Load(string propName )

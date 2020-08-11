@@ -200,6 +200,15 @@ namespace Sweeper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Game must be in GameState NOT_STARTED or IN_PLAY.
+        /// </summary>
+        internal static string InvalidGamePlayOperationMustBeInGameStateNOT_STARTED_OR_INPLAY {
+            get {
+                return ResourceManager.GetString("InvalidGamePlayOperationMustBeInGameStateNOT_STARTED_OR_INPLAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
         ///&lt;!-- Created with Inkscape (http://www.inkscape.org/) --&gt;
         ///&lt;svg

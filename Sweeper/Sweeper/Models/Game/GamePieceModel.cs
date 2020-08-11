@@ -44,7 +44,7 @@ namespace Sweeper.Models.Game
 
         public bool IsPlayed { get
             {
-                bool retVal = (int)_shownValue <= (int)PieceValues.BLANK || _shownValue == PieceValues.FLAGGED;
+                bool retVal = (int)_shownValue <= (int)PieceValues.BLANK;
                 return retVal;
             }
         }
@@ -80,7 +80,7 @@ namespace Sweeper.Models.Game
                 RaisePropertyChanged(nameof(IsFlagged));
             }
 
-            if (ShownValue <= PieceValues.BLANK || ShownValue == PieceValues.FLAGGED)
+            if (ShownValue <= PieceValues.BLANK )
             {
                 RaisePropertyChanged(nameof(IsPlayed));
             }
@@ -102,21 +102,24 @@ namespace Sweeper.Models.Game
 
         public void ToggleFlag()
         {
-            switch (_shownValue)
+            if (!IsPlayed)
             {
-                case (PieceValues.BUTTON):
-                    {
-                        ShownValue = PieceValues.FLAGGED;
+                switch (_shownValue)
+                {
+                    case (PieceValues.BUTTON):
+                        {
+                            ShownValue = PieceValues.FLAGGED;
+                            break;
+                        }
+
+                    case (PieceValues.FLAGGED):
+                        {
+                            ShownValue = PieceValues.BUTTON;
+                            break;
+                        }
+                    default:
                         break;
-                    }
-                    
-                case (PieceValues.FLAGGED):
-                    {
-                        ShownValue = PieceValues.BUTTON;
-                        break;
-                    }
-                default:
-                    break;
+                }
             }
         }
     }

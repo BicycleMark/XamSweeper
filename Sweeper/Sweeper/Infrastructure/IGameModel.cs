@@ -9,13 +9,14 @@ namespace Sweeper.Infrastructure
     {
         IBoardModel Board { get; set; }
         ISettingsModel Settings { get; set; }
+       
         GameStates GameState { get; set; }
         int GameTime { get; set; }
         int MineCount { get; set; }
         IPropertyRepository Repo { get; set; }
 
         void Dispose();
-        void Flag(int r, int c);
+        GameStates ToggleFlag(int r, int c);
         GameStates Play(int r, int c);
     }
 }

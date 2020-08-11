@@ -1,19 +1,20 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Navigation;
 using Sweeper.ViewModels;
-
 
 namespace Sweeper.Test.ViewModel
 {
     [TestClass]
-    public class AboutPageViewModelTests
+    public class MainPageViewModelTests
     {
-        AboutPageViewModel _viewModel;
+        MainPageViewModel _viewModel;
         [TestInitialize]
         public void SetUp()
         {
             var nav = new Moq.Mock<INavigationService>();
-            _viewModel = new AboutPageViewModel(nav.Object);
+            _viewModel = new MainPageViewModel(nav.Object);
         }
         [TestMethod]
         public void TestConstruction()

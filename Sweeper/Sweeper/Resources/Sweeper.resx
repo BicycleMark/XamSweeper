@@ -151,6 +151,9 @@
   <data name="InvalidBoardOperationException" xml:space="preserve">
     <value>Cannot Play any pieces when a mine was previously selected. </value>
   </data>
+  <data name="InvalidGamePlayOperationMustBeInGameStateNOT_STARTED_OR_INPLAY" xml:space="preserve">
+    <value>The Game must be in GameState NOT_STARTED or IN_PLAY</value>
+  </data>
   <data name="tango_face_sad" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>svg\tango-face-sad.svg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

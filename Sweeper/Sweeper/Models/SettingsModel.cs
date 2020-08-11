@@ -40,11 +40,6 @@ namespace Sweeper.Models
             CurrentThemeIndex = 0;
         }
 
-        public void Changed(object sender, PropertyChangedEventArgs e)
-        {
-            RaisePropertyChanged(e.PropertyName);
-        }
-
         private int _currentThemeIndex = 0;
         public int CurrentThemeIndex
         {
@@ -147,6 +142,12 @@ namespace Sweeper.Models
         {
             get { return _customColumns; }
             set { SetProperty(ref _customColumns, value); }
-        }   
+        }
+
+        private bool _disableTimerUpdatesForTesting = false;
+        public bool DisableTimerUpdatesForTesting 
+        {
+            get { return _disableTimerUpdatesForTesting; }
+        }
     }
 }

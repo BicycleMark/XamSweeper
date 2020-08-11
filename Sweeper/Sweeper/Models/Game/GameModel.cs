@@ -3,6 +3,8 @@ using Sweeper.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Linq;
 using System.Text;
 using System.Timers;
 using Xamarin.Forms;
@@ -12,6 +14,7 @@ namespace Sweeper.Models.Game
 {
     public class GameModel : BaseModel, IDisposable, IGameModel
     {
+        
         private IBoardModel _board;
         public IBoardModel Board
         {
@@ -45,14 +48,19 @@ namespace Sweeper.Models.Game
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            GameTime += 1;
+            if (!Settings.DisableTimerUpdatesForTesting)
+                GameTime += 1;
         }
 
         private int _gameTime;
         public int GameTime
         {
             get { return _gameTime; }
-            set => SetProperty(ref _gameTime, value);
+            set
+            {
+                
+                    SetProperty(ref _gameTime, value);
+            }
         }
 
         private GameStates _gameState = GameStates.NOT_STARTED;
@@ -65,19 +73,77 @@ namespace Sweeper.Models.Game
 
         public GameStates Play(int r, int c)
         {
-            return GameStates.IN_PLAY;
+            if (GameState == GameStates.IN_PLAY || GameState == GameStates.NOT_STARTED)
+            {
+                //if (GameTime >= 999)
+                //{
+                //    GameState = GameStates.LOST;
+                //    return GameState;
+                //}
+                if (Board.Play(new GridPoint(r, c)))
+                {
+                    GameState = EvaluateGameState();
+                }
+                else
+                {
+                    // You hit a mine
+                    GameState = GameStates.LOST;
+                }
+            }else
+            {
+                throw new InvalidOperationException(
+                    Resources.Sweeper.InvalidGamePlayOperationMustBeInGameStateNOT_STARTED_OR_INPLAY);
+            }
+            return GameState;
         }
 
-        public void Flag(int r, int c)
+        public GameStates ToggleFlag(int r, int c)
         {
-
+            var retVal = GameStates.IN_PLAY;
+            if (GameState == GameStates.IN_PLAY)
+            {
+                Board[r, c].ToggleFlag();
+                retVal = EvaluateGameState();
+            }
+            return retVal;
         }
+
+        private GameStates EvaluateGameState()
+        {
+            var retVal = GameState;
+
+            if (GameState == GameStates.NOT_STARTED)
+            {
+                retVal = GameStates.IN_PLAY;
+            }
+            else
+            {
+                if (GameState == GameStates.IN_PLAY)
+                {
+                    if (GameTime >= 999)
+                    {
+                        retVal = GameStates.LOST;
+                    }
+                    else
+                    {
+                        if (Board.AllCorrectlyFlagged)
+                        {
+                            retVal = GameStates.WON;
+                        }
+                    }
+                }
+            }
+            return retVal;
+        }
+
         private void OnGameStateChanged()
         {
             switch (_gameState)
             {
                 case GameStates.IN_PLAY:
                     _timer.Enabled = true;
+                    
+                    GameTime = Settings.DisableTimerUpdatesForTesting ? GameTime : 1;
                     break;
                 case GameStates.LOST:
                 case GameStates.WON:
@@ -90,13 +156,18 @@ namespace Sweeper.Models.Game
         {
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
-            _timer.Enabled = true;
+            
             Settings = settings;
             Repo = repo;
             Board = board;
         }
 
-        bool disposed = false;
+        public bool Disposed
+        {
+            get { return _disposed; }
+        }
+
+        bool _disposed = false;
         public void Dispose()
         {
             Dispose(true);
@@ -105,7 +176,7 @@ namespace Sweeper.Models.Game
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed)
+            if (_disposed)
                 return;
 
             if (disposing)
@@ -114,8 +185,7 @@ namespace Sweeper.Models.Game
                 _timer.Elapsed -= _timer_Elapsed;
                 _timer.Dispose();
             }
-            disposed = true;
-        }
-      
+            _disposed = true;
+        }   
     }
 }

@@ -33,7 +33,7 @@ namespace Sweeper.Test.ViewModel
         [TestMethod]
         public void TestConstruction()
         {
-            Assert.Inconclusive();
+           
         }
     }
 }

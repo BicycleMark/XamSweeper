@@ -19,6 +19,7 @@ namespace Sweeper.Test.Models
             settings.SetupGet(m => m.Columns).Returns(cols);
             settings.SetupGet(m => m.MineCount).Returns(mines);
             var bm = new BoardModel(repo.Object, settings.Object, false);
+            
             if (playFirstRandomPiece)
             {
                 Random random = new Random();
@@ -166,6 +167,37 @@ namespace Sweeper.Test.Models
             }
             Assert.IsTrue(false);
 
+        }
+
+        [DataRow(true)]
+        [DataRow(true,true)]
+        [DataTestMethod]
+        public void Test_CorrectlyFlagged(bool setFlag, bool setIncorrectly=false)
+        {
+            BoardModel bm = PrepareBoardWithMocks(10, 10, 10, true);
+           
+            if (setFlag)
+            {
+                var flaggedItems = bm.Model.Where(m => m.ItemValue == GamePieceModel.PieceValues.MINE);
+                if (!setIncorrectly)
+                {
+                    foreach (var p in flaggedItems)
+                    {
+                        p.ShownValue = GamePieceModel.PieceValues.FLAGGED;
+                    }
+                }else
+                {
+
+
+                }
+            }
+            if (!setIncorrectly)
+            {
+                Assert.IsTrue(bm.AllCorrectlyFlagged);
+            }else
+            {
+                Assert.IsFalse(bm.AllCorrectlyFlagged);
+            }
         }
 
         [TestMethod]

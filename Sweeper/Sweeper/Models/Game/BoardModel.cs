@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using Xamarin.Forms;
 
 namespace Sweeper.Models.Game
 {
@@ -27,10 +28,28 @@ namespace Sweeper.Models.Game
 
         public int Mines
         {
-            get { return 12;//return boardSettings.Mine;
+            get 
+            {
+                return this.Model.Count(m => m.ItemValue == GamePieceModel.PieceValues.MINE);
             }
-            //private set { boardSettings.Columns = value; }
         }
+
+        public bool AllCorrectlyFlagged
+        {
+            get
+            {
+                {
+                    int nMines = Mines;
+                    int nMinesFlaggedCorrectly =
+                        Model.Count(m => m.IsFlagged &&
+                                         m.ItemValue == GamePieceModel.PieceValues.MINE);
+                    return (nMinesFlaggedCorrectly == nMines);
+                }
+
+            }
+        }
+
+      
 
         public BoardModel(IPropertyRepository repo, ISettingsModel settings, bool loadFromRepo) : base(repo)
         {
@@ -72,6 +91,8 @@ namespace Sweeper.Models.Game
                 item = value;
             }
         }
+       
+
         public bool Play(GridPoint gp)
         {
 

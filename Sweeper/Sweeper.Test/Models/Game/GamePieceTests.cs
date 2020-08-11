@@ -16,7 +16,7 @@ namespace Sweeper.Test.Models
             Assert.AreEqual(GamePieceModel.PieceValues.NOMINE, gpm.ItemValue);
         }
 
-        [DataRow(GamePieceModel.PieceValues.NOMINE,true)]
+        [DataRow(GamePieceModel.PieceValues.NOMINE, true)]
         [DataRow(GamePieceModel.PieceValues.ONEMINE, true)]
         [DataRow(GamePieceModel.PieceValues.TWOMINE, true)]
         [DataRow(GamePieceModel.PieceValues.THREEMINE, true)]
@@ -26,12 +26,12 @@ namespace Sweeper.Test.Models
         [DataRow(GamePieceModel.PieceValues.SEVENMINE, true)]
         [DataRow(GamePieceModel.PieceValues.EIGHTMINE, true)]
         [DataRow(GamePieceModel.PieceValues.WRONGCHOICE, true)]
-        [DataRow(GamePieceModel.PieceValues.MINE, true)] 
+        [DataRow(GamePieceModel.PieceValues.MINE, true)]
 
         [DataRow(GamePieceModel.PieceValues.BLANK, true)]
         [DataRow(GamePieceModel.PieceValues.BUTTON, false)]
         [DataRow(GamePieceModel.PieceValues.PRESSED, false)]
-        [DataRow(GamePieceModel.PieceValues.FLAGGED, true)]     
+        [DataRow(GamePieceModel.PieceValues.FLAGGED, false)]     
         [DataTestMethod]
         public void Test_IsPlayed_Returns_Notification_And_Queries_Correct_Value(GamePieceModel.PieceValues pieceValue, bool shouldReturnIsPlayed)
         {
@@ -44,19 +44,39 @@ namespace Sweeper.Test.Models
             Assert.AreEqual(shouldReturnIsPlayed, gpm.IsPlayed);
         }
 
-        [TestMethod]
-        public void Test_ToggleFlag()
+        
+        [DataRow(GamePieceModel.PieceValues.FLAGGED, true)]
+        [DataRow(GamePieceModel.PieceValues.BUTTON, true)]
+        [DataRow(GamePieceModel.PieceValues.BLANK, false)]
+        [DataRow(GamePieceModel.PieceValues.EIGHTMINE, false)]
+        [DataRow(GamePieceModel.PieceValues.FIVEMINE, false)]     
+        [DataRow(GamePieceModel.PieceValues.FOURMINE, false)]
+        [DataRow(GamePieceModel.PieceValues.MINE, false)]
+        [DataRow(GamePieceModel.PieceValues.NOMINE, false)]
+        [DataRow(GamePieceModel.PieceValues.PRESSED, false)]
+        [DataRow(GamePieceModel.PieceValues.SEVENMINE, false)]
+        [DataRow(GamePieceModel.PieceValues.SIXMINE, false)]
+        [DataRow(GamePieceModel.PieceValues.THREEMINE, false)]
+        [DataRow(GamePieceModel.PieceValues.TWOMINE, false)]
+        [DataRow(GamePieceModel.PieceValues.WRONGCHOICE, false)]
+
+        [DataTestMethod]
+        public void Test_ToggleFlag(GamePieceModel.PieceValues shownValue, bool shouldAllowToggle )
         {
             GamePieceModel gpm = new GamePieceModel(1, 1);
-            int played = 0;
-            Assert.IsFalse(gpm.IsPlayed);
-            gpm.PropertyChanged += (s, e) => { if (e.PropertyName == "IsPlayed") ++played; };
+
+            gpm.ShownValue = shownValue;
+           
             gpm.ToggleFlag();
-            Assert.IsTrue(gpm.IsPlayed);
-            Assert.IsTrue(gpm.IsFlagged);
-            gpm.ToggleFlag();     
-            Assert.IsFalse( gpm.IsPlayed);
-            Assert.IsFalse(gpm.IsFlagged);
+           
+            if (shouldAllowToggle)
+            {
+                Assert.AreNotEqual(gpm.ShownValue, shownValue);
+            }else
+            {
+                Assert.AreEqual(gpm.ShownValue, shownValue);
+            }
+           
         }
 
         [TestMethod]
