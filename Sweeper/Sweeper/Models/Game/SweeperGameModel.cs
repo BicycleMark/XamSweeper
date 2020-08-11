@@ -2,34 +2,84 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace Sweeper.Models.Game
 {
-    public class BoardModel : BaseModel, IBoardModel
+    public class SweeperGameModel : BaseModel, IBoardModel
     {
-        private IPropertyRepository propRepo;
-        private ISettingsModel boardSettings;
+        private Timer _timer;
+
+        private IPropertyRepository _repo;
+        public IPropertyRepository Repo { get => _repo; set => _repo = value; }
+
         private bool loadedFromRepo;
 
         public ObservableCollection<GamePieceModel> Model { get; private set; }
 
+        private int _rows;
         public int Rows
         {
-            get { return boardSettings.Rows; }
-            //private set { boardSettings.Rows = value; }
+            get { return _rows; }    
+            private set { SetProperty(ref _rows, value); }
         }
+
+        private int _columns;
         public int Columns
         {
-            get { return boardSettings.Columns; }
-            //private set { boardSettings.Columns = value; }
+            get { return _columns; }
+            private set { SetProperty(ref _columns, value); }
+        }
+
+        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (!Settings.DisableTimerUpdatesForTesting &&
+                _gameState == GameStates.IN_PLAY)
+            {
+                GameTime += 1;
+            }
         }
 
         public int Mines
         {
-            get 
+            get
             {
-                return this.Model.Count(m => m.ItemValue == GamePieceModel.PieceValues.MINE);
+                return Model.Count(m => m.ItemValue == GamePieceModel.PieceValues.MINE);
             }
+        }
+
+        IBoardModel _board;
+        protected IBoardModel Board
+        {
+            get { return _board; }
+            private set { _board = value; }
+        }
+
+        private ISettingsModel _settings;
+        public ISettingsModel Settings { get => _settings; set => _settings = value; }
+
+        private GameStates _gameState = GameStates.NOT_STARTED;
+        public GameStates GameState
+        {
+            get { return _gameState; }
+            set { SetProperty(ref _gameState, value, OnGameStateChanged); }
+        }
+
+        private int _gameTime;
+        public int GameTime
+        {
+            get { return _gameTime; }
+            set
+            {
+                SetProperty(ref _gameTime, value);
+            }
+        }
+
+        public int RemainingMines
+        {
+            get { return Mines - Model.Count(m => m.ShownValue == GamePieceModel.PieceValues.FLAGGED); }
         }
 
         public bool AllCorrectlyFlagged
@@ -46,11 +96,14 @@ namespace Sweeper.Models.Game
             }
         }
 
-        public BoardModel(IPropertyRepository repo, ISettingsModel settings, bool loadFromRepo) : base(repo)
+        public SweeperGameModel(IPropertyRepository repo, ISettingsModel settings, bool loadFromRepo) : base(repo)
         {
-            propRepo = repo;
-            boardSettings = settings;
+            Repo = repo;
+            Settings = settings;
+            _timer = new System.Timers.Timer(1000);
+            _timer.Elapsed += _timer_Elapsed;
             loadedFromRepo = loadFromRepo;
+            Board = this;
             if (loadedFromRepo)
             {
                 throw new NotImplementedException("TODO Add Load From Repo F(x)");
@@ -63,15 +116,82 @@ namespace Sweeper.Models.Game
             }
         }
 
+        public GameStates Play(int r, int c)
+        {
+            if (GameState == GameStates.IN_PLAY || GameState == GameStates.NOT_STARTED)
+            {
+                if (Board.Play(new GridPoint(r, c)))
+                {
+                    GameState = EvaluateGameState();
+                }
+                else
+                {
+                    // You hit a mine
+                    GameState = GameStates.LOST;
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    Resources.Sweeper.InvalidGamePlayOperationMustBeInGameStateNOT_STARTED_OR_INPLAY);
+            }
+            return GameState;
+        }
+
+        public GameStates ToggleFlag(int r, int c)
+        {
+            var retVal = GameStates.IN_PLAY;
+            if (GameState == GameStates.IN_PLAY)
+            {
+                Board.ToggleFlag(new GridPoint(r, c));
+                retVal = EvaluateGameState();
+            }
+            RaisePropertyChanged(nameof(RemainingMines));
+            return retVal;
+        }
+        public GamePieceModel.PieceValues ToggleFlag(GridPoint gp)
+        {
+            this[gp.R, gp.C].ToggleFlag();
+            return this[gp.R, gp.C].ShownValue;
+        }
+
+        private GameStates EvaluateGameState()
+        {
+            var retVal = GameState;
+
+            if (GameState == GameStates.NOT_STARTED)
+            {
+                retVal = GameStates.IN_PLAY;
+            }
+            else
+            {
+                if (GameState == GameStates.IN_PLAY)
+                {
+                    if (GameTime >= 999)
+                    {
+                        retVal = GameStates.LOST;
+                    }
+                    else
+                    {
+                        if (Board.AllCorrectlyFlagged)
+                        {
+                            retVal = GameStates.WON;
+                        }
+                    }
+                }
+            }
+            return retVal;
+        }
+
         public void Resize(ISettingsModel settings)
         {
-            boardSettings = settings;
+            _settings = settings;
             InitializeBoard();
         }
 
         public void Save()
         {
-            propRepo.SaveProperty(nameof(Model), Model);
+            Repo.SaveProperty(nameof(Model), Model);
         }
 
         public GamePieceModel this[int r, int c]
@@ -86,11 +206,9 @@ namespace Sweeper.Models.Game
                 item = value;
             }
         }
-       
 
         public bool Play(GridPoint gp)
         {
-
             ///////////////////////// Main function ////////////////////////////////////////////////////////////
             {
                 // Exclude Out of Bounds points
@@ -147,19 +265,12 @@ namespace Sweeper.Models.Game
                         {
                             piece.ShownValue = piece.ItemValue;
                         }
-
                     }
                 }
                 return !didLose;
             }
         }
-
-        public GamePieceModel.PieceValues ToggleFlag(GridPoint gp)
-        {
-            this[gp.R, gp.C].ToggleFlag();
-            return this[gp.R, gp.C].ShownValue;
-
-        }
+        
         private void InitializeBoard()
         {
             if (Model != null)
@@ -170,14 +281,40 @@ namespace Sweeper.Models.Game
             {
                 Model = new ObservableCollection<GamePieceModel>();
             }
-            var max = boardSettings.Rows * boardSettings.Columns;
-            for (int r = 0; r < boardSettings.Rows; r++)
+            var max = _settings.Rows * _settings.Columns;
+            for (int r = 0; r < _settings.Rows; r++)
             {
-                for (int c = 0; c < boardSettings.Rows; c++)
+                for (int c = 0; c < _settings.Rows; c++)
                 {
                     Model.Add(new GamePieceModel(r, c));
                 }
             }
+        }
+
+        public bool Disposed
+        {
+            get { return _disposed; }
+        }
+
+        bool _disposed = false;
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                _timer.Stop();
+                _timer.Elapsed -= _timer_Elapsed;
+                _timer.Dispose();
+            }
+            _disposed = true;
         }
         /////////////////////////////////////// LOCAL ////////////////////////////////////////////////////////////
         private void setNeighborCounts()
@@ -206,7 +343,7 @@ namespace Sweeper.Models.Game
         {
             int max = Model.Count;
             Random random = new Random();
-            while (boardSettings.MineCount >
+            while (_settings.MineCount >
                    Model.Count(p => p.ItemValue == GamePieceModel.PieceValues.MINE))
             {
                 int proposedIndex = random.Next(max);
@@ -242,5 +379,21 @@ namespace Sweeper.Models.Game
             PlayBlankNeighbors(r, c + 1);
             PlayBlankNeighbors(r, c - 1);
         }
-    }
+        ////GameModel privates
+        private void OnGameStateChanged()
+        {
+            switch (_gameState)
+            {
+                case GameStates.IN_PLAY:
+                    _timer.Enabled = true;
+
+                    GameTime = Settings.DisableTimerUpdatesForTesting ? GameTime : 1;
+                    break;
+                case GameStates.LOST:
+                case GameStates.WON:
+                    _timer.Enabled = false;
+                    break;
+            }
+        }
+    }    
 }

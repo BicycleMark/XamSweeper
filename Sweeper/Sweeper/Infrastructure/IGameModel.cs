@@ -12,7 +12,8 @@ namespace Sweeper.Infrastructure
        
         GameStates GameState { get; set; }
         int GameTime { get; set; }
-        int MineCount { get; set; }
+        int MineCount { get;  }
+        int RemainingMines { get; }
         IPropertyRepository Repo { get; set; }
 
         void Dispose();

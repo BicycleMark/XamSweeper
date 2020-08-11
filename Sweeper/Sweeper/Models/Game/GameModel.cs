@@ -1,14 +1,7 @@
-﻿using Prism.Navigation;
-using Sweeper.Infrastructure;
+﻿using Sweeper.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Timers;
-using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration.TizenSpecific;
 
 namespace Sweeper.Models.Game
 {
@@ -38,12 +31,15 @@ namespace Sweeper.Models.Game
 
         private Timer _timer;
 
-        private int _mineCount;
-
+        
         public int MineCount
         {
-            get { return _mineCount; }
-            set { _mineCount = value; }
+            get { return this.Board.Model.Count(m => m.ItemValue == GamePieceModel.PieceValues.MINE); }      
+        }
+
+        public int RemainingMines
+        {
+            get { return MineCount - Board.Model.Count(m => m.ShownValue == GamePieceModel.PieceValues.FLAGGED); }
         }
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -97,9 +93,10 @@ namespace Sweeper.Models.Game
             var retVal = GameStates.IN_PLAY;
             if (GameState == GameStates.IN_PLAY)
             {
-                Board[r, c].ToggleFlag();
+                Board.ToggleFlag(new GridPoint(r, c));
                 retVal = EvaluateGameState();
             }
+            RaisePropertyChanged(nameof(RemainingMines));
             return retVal;
         }
 

@@ -23,29 +23,25 @@ namespace Sweeper.Test.Models
             var repo = new Moq.Mock<IPropertyRepository>();
             repo.SetupAllProperties();
             var settingsModel = new Moq.Mock<ISettingsModel>();
+
             var boardModel = new Moq.Mock<IBoardModel>();
             _model = new GameModel(repo.Object, settingsModel.Object, boardModel.Object);
            
         }
-
-        List<PropertyChangedEventArgs> _list;
-
-     
-
+    
         [TestMethod]
         public void  TestConstruction()
         {
-            Assert.AreEqual(0, _model.GameTime);
-            
-            Assert.Inconclusive();
+            Assert.AreEqual(0, _model.GameTime);     
+            Assert.AreEqual(0,_model.GameTime);
         }
 
         [DataRow(false)]
         [DataRow(true)]
         [DataTestMethod]
-        public void TestPlay_WithMocked_Board_Play(bool playReturnValue)
+        public void TestPlay_WithMocked_Board(bool playReturnValue)
         {
-            var repo = new Moq.Mock<IPropertyRepository>();
+             var repo = new Moq.Mock<IPropertyRepository>();
             repo.SetupAllProperties();
             var settingsModel = new Moq.Mock<ISettingsModel>();
             var boardModel = new Moq.Mock<IBoardModel>();
@@ -191,8 +187,10 @@ namespace Sweeper.Test.Models
             boardModel.Setup(m => m.Play(It.IsAny<GridPoint>())).Returns(true);
             _model = new GameModel(repo.Object, settingsModel.Object, boardModel.Object);
             _model.Play(3, 3);
+
+           
             _model.ToggleFlag(2, 1);
-            Assert.IsTrue(_model.Board[2, 1].ShownValue == GamePieceModel.PieceValues.FLAGGED);
+            
         }
     }
 

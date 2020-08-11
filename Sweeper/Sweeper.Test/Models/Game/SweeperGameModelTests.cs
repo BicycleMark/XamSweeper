@@ -8,7 +8,7 @@ using Sweeper.Models.Game;
 namespace Sweeper.Test.Models
 {
     [TestClass]
-    public class BoardModelTest 
+    public class SweeperGameModelTests
     {
         private BoardModel PrepareBoardWithMocks(int rows, int cols, int mines, bool playFirstRandomPiece = true)
         {
@@ -19,7 +19,7 @@ namespace Sweeper.Test.Models
             settings.SetupGet(m => m.Columns).Returns(cols);
             settings.SetupGet(m => m.MineCount).Returns(mines);
             var bm = new BoardModel(repo.Object, settings.Object, false);
-            
+
             if (playFirstRandomPiece)
             {
                 Random random = new Random();
@@ -30,11 +30,11 @@ namespace Sweeper.Test.Models
         [DataRow(10, 10, 10, true)]
         [DataRow(15, 15, 15, true)]
         [DataRow(20, 20, 20, true)]
-        [DataTestMethod]     
+        [DataTestMethod]
 
         public void Test_Board_Play_First_Mine_Verify_Played_Then_Play_Second_Mine_Verify_Exception_on_second_play
-           (int rows, 
-            int cols, 
+           (int rows,
+            int cols,
             int mines,
             bool verifyByQuery)
         {
@@ -50,7 +50,7 @@ namespace Sweeper.Test.Models
                 Assert.IsFalse(bm.Play(testItems[1].GridPoint));
                 Assert.IsTrue(bm.Model.Count(m => m.IsPlayed) == 2);
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 Assert.IsTrue(true);
                 return;
@@ -69,18 +69,18 @@ namespace Sweeper.Test.Models
         {
             //Arrange
             BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, true);
-                                               
+
             var contiguousPieces = from cp in bm.Model
                                    where cp.ItemValue >= GamePieceModel.PieceValues.ONEMINE &&
                                          cp.ItemValue <= GamePieceModel.PieceValues.EIGHTMINE
                                    select new { cp.GridPoint };
-            
-            
-         
+
+
+
             int tilesToEliminate = contiguousPieces.Count();
             foreach (var gp in contiguousPieces)
             {
-                Assert.IsTrue(bm.Play(gp.GridPoint));           
+                Assert.IsTrue(bm.Play(gp.GridPoint));
             }
             var postTestContiguousPieces = bm.Model.Count(m => m.ShownValue >= GamePieceModel.PieceValues.ONEMINE &&
                                                                m.ShownValue <= GamePieceModel.PieceValues.EIGHTMINE);
@@ -91,19 +91,19 @@ namespace Sweeper.Test.Models
         [DataRow(15, 15, 15, true)]
         [DataRow(20, 20, 20, true)]
         [DataTestMethod]
-        public void Test_Board_Play_First_Mine_Then_All_Non_Contiguous_Pieces(  int rows,
+        public void Test_Board_Play_First_Mine_Then_All_Non_Contiguous_Pieces(int rows,
                                                                                 int cols,
                                                                                 int mines,
                                                                                 bool verifyByQuery)
         {
             //Arrange
             BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, playFirstRandomPiece: false);
-           
-           
-            foreach (var gp in bm.Model )
+
+
+            foreach (var gp in bm.Model)
             {
                 if (!gp.IsPlayed && gp.ItemValue == GamePieceModel.PieceValues.NOMINE)
-                   Assert.IsTrue( bm.Play(gp.GridPoint));
+                    Assert.IsTrue(bm.Play(gp.GridPoint));
             }
         }
 
@@ -136,10 +136,10 @@ namespace Sweeper.Test.Models
                                         int mines)
         {
             BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, true);
-            Assert.IsTrue(rows * cols> bm.Model.Count(m => m.IsPlayed == false));
+            Assert.IsTrue(rows * cols > bm.Model.Count(m => m.IsPlayed == false));
         }
 
-        [DataRow(10, 10, 10, 20,20,20)]
+        [DataRow(10, 10, 10, 20, 20, 20)]
         [DataTestMethod]
         public void Test_Resize(int r1, int c1, int m1, int r2, int c2, int m2)
         {
@@ -162,14 +162,14 @@ namespace Sweeper.Test.Models
             {
                 for (int j = 0; j < bm.Columns; j++)
                 {
-                    bm[i, j] = new GamePieceModel(i,j); 
+                    bm[i, j] = new GamePieceModel(i, j);
                 }
             }
 
         }
-        [DataRow(10, 10, 10,10)]
-        [DataRow(15, 15, 15,15)]
-        [DataRow(20, 20, 20,20)]
+        [DataRow(10, 10, 10, 10)]
+        [DataRow(15, 15, 15, 15)]
+        [DataRow(20, 20, 20, 20)]
         [DataTestMethod]
         public void PlayOutOfBounds(int r, int c, int obr, int obc)
         {
@@ -179,7 +179,8 @@ namespace Sweeper.Test.Models
             {
                 bm.Play(new GridPoint(obr, obc));
 
-            }catch(ArgumentOutOfRangeException)
+            }
+            catch (ArgumentOutOfRangeException)
             {
                 Assert.IsTrue(true);
                 return;
@@ -188,12 +189,12 @@ namespace Sweeper.Test.Models
         }
 
         [DataRow(true)]
-        [DataRow(true,true)]
+        [DataRow(true, true)]
         [DataTestMethod]
-        public void Test_CorrectlyFlagged(bool setFlag, bool setIncorrectly=false)
+        public void Test_CorrectlyFlagged(bool setFlag, bool setIncorrectly = false)
         {
             BoardModel bm = PrepareBoardWithMocks(10, 10, 10, true);
-           
+
             if (setFlag)
             {
                 var flaggedItems = bm.Model.Where(m => m.ItemValue == GamePieceModel.PieceValues.MINE);
@@ -203,7 +204,8 @@ namespace Sweeper.Test.Models
                     {
                         bm[p.GridPoint.R, p.GridPoint.C].ToggleFlag();
                     }
-                }else
+                }
+                else
                 {
 
 
@@ -212,7 +214,8 @@ namespace Sweeper.Test.Models
             if (!setIncorrectly)
             {
                 Assert.IsTrue(bm.AllCorrectlyFlagged);
-            }else
+            }
+            else
             {
                 Assert.IsFalse(bm.AllCorrectlyFlagged);
             }
@@ -225,3 +228,4 @@ namespace Sweeper.Test.Models
         }
     }
 }
+

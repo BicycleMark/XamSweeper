@@ -100,7 +100,7 @@ namespace Sweeper.Models.Game
             ItemValue = PieceValues.NOMINE;
         }
 
-        public void ToggleFlag()
+        public GamePieceModel.PieceValues ToggleFlag()
         {
             if (!IsPlayed)
             {
@@ -121,6 +121,7 @@ namespace Sweeper.Models.Game
                         break;
                 }
             }
+            return ShownValue;
         }
     }
 }

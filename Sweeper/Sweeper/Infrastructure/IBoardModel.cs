@@ -14,6 +14,7 @@ namespace Sweeper.Models
         int Rows { get; }
         int Mines { get; }
         bool Play(GridPoint gp);
+        GamePieceModel.PieceValues ToggleFlag(GridPoint gp);
         void Resize(ISettingsModel settings);
         void Save();
     }
