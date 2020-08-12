@@ -2,7 +2,6 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
@@ -11,13 +10,11 @@ namespace Sweeper.Models.Game
     public class SweeperGameModel : BaseModel, IBoardModel
     {
         private Timer _timer;
+        private bool loadedFromRepo;
+        public ObservableCollection<GamePieceModel> Model { get; private set; }
 
         private IPropertyRepository _repo;
         public IPropertyRepository Repo { get => _repo; set => _repo = value; }
-
-        private bool loadedFromRepo;
-
-        public ObservableCollection<GamePieceModel> Model { get; private set; }
 
         private int _rows;
         public int Rows
@@ -104,6 +101,8 @@ namespace Sweeper.Models.Game
             _timer.Elapsed += _timer_Elapsed;
             loadedFromRepo = loadFromRepo;
             Board = this;
+            Rows = settings.Rows;
+            Columns = settings.Columns;
             if (loadedFromRepo)
             {
                 throw new NotImplementedException("TODO Add Load From Repo F(x)");
@@ -145,10 +144,12 @@ namespace Sweeper.Models.Game
             {
                 Board.ToggleFlag(new GridPoint(r, c));
                 retVal = EvaluateGameState();
+                GameState = retVal;
             }
             RaisePropertyChanged(nameof(RemainingMines));
             return retVal;
         }
+
         public GamePieceModel.PieceValues ToggleFlag(GridPoint gp)
         {
             this[gp.R, gp.C].ToggleFlag();
@@ -198,11 +199,13 @@ namespace Sweeper.Models.Game
         {
             get
             {
-                return Model.FirstOrDefault(p => p.GridPoint.R == r && p.GridPoint.C == c);
+                return Model.FirstOrDefault(p => p.GridPoint.R == r && 
+                                                 p.GridPoint.C == c);
             }
             set
             {
-                var item = Model.FirstOrDefault(p => p.GridPoint.R == r && p.GridPoint.C == c);
+                var item = Model.FirstOrDefault(p => p.GridPoint.R == r && 
+                                                     p.GridPoint.C == c);
                 item = value;
             }
         }
@@ -236,6 +239,7 @@ namespace Sweeper.Models.Game
                                 {
                                     piece.ShownValue = GamePieceModel.PieceValues.WRONGCHOICE;
                                     didLose = true;
+                                    GameState = GameStates.LOST;
                                     break;
                                 }
                             // Cool Several Tiles will be turned (all Contiguous Blanks)
@@ -265,6 +269,7 @@ namespace Sweeper.Models.Game
                         {
                             piece.ShownValue = piece.ItemValue;
                         }
+                        GameState = GameStates.IN_PLAY;
                     }
                 }
                 return !didLose;
@@ -281,10 +286,11 @@ namespace Sweeper.Models.Game
             {
                 Model = new ObservableCollection<GamePieceModel>();
             }
-            var max = _settings.Rows * _settings.Columns;
+            Rows = _settings.Rows;
+            Columns = _settings.Columns;
             for (int r = 0; r < _settings.Rows; r++)
             {
-                for (int c = 0; c < _settings.Rows; c++)
+                for (int c = 0; c < _settings.Columns; c++)
                 {
                     Model.Add(new GamePieceModel(r, c));
                 }
@@ -316,6 +322,7 @@ namespace Sweeper.Models.Game
             }
             _disposed = true;
         }
+
         /////////////////////////////////////// LOCAL ////////////////////////////////////////////////////////////
         private void setNeighborCounts()
         {
@@ -361,7 +368,6 @@ namespace Sweeper.Models.Game
         {
             return (r >= 0 && r < Rows &&
                     c >= 0 && c < Columns);
-
         }
 
         private void PlayBlankNeighbors(int r, int c)
@@ -386,7 +392,6 @@ namespace Sweeper.Models.Game
             {
                 case GameStates.IN_PLAY:
                     _timer.Enabled = true;
-
                     GameTime = Settings.DisableTimerUpdatesForTesting ? GameTime : 1;
                     break;
                 case GameStates.LOST:

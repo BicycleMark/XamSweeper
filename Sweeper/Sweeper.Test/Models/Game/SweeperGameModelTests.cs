@@ -4,13 +4,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sweeper.Models;
 using Sweeper.Infrastructure;
 using Sweeper.Models.Game;
+using System.Threading;
+using Moq;
 
 namespace Sweeper.Test.Models
 {
     [TestClass]
     public class SweeperGameModelTests
     {
-        private BoardModel PrepareBoardWithMocks(int rows, int cols, int mines, bool playFirstRandomPiece = true)
+        SweeperGameModel _model;
+        private SweeperGameModel PrepareBoardWithMocks(int rows, int cols, int mines, bool playFirstRandomPiece = true, bool eliminateTimer=false)
         {
             var repo = new Moq.Mock<IPropertyRepository>();
             repo.SetupAllProperties();
@@ -18,7 +21,8 @@ namespace Sweeper.Test.Models
             settings.SetupGet(m => m.Rows).Returns(rows);
             settings.SetupGet(m => m.Columns).Returns(cols);
             settings.SetupGet(m => m.MineCount).Returns(mines);
-            var bm = new BoardModel(repo.Object, settings.Object, false);
+            settings.SetupGet(m => m.DisableTimerUpdatesForTesting).Returns(eliminateTimer);
+            var bm = new SweeperGameModel(repo.Object, settings.Object, loadFromRepo: false);
 
             if (playFirstRandomPiece)
             {
@@ -27,6 +31,19 @@ namespace Sweeper.Test.Models
             }
             return bm;
         }
+
+        //[TestInitialize]
+        //public void Setup()
+        //{
+        //    var repo = new Moq.Mock<IPropertyRepository>();
+        //    repo.SetupAllProperties();
+        //    var settings = new Moq.Mock<ISettingsModel>();
+        //    settings.SetupGet(m => m.Rows).Returns(rows);
+        //    settings.SetupGet(m => m.Columns).Returns(cols);
+        //    settings.SetupGet(m => m.MineCount).Returns(mines);
+        //    _model = new SweeperGameModel(repo.Object, settingsModel.Object,false);
+        //}
+
         [DataRow(10, 10, 10, true)]
         [DataRow(15, 15, 15, true)]
         [DataRow(20, 20, 20, true)]
@@ -39,7 +56,7 @@ namespace Sweeper.Test.Models
             bool verifyByQuery)
         {
             //Arrange get a fully initialized Board with one or more piecePlayed
-            BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, true);
+            var bm = PrepareBoardWithMocks(rows, cols, mines, true);
             // Find two Mines
             var testItems = bm.Model.Where(m => m.ItemValue == GamePieceModel.PieceValues.MINE).Take(2).ToArray();
             // Play Returns False when you hit a mine
@@ -68,7 +85,7 @@ namespace Sweeper.Test.Models
                                                                                 bool verifyByQuery)
         {
             //Arrange
-            BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, true);
+            var bm = PrepareBoardWithMocks(rows, cols, mines, true);
 
             var contiguousPieces = from cp in bm.Model
                                    where cp.ItemValue >= GamePieceModel.PieceValues.ONEMINE &&
@@ -97,7 +114,7 @@ namespace Sweeper.Test.Models
                                                                                 bool verifyByQuery)
         {
             //Arrange
-            BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, playFirstRandomPiece: false);
+            var bm = PrepareBoardWithMocks(rows, cols, mines, playFirstRandomPiece: false);
 
 
             foreach (var gp in bm.Model)
@@ -117,7 +134,7 @@ namespace Sweeper.Test.Models
                                                                bool verifyByQuery)
         {
             //Arrange
-            BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, playFirstRandomPiece: true);
+            var bm = PrepareBoardWithMocks(rows, cols, mines, playFirstRandomPiece: true);
 
 
             foreach (var gp in bm.Model)
@@ -135,7 +152,7 @@ namespace Sweeper.Test.Models
                                         int cols,
                                         int mines)
         {
-            BoardModel bm = PrepareBoardWithMocks(rows, cols, mines, true);
+            var bm = PrepareBoardWithMocks(rows, cols, mines, true);
             Assert.IsTrue(rows * cols > bm.Model.Count(m => m.IsPlayed == false));
         }
 
@@ -144,7 +161,7 @@ namespace Sweeper.Test.Models
         public void Test_Resize(int r1, int c1, int m1, int r2, int c2, int m2)
         {
             //Arrange
-            BoardModel bm = PrepareBoardWithMocks(r1, c1, m1, playFirstRandomPiece: false);
+            var bm = PrepareBoardWithMocks(r1, c1, m1, playFirstRandomPiece: false);
             var settings = new Moq.Mock<ISettingsModel>();
             settings.SetupGet(m => m.Rows).Returns(r2);
             settings.SetupGet(m => m.Columns).Returns(c2);
@@ -157,7 +174,7 @@ namespace Sweeper.Test.Models
         [TestMethod]
         public void Test_IndexSetter()
         {
-            BoardModel bm = PrepareBoardWithMocks(10, 10, 10, true);
+            var bm = PrepareBoardWithMocks(10, 10, 10, true);
             for (int i = 0; i < bm.Rows; i++)
             {
                 for (int j = 0; j < bm.Columns; j++)
@@ -167,14 +184,13 @@ namespace Sweeper.Test.Models
             }
 
         }
-        [DataRow(10, 10, 10, 10)]
-        [DataRow(15, 15, 15, 15)]
-        [DataRow(20, 20, 20, 20)]
+        [DataRow(10, 10, 10, 10, 10)]
+        [DataRow(15, 15, 15, 15, 15)]
+        [DataRow(20, 20, 20, 20, 20)]
         [DataTestMethod]
-        public void PlayOutOfBounds(int r, int c, int obr, int obc)
+        public void PlayOutOfBounds(int r, int c, int m, int obr, int obc)
         {
-            BoardModel bm = PrepareBoardWithMocks(10, 10, 10, true);
-
+            var bm = PrepareBoardWithMocks(r, c, m);
             try
             {
                 bm.Play(new GridPoint(obr, obc));
@@ -193,7 +209,7 @@ namespace Sweeper.Test.Models
         [DataTestMethod]
         public void Test_CorrectlyFlagged(bool setFlag, bool setIncorrectly = false)
         {
-            BoardModel bm = PrepareBoardWithMocks(10, 10, 10, true);
+            var bm = PrepareBoardWithMocks(10, 10, 10, true);
 
             if (setFlag)
             {
@@ -226,6 +242,121 @@ namespace Sweeper.Test.Models
         {
             Assert.Inconclusive();
         }
+
+        // GameModel Tests here
+        [TestMethod]
+        public void TestConstruction()
+        {
+            var _model = PrepareBoardWithMocks(10, 10, 10, true);
+            Assert.AreEqual(0, _model.GameTime);
+            Assert.AreEqual(0, _model.GameTime);
+        }
+
+        [TestMethod]
+        public void TestDispose()
+        {
+            var _model = PrepareBoardWithMocks(10, 10, 10, true);
+            Assert.IsFalse(_model.Disposed);
+            _model.Dispose();
+            Assert.IsTrue(_model.Disposed);
+            _model.Dispose();
+            Assert.IsTrue(_model.Disposed);
+        }
+
+        [DataRow(true)]
+        [DataRow(false)]
+        [DataTestMethod()]
+        public void Test_Game_Lost(bool testLose)
+        {
+            var _model = PrepareBoardWithMocks(10, 10, 10,playFirstRandomPiece: true);
+            Assert.AreEqual(GameStates.IN_PLAY, _model.GameState);
+
+            if (testLose)
+            {
+                var p = _model.Model.FirstOrDefault(m => m.ItemValue == GamePieceModel.PieceValues.MINE).GridPoint;
+                _model.Play(p);
+                Assert.AreEqual(GameStates.LOST, _model.GameState);
+            }
+            else
+            {   
+                var flagList = _model.Model.Where(m => m.ItemValue == GamePieceModel.PieceValues.MINE);
+                foreach (var p in flagList)
+                {
+                    _model.ToggleFlag(p.GridPoint.R, p.GridPoint.C);
+                }
+                Assert.AreEqual(GameStates.WON, _model.GameState);
+            }
+        }
+
+        [TestMethod]
+        public void Test_Game_From_Initialized_To_INPLAY_And_Check_Timer_Started()
+        {
+            var _model = PrepareBoardWithMocks(10, 10, 10, playFirstRandomPiece: false);
+            int secondsInPlay = 0;
+            Assert.AreEqual(GameStates.NOT_STARTED, _model.GameState);
+            Assert.AreEqual(0, _model.GameTime);
+            _model.GameState = GameStates.IN_PLAY;
+            secondsInPlay = _model.GameTime;
+            Assert.IsTrue(secondsInPlay >= 1);
+            _model.GameState = GameStates.LOST;
+            Thread.Sleep(2000);
+            Assert.AreEqual(secondsInPlay, _model.GameTime);
+        }
+
+        [DataRow(GameStates.LOST, true)]
+        [DataRow(GameStates.WON, true)]
+        [DataRow(GameStates.IN_PLAY, false)]
+        [DataRow(GameStates.NOT_STARTED, false)]
+        [DataTestMethod]
+        public void Test_Play_In_InvalidState_That_Exception_Is_Thrown_When_Intended(GameStates gameState, bool shouldThrow)
+        {
+            var _model = PrepareBoardWithMocks(10, 10, 10, playFirstRandomPiece: false);
+            _model.GameState = gameState;
+            bool exceptionThrew = false;
+            try
+            {
+                _model.Play(1, 1);
+            }
+            catch (InvalidOperationException)
+            {
+
+                exceptionThrew = true;
+            }
+
+            if (shouldThrow)
+            {
+                Assert.IsTrue(exceptionThrew);
+            }
+            else
+            {
+                Assert.IsFalse(exceptionThrew);
+            }
+        }
+
+        [DataRow(999, true)]
+        [DataRow(100, false)]
+        [DataTestMethod]
+        public void Test_Time_Out(int initialGameTime, bool shouldFail)
+        {
+            var _model = PrepareBoardWithMocks(10, 10, 10, playFirstRandomPiece: false,  true);
+
+
+            _model.GameTime = initialGameTime;
+            Assert.AreEqual(GameStates.NOT_STARTED, _model.GameState);
+            if (initialGameTime > 0)
+            {
+                _model.GameState = GameStates.IN_PLAY;
+            }
+
+            var playVal = _model.Play(1, 1);
+            if (shouldFail)
+                Assert.AreEqual(GameStates.LOST, playVal);
+            else
+                Assert.AreEqual(GameStates.IN_PLAY, playVal);
+        }
+
+
+
     }
 }
 
