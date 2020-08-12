@@ -247,9 +247,41 @@ namespace Sweeper.Test.Models
         [TestMethod]
         public void TestConstruction()
         {
+            var _model = PrepareBoardWithMocks(10, 10, 10, false);
+            Assert.AreEqual(0, _model.GameTime);
+            Assert.AreEqual(GameStates.NOT_STARTED,_model.GameState);
+            var p = _model.Model.First(m => m.ShownValue == GamePieceModel.PieceValues.BUTTON).GridPoint;
+            _model.Play(p.R, p.C);
+            Assert.IsTrue(_model.GameTime > 0);
+            Assert.AreEqual(GameStates.IN_PLAY, _model.GameState);
+            Assert.AreEqual(10, _model.RemainingMines);
+            Assert.IsNotNull(_model.Repo);
+        }
+
+        [TestMethod]
+        public void Test_Lose()
+        {
             var _model = PrepareBoardWithMocks(10, 10, 10, true);
-            Assert.AreEqual(0, _model.GameTime);
-            Assert.AreEqual(0, _model.GameTime);
+           
+            Assert.AreEqual(GameStates.IN_PLAY, _model.GameState);
+            var p = _model.Model.First(m => m.ItemValue == GamePieceModel.PieceValues.MINE).GridPoint;
+            _model.Play(p.R, p.C);
+            Assert.IsTrue(_model.GameTime > 0);
+            Assert.AreEqual(GameStates.LOST, _model.GameState);
+            //Assert.AreEqual(10, _model.RemainingMines);
+            Assert.IsNotNull(_model.Repo);
+        }
+
+        [TestMethod]
+        public void Test_GetBoardProp()
+        {
+            var _model = PrepareBoardWithMocks(10, 10, 10, true);
+
+            Assert.AreEqual(GameStates.IN_PLAY, _model.GameState);
+            Assert.IsNotNull(_model.Board);
+            int i = _model.MineCount;
+            Assert.IsTrue(i > 0);
+         
         }
 
         [TestMethod]
@@ -262,6 +294,8 @@ namespace Sweeper.Test.Models
             _model.Dispose();
             Assert.IsTrue(_model.Disposed);
         }
+
+
 
         [DataRow(true)]
         [DataRow(false)]

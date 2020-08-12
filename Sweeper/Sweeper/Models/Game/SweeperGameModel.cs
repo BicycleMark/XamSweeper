@@ -7,7 +7,7 @@ using Timer = System.Timers.Timer;
 
 namespace Sweeper.Models.Game
 {
-    public class SweeperGameModel : BaseModel, IBoardModel
+    public class SweeperGameModel : BaseModel, IBoardModel, IGameModel
     {
         private Timer _timer;
         private bool loadedFromRepo;
@@ -29,7 +29,7 @@ namespace Sweeper.Models.Game
             get { return _columns; }
             private set { SetProperty(ref _columns, value); }
         }
-
+    
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (!Settings.DisableTimerUpdatesForTesting &&
@@ -47,8 +47,16 @@ namespace Sweeper.Models.Game
             }
         }
 
+        public int MineCount
+        {
+            get
+            {
+                return Mines;
+            }
+        }
+
         IBoardModel _board;
-        protected IBoardModel Board
+        public IBoardModel Board
         {
             get { return _board; }
             private set { _board = value; }
@@ -126,6 +134,7 @@ namespace Sweeper.Models.Game
                 else
                 {
                     // You hit a mine
+
                     GameState = GameStates.LOST;
                 }
             }
@@ -301,6 +310,8 @@ namespace Sweeper.Models.Game
         {
             get { return _disposed; }
         }
+
+        //public IBoardModel Board { get => this; }
 
         bool _disposed = false;
         public void Dispose()
