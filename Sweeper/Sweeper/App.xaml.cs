@@ -40,9 +40,7 @@ namespace Sweeper
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
-        {
-
-          
+        {    
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<GamePage, GamePageViewModel>();
@@ -54,11 +52,7 @@ namespace Sweeper
             var sgm = new SweeperGameModel(repo, settings, false);
             containerRegistry.GetContainer().RegisterInstance<ISweeperGameModel>(sgm);
 
-            var board = new BoardModel(repo,settings,false);
-            containerRegistry.GetContainer().RegisterInstance<IBoardModel>(board);
-
-            var game = new GameModel(repo, settings, board);
-            containerRegistry.GetContainer().RegisterInstance<IGameModel>(game);
+           
 
 
 

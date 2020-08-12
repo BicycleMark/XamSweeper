@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Controls\UniformGrid.cs" />
     <Compile Remove="Infrastructure\ISettings.cs" />
+    <Compile Remove="Models\Game\BoardModel.cs" />
+    <Compile Remove="Models\Game\GameModel.cs" />
     <Compile Remove="Models\Game\IGameModel.cs" />
   </ItemGroup>
 
