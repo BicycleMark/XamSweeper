@@ -1,3 +1,4 @@
+//#define OLD_CONSTRUCTOR
 using System;
 using System.Linq;
 using Prism;
@@ -37,7 +38,7 @@ namespace Sweeper.ViewModels
             get => _game;
             set => SetProperty(ref _game, value);
         }
-
+#if OLD_CONSTRUCTOR
         public GamePageViewModel(INavigationService navigationService, 
                                  ISettingsModel          settingsModel, 
                                  IBoardModel        board,
@@ -48,7 +49,7 @@ namespace Sweeper.ViewModels
             Board = board;
             Game = game;
         }
-/*
+#else
         public GamePageViewModel(INavigationService navigationService,
                                  ISettingsModel settingsModel,
                                  ISweeperGameModel sweeperGameModel) :
@@ -58,6 +59,7 @@ namespace Sweeper.ViewModels
             Board = sweeperGameModel.Board;
             Game = sweeperGameModel.Game;
         }
-*/
+#endif
+
     }
 }
