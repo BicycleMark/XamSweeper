@@ -50,7 +50,10 @@ namespace Sweeper
             var repo = new NullRepo();
             var settings = new SettingsModel(repo);
             containerRegistry.GetContainer().RegisterInstance<ISettingsModel>(settings);
-            
+
+            var sgm = new SweeperGameModel(repo, settings, false);
+            containerRegistry.GetContainer().RegisterInstance<ISweeperGameModel>(sgm);
+
             var board = new BoardModel(repo,settings,false);
             containerRegistry.GetContainer().RegisterInstance<IBoardModel>(board);
 

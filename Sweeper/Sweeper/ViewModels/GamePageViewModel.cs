@@ -48,5 +48,15 @@ namespace Sweeper.ViewModels
             Board = board;
             Game = game;
         }
+
+        //public GamePageViewModel(INavigationService navigationService,
+        //                         ISettingsModel settingsModel,
+        //                         ISweeperGameModel ) :
+        //                         base(navigationService)
+        //{
+        //    Settings = settingsModel;
+        //    Board = board;
+        //    Game = game;
+        //}
     }
 }

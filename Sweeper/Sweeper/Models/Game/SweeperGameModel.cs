@@ -7,7 +7,7 @@ using Timer = System.Timers.Timer;
 
 namespace Sweeper.Models.Game
 {
-    public class SweeperGameModel : BaseModel, IBoardModel, IGameModel
+    public class SweeperGameModel : BaseModel, IBoardModel, IGameModel, ISweeperGameModel
     {
         private Timer _timer;
         private bool loadedFromRepo;
@@ -19,7 +19,7 @@ namespace Sweeper.Models.Game
         private int _rows;
         public int Rows
         {
-            get { return _rows; }    
+            get { return _rows; }
             private set { SetProperty(ref _rows, value); }
         }
 
@@ -29,7 +29,7 @@ namespace Sweeper.Models.Game
             get { return _columns; }
             private set { SetProperty(ref _columns, value); }
         }
-    
+
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (!Settings.DisableTimerUpdatesForTesting &&
@@ -208,12 +208,12 @@ namespace Sweeper.Models.Game
         {
             get
             {
-                return Model.FirstOrDefault(p => p.GridPoint.R == r && 
+                return Model.FirstOrDefault(p => p.GridPoint.R == r &&
                                                  p.GridPoint.C == c);
             }
             set
             {
-                var item = Model.FirstOrDefault(p => p.GridPoint.R == r && 
+                var item = Model.FirstOrDefault(p => p.GridPoint.R == r &&
                                                      p.GridPoint.C == c);
                 item = value;
             }
@@ -284,7 +284,7 @@ namespace Sweeper.Models.Game
                 return !didLose;
             }
         }
-        
+
         private void InitializeBoard()
         {
             if (Model != null)
@@ -411,5 +411,5 @@ namespace Sweeper.Models.Game
                     break;
             }
         }
-    }    
+    }
 }
