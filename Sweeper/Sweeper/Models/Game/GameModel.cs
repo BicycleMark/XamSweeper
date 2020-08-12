@@ -159,6 +159,12 @@ namespace Sweeper.Models.Game
             get { return _disposed; }
         }
 
+        public IGameModel Game 
+        {
+            get { return this; }
+            //set { this = value; }
+        }
+
         bool _disposed = false;
         public void Dispose()
         {

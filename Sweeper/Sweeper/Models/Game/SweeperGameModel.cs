@@ -62,6 +62,13 @@ namespace Sweeper.Models.Game
             private set { _board = value; }
         }
 
+        IGameModel _game;
+        public IGameModel Game
+        {
+            get { return _game; }
+            private set { _game = value; }
+        }
+
         private ISettingsModel _settings;
         public ISettingsModel Settings { get => _settings; set => _settings = value; }
 
@@ -109,6 +116,7 @@ namespace Sweeper.Models.Game
             _timer.Elapsed += _timer_Elapsed;
             loadedFromRepo = loadFromRepo;
             Board = this;
+            Game = this;
             Rows = settings.Rows;
             Columns = settings.Columns;
             if (loadedFromRepo)

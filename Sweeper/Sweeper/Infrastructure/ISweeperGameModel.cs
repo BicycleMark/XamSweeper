@@ -1,13 +1,15 @@
 ﻿using Sweeper.Infrastructure;
+using Sweeper.Models.Game;
 using System.Collections.ObjectModel;
 
-namespace Sweeper.Models.Game
+namespace Sweeper.Infrastructure
 {
     public interface ISweeperGameModel
     {
         GamePieceModel this[int r, int c] { get; set; }
         bool AllCorrectlyFlagged { get; }
         IBoardModel Board { get; }
+        IGameModel Game { get; }
         int Columns { get; }
         bool Disposed { get; }
         GameStates GameState { get; set; }
