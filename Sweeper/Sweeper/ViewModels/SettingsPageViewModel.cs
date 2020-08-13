@@ -31,7 +31,7 @@ namespace Sweeper.ViewModels
         public SettingsPageViewModel(INavigationService navigationService, ISettingsModel settings) : base (navigationService)
         {
             SettingsModel = settings;
-            //SettingsModel.PropertyChanged += SettingsModel_PropertyChanged;
+            
         }
 
         private void SettingsModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

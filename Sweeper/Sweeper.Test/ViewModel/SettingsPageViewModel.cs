@@ -25,6 +25,7 @@ namespace Sweeper.Test.ViewModel
             var repo = new Moq.Mock<IPropertyRepository>();
             repo.SetupAllProperties();
             var settingsModel = new Moq.Mock<ISettingsModel>();
+            
             _viewModel = new SettingsPageViewModel(nav.Object, settingsModel.Object);
         }
 
@@ -32,7 +33,8 @@ namespace Sweeper.Test.ViewModel
         public void TestConstruction()
         {
 
-            Assert.IsTrue(true);
+            Assert.IsTrue(_viewModel.SettingsModel.ThemeNames.Count > 2);
+
         }
     }
 }

@@ -41,9 +41,16 @@ namespace Sweeper.Test.Models
         public void TestChangeGameType(GameTypes gameType, int expectedRows, int expectedColumns, int expectedMines)
         {
             _settingsModel.SelectedGameType = gameType;
+            Assert.AreEqual(gameType, _settingsModel.SelectedGameType);
             Assert.AreEqual(expectedRows, _settingsModel.Rows);
             Assert.AreEqual(expectedColumns, _settingsModel.Columns);
             Assert.AreEqual(expectedMines, _settingsModel.MineCount);
+            if (gameType == GameTypes.CUSTOM)
+            {
+                Assert.AreEqual(expectedRows, _settingsModel.CustomRows);
+                Assert.AreEqual(expectedColumns, _settingsModel.CustomColumns);
+                Assert.AreEqual(expectedMines, _settingsModel.CustomMines);
+            }
 
         }
         [DataRow(0,"Default")]
@@ -53,13 +60,20 @@ namespace Sweeper.Test.Models
         [DataRow(4,"Powder Puff")]
         [DataTestMethod()]
 
-        [TestMethod()]
+        
         public void TestChangeTheme(int ndxToSet, string expectedTheme)
         {
             _settingsModel.CurrentThemeIndex = ndxToSet;
             Assert.IsTrue(ndxToSet == _settingsModel.CurrentThemeIndex);
             Assert.Inconclusive();
             //Assert.IsTrue(_settingsModel.CurrentTheme.Equals( expectedTheme));
+        }
+
+        [TestMethod()]
+        public void TestChangeDisableTimer()
+        {
+            Assert.IsFalse(_settingsModel.DisableTimerUpdatesForTesting);
+           
         }
     }
   

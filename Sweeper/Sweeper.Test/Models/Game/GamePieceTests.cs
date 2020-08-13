@@ -93,5 +93,26 @@ namespace Sweeper.Test.Models
             Assert.IsFalse(gpm.IsFlagged);
            
         }
+
+
+        [DataRow(10,10,10)]
+       
+
+        [DataTestMethod]
+        public void Test_GridPoints(int r, int c, int m)
+        {
+
+           for (int i = 0; i < r; i++)
+            {
+                for (int j = 0; j < c; j++)
+                {
+                    var gpm = new GamePieceModel(i, j);
+                    Assert.AreEqual(i, gpm.GridPoint.R);
+                    Assert.AreEqual(j, gpm.GridPoint.C);
+                }
+
+            }
+
+        }
     }
 }

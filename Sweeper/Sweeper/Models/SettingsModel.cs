@@ -35,28 +35,23 @@ namespace Sweeper.Models
                     }
                 }
             }
-            //PropertyChanged += Changed;
+            
             SelectedGameType = GameTypes.BEGINNER;
-            CurrentThemeIndex = 0;
+            CurrentThemeIndex = 2;
         }
 
         private int _currentThemeIndex = 0;
         public int CurrentThemeIndex
         {
             get { return _currentThemeIndex; }
-            set { SetProperty(ref _currentThemeIndex, value, CurrentThemeIndexChanged); ; }
-        }
-
-        private void CurrentThemeIndexChanged()
-        {
-            RaisePropertyChanged(nameof(CurrentTheme));
+            set { SetProperty(ref _currentThemeIndex, value); ; }
         }
 
         List<string> _themeNames;
         public List<string> ThemeNames
         {
-            get => _themeNames;
-            private set => _themeNames = value;
+            get {return _themeNames;}
+            private set { SetProperty(ref _themeNames, value); }
         }
 
         public string CurrentTheme
@@ -120,8 +115,6 @@ namespace Sweeper.Models
             return true;
 
         }
-
-        
 
         int _customMines;
         public int CustomMines

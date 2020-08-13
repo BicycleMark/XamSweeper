@@ -182,7 +182,7 @@ namespace Sweeper.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BEGINNER,10,10,10|INTERMEDIATE,15,15,15|ADVANCED,20,20,20|CUSTOM,25,25,25.
+        ///   Looks up a localized string similar to BEGINNER,10,10,11|INTERMEDIATE,15,15,15|ADVANCED,20,20,20|CUSTOM,25,25,25.
         /// </summary>
         internal static string GameTypeDefs {
             get {

@@ -247,7 +247,7 @@ namespace Sweeper.Test.Models
         [TestMethod]
         public void TestConstruction()
         {
-            var _model = PrepareBoardWithMocks(10, 10, 10, false);
+            IGameModel _model = PrepareBoardWithMocks(10, 10, 10, false);
             Assert.AreEqual(0, _model.GameTime);
             Assert.AreEqual(GameStates.NOT_STARTED,_model.GameState);
             var p = _model.Model.First(m => m.ShownValue == GamePieceModel.PieceValues.BUTTON).GridPoint;
@@ -261,7 +261,8 @@ namespace Sweeper.Test.Models
         [TestMethod]
         public void Test_Lose()
         {
-            var _model = PrepareBoardWithMocks(10, 10, 10, true);
+
+            IGameModel _model = PrepareBoardWithMocks(10, 10, 10, true);
            
             Assert.AreEqual(GameStates.IN_PLAY, _model.GameState);
             var p = _model.Model.First(m => m.ItemValue == GamePieceModel.PieceValues.MINE).GridPoint;
@@ -275,7 +276,7 @@ namespace Sweeper.Test.Models
         [TestMethod]
         public void Test_GetBoardProp()
         {
-            var _model = PrepareBoardWithMocks(10, 10, 10, true);
+            IGameModel _model = PrepareBoardWithMocks(10, 10, 10, true);
 
             Assert.AreEqual(GameStates.IN_PLAY, _model.GameState);
             Assert.IsNotNull(_model.Board);
@@ -287,7 +288,7 @@ namespace Sweeper.Test.Models
         [TestMethod]
         public void TestDispose()
         {
-            var _model = PrepareBoardWithMocks(10, 10, 10, true);
+            IGameModel _model = PrepareBoardWithMocks(10, 10, 10, true).Game;
             Assert.IsFalse(_model.Disposed);
             _model.Dispose();
             Assert.IsTrue(_model.Disposed);
@@ -325,7 +326,7 @@ namespace Sweeper.Test.Models
         [TestMethod]
         public void Test_Game_From_Initialized_To_INPLAY_And_Check_Timer_Started()
         {
-            var _model = PrepareBoardWithMocks(10, 10, 10, playFirstRandomPiece: false);
+            IGameModel _model = PrepareBoardWithMocks(10, 10, 10, playFirstRandomPiece: false);
             int secondsInPlay = 0;
             Assert.AreEqual(GameStates.NOT_STARTED, _model.GameState);
             Assert.AreEqual(0, _model.GameTime);
@@ -344,7 +345,7 @@ namespace Sweeper.Test.Models
         [DataTestMethod]
         public void Test_Play_In_InvalidState_That_Exception_Is_Thrown_When_Intended(GameStates gameState, bool shouldThrow)
         {
-            var _model = PrepareBoardWithMocks(10, 10, 10, playFirstRandomPiece: false);
+            IGameModel _model = PrepareBoardWithMocks(10, 10, 10, playFirstRandomPiece: false);
             _model.GameState = gameState;
             bool exceptionThrew = false;
             try
@@ -372,7 +373,7 @@ namespace Sweeper.Test.Models
         [DataTestMethod]
         public void Test_Time_Out(int initialGameTime, bool shouldFail)
         {
-            var _model = PrepareBoardWithMocks(10, 10, 10, playFirstRandomPiece: false,  true);
+            IGameModel _model = PrepareBoardWithMocks(10, 10, 10, playFirstRandomPiece: false,  true);
 
 
             _model.GameTime = initialGameTime;
