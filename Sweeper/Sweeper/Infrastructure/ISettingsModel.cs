@@ -7,9 +7,12 @@ namespace Sweeper.Infrastructure
     {
         int Rows { get; }
         int Columns { get; }
-        GameTypes SelectedGameType { get; set; }
-        int CurrentThemeIndex { get; set; }
-        string CurrentTheme { get;  }
+        // GameTypes SelectedGameType { get; set; }
+        List<GameDefintion> GameDefinitions { set; get; }
+        GameDefintion SelectedGameDefinition { get; set; }
+
+        List<string> Themes { get; set; }
+        string CurrentTheme { get; set; }
         int CustomColumns { get; set; }
         int CustomMines { get; set; }
         int CustomRows { get; set; }
@@ -17,7 +20,7 @@ namespace Sweeper.Infrastructure
 
         bool DisableTimerUpdatesForTesting { get; }
         
-        List<string> ThemeNames { get; }
+       
         bool Load();
         bool Save();
         

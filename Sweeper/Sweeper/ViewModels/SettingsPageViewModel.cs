@@ -30,16 +30,8 @@ namespace Sweeper.ViewModels
        
         public SettingsPageViewModel(INavigationService navigationService, ISettingsModel settings) : base (navigationService)
         {
-            SettingsModel = settings;
-            
+            SettingsModel = settings;          
         }
-
-        private void SettingsModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            RaisePropertyChanged(e.PropertyName);
-        }
-
-      
 
         public bool Load()
         {

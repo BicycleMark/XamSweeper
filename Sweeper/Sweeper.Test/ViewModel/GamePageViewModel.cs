@@ -34,7 +34,28 @@ namespace Sweeper.Test.ViewModel
         [TestMethod]
         public void TestConstruction()
         {
+            var gm = _viewModel.Game;
+            var bm = _viewModel.Board;
+
            
+        }
+
+        [TestMethod]
+        public void TestIsActive()
+        {
+            _viewModel.IsActive = true;
+            Assert.IsTrue(_viewModel.IsActive == true);
+            _viewModel.IsActive = false;
+            Assert.IsTrue(_viewModel.IsActive == false);
+
+        }
+
+        [TestMethod]
+        public void Test_HasSettings()
+        {
+            Assert.IsNotNull(_viewModel.Settings );
+           
+
         }
     }
 }

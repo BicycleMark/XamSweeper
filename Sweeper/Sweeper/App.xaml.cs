@@ -46,7 +46,8 @@ namespace Sweeper
             containerRegistry.RegisterForNavigation<GamePage, GamePageViewModel>();
             containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
             var repo = new NullRepo();
-            var settings = new SettingsModel(repo);
+            var provider = new ResouceSettingsProvider();
+            var settings = new SettingsModel(repo,provider);
             containerRegistry.GetContainer().RegisterInstance<ISettingsModel>(settings);
 
             var sgm = new SweeperGameModel(repo, settings, false);

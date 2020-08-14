@@ -12,8 +12,9 @@ namespace Sweeper.Infrastructure
         IBoardModel Board { get; }
         IGameModel Game { get; }
         ObservableCollection<GamePieceModel> Model { get; }
-        ISettingsModel Settings { get; set; }  
+        ISettingsModel Settings { get; set; }
         GameStates GameState { get; set; }
+        
         int GameTime { get; set; }
         int MineCount { get;  }
         int RemainingMines { get; }

@@ -9,13 +9,26 @@ namespace Sweeper.Models
 {
     public class SettingsModel : BaseModel, ISettingsModel
     {
-
-        public SettingsModel(IPropertyRepository repo) : base(repo)
+        
+        public SettingsModel(IPropertyRepository repo, ISettingsProvider provider) : base(repo)
         {
-            ThemeNames = new List<string>();
-            ThemeNames = Resources.Sweeper.Themes.Split(',').ToList<string>();
-            GameDefinitions = new ObservableCollection<GameDefintion>();
-            var gameDefString = Resources.Sweeper.GameTypeDefs;
+            if (provider == null || String.IsNullOrEmpty(provider.DefinitionsSource) || string.IsNullOrEmpty(provider.ThemeSource ))
+            {
+                throw new ArgumentException("provider cannot be null");
+            }    
+            Themes = new List<string>();
+           
+            Themes = provider.ThemeSource.Split(',').ToList<string>();
+            if (Themes.Count < 2)
+            {
+                throw new ArgumentException(Resources.Sweeper.ExceptionGameDefsMustHave4Definitions);
+            }
+
+            GameDefinitions = new List<GameDefintion>();
+            //var gameDefString = Resources.Sweeper.GameTypeDefs;
+            var gameDefString = provider.DefinitionsSource;
+          
+
             var defs = gameDefString.Split('|');
             foreach (var def in defs)
             {
@@ -23,7 +36,7 @@ namespace Sweeper.Models
                     var fields = def.Split(',');
                     if (fields.Length != 4)
                     {
-                        throw new Exception(Resources.Sweeper.ExceptionGameDefsMustHave4Definitions);
+                        throw new ArgumentException (Resources.Sweeper.ExceptionGameDefsMustHave4Definitions);
                     }
                     else
                     {           
@@ -32,75 +45,73 @@ namespace Sweeper.Models
                                                                       c: Int32.Parse(fields[2]),
                                                                       m: Int32.Parse(fields[3]),
                                                                    name: fields[0]));   
-                    }
-                }
+                    }                 
+                }      
             }
-            
-            SelectedGameType = GameTypes.BEGINNER;
-            CurrentThemeIndex = 2;
+            SelectedGameDefinition = GameDefinitions.First();
+            CurrentTheme = "Default";
+            var custom = GameDefinitions.FirstOrDefault(m => m.Type == GameTypes.CUSTOM);
+            CustomMines = custom.Mines;
+            CustomRows = custom.Rows;
+            CustomColumns = custom.Columns;
         }
 
-        private int _currentThemeIndex = 0;
-        public int CurrentThemeIndex
+        List<string> _themes;
+        public List<string> Themes
         {
-            get { return _currentThemeIndex; }
-            set { SetProperty(ref _currentThemeIndex, value); ; }
+            get {return _themes; }
+            set { SetProperty(ref _themes, value); }
         }
 
-        List<string> _themeNames;
-        public List<string> ThemeNames
-        {
-            get {return _themeNames;}
-            private set { SetProperty(ref _themeNames, value); }
-        }
-
+        private string _currentTheme;
         public string CurrentTheme
         {
-            get { return _themeNames.ToArray()[_currentThemeIndex]; }
+            get { return _currentTheme; }
+            set { SetProperty(ref _currentTheme, value); }
         }
 
         #region GameTypes
-        ObservableCollection<GameDefintion> _gameDefinitions;
-        public ObservableCollection<GameDefintion> GameDefinitions
+        List<GameDefintion> _gameDefinitions;
+        public List<GameDefintion> GameDefinitions
         {
             get { return _gameDefinitions; }
             set { SetProperty(ref _gameDefinitions, value); }
         }
 
-        private GameTypes _gameType = GameTypes.BEGINNER;
-        GameTypes _selectedGameType;
-        public GameTypes SelectedGameType
+        private GameDefintion _selectedGameDefinition;
+        public GameDefintion SelectedGameDefinition
         {
-            get { return _selectedGameType; }
-            set { SetProperty(ref _selectedGameType, value, SetGameType); }
+            get { return _selectedGameDefinition; }
+            set { SetProperty(ref _selectedGameDefinition, value); }
         }
 
-        private void SetGameType()
-        {
-            RaisePropertyChanged(nameof(MineCount));
-            RaisePropertyChanged(nameof(Rows));
-            RaisePropertyChanged(nameof(Columns));
-            if (_selectedGameType == GameTypes.CUSTOM)
-            {
-                this.CustomMines = this.GameDefinitions[(int)GameTypes.CUSTOM].Mines;
-                this.CustomRows = this.GameDefinitions[(int)GameTypes.CUSTOM].Rows;
-                this.CustomColumns = this.GameDefinitions[(int)GameTypes.CUSTOM].Cols;
-            }
-        }
+        //private void SetGameType()
+        //{  
+        //    RaisePropertyChanged(nameof(MineCount));
+        //    RaisePropertyChanged(nameof(Rows));
+        //    RaisePropertyChanged(nameof(Columns));   
+        //}
 
         public int MineCount
         {
-            get { return GameDefinitions[(int)_selectedGameType].Mines; }
+            get {
+                return    
+                  SelectedGameDefinition.Mines;
+            }
         }
 
         public int Rows
         {
-            get { return GameDefinitions[(int)_selectedGameType].Rows; }
+            get {
+                return SelectedGameDefinition.Rows;
+            }
         }
 
         public int Columns
         {
-            get { return GameDefinitions[(int)_selectedGameType].Cols; }
+            get {
+                return SelectedGameDefinition.Columns;            
+            }
         }
         #endregion
 

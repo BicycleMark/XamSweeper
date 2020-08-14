@@ -11,18 +11,20 @@ namespace Sweeper.Infrastructure
         ADVANCED,
         CUSTOM
     }
-    public struct GameDefintion
+    public class GameDefintion
     {
 
         public string Name { get; set; }
         public GameTypes Type { get; set; }
-        public int Rows, Cols, Mines;
+        public int Rows { get; set; }
+        public int Columns {get; set;}
+        public int Mines{get;set;}
         public GameDefintion(GameTypes type, int r, int c, int m, string name = null)
         {
             Type = type;
             Name = name;
             Rows = r;
-            Cols = c;
+            Columns = c;
             Mines = m;
         }
     }
