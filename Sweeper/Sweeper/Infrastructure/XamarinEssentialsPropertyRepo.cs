@@ -22,172 +22,172 @@ namespace Sweeper.Infrastructure
 
         public string GetPrivatePreferencesSharedName(string feature)
         {
-            throw new NotImplementedException();
+            return $"{AppInfo.PackageName}.xamarinessentials.{feature}";
         }
 
         public bool ContainsKey(string key)
         {
-            throw new NotImplementedException();
+            return Preferences.ContainsKey(key);
         }
 
         public void Remove(string key)
         {
-            throw new NotImplementedException();
+            Preferences.Remove(key);
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            Preferences.Clear();
         }
 
         public string Get(string key, string defaultValue)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue);
         }
 
         public bool Get(string key, bool defaultValue)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue);
         }
 
         public int Get(string key, int defaultValue)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue);
         }
 
         public double Get(string key, double defaultValue)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue); 
         }
 
         public float Get(string key, float defaultValue)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue);
         }
 
         public long Get(string key, long defaultValue)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue);
         }
 
         public void Set(string key, string value)
         {
-            throw new NotImplementedException();
+            Preferences.Get(key, value);
         }
 
         public void Set(string key, bool value)
         {
-            throw new NotImplementedException();
+            Preferences.Get(key, value);
         }
 
         public void Set(string key, int value)
         {
-            throw new NotImplementedException();
+            Preferences.Get(key, value);
         }
 
         public void Set(string key, double value)
         {
-            throw new NotImplementedException();
+            Preferences.Get(key, value);
         }
 
         public void Set(string key, float value)
         {
-            throw new NotImplementedException();
+            Preferences.Get(key, value);
         }
 
         public void Set(string key, long value)
         {
-            throw new NotImplementedException();
+            Preferences.Get(key, value);
         }
 
         public bool ContainsKey(string key, string sharedName)
         {
-            throw new NotImplementedException();
+            return Preferences.ContainsKey(key, sharedName);
         }
 
         public void Remove(string key, string sharedName)
         {
-            throw new NotImplementedException();
+            Preferences.Remove(key, sharedName);
         }
 
         public void Clear(string sharedName)
         {
-            throw new NotImplementedException();
+            Preferences.Clear(sharedName);
         }
 
         public string Get(string key, string defaultValue, string sharedName)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue, sharedName);
         }
 
         public bool Get(string key, bool defaultValue, string sharedName)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue, sharedName);
         }
 
         public int Get(string key, int defaultValue, string sharedName)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue, sharedName);
         }
 
         public double Get(string key, double defaultValue, string sharedName)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue, sharedName);
         }
 
         public float Get(string key, float defaultValue, string sharedName)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue, sharedName);
         }
 
         public long Get(string key, long defaultValue, string sharedName)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue, sharedName);
         }
 
         public void Set(string key, string value, string sharedName)
         {
-            throw new NotImplementedException();
+            Preferences.Set(key, value, sharedName);
         }
 
         public void Set(string key, bool value, string sharedName)
         {
-            throw new NotImplementedException();
+            Preferences.Set(key, value, sharedName);
         }
 
         public void Set(string key, int value, string sharedName)
         {
-            throw new NotImplementedException();
+            Preferences.Set(key, value, sharedName);
         }
 
         public void Set(string key, double value, string sharedName)
         {
-            throw new NotImplementedException();
+            Preferences.Set(key, value, sharedName);
         }
 
         public void Set(string key, float value, string sharedName)
         {
-            throw new NotImplementedException();
+            Preferences.Set(key, value, sharedName);
         }
 
         public void Set(string key, long value, string sharedName)
         {
-            throw new NotImplementedException();
+            Preferences.Set(key, value, sharedName);
         }
 
         public DateTime Get(string key, DateTime defaultValue)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue);
         }
 
         public void Set(string key, DateTime value)
         {
-            throw new NotImplementedException();
+            Preferences.Set(key, value);
         }
 
         public DateTime Get(string key, DateTime defaultValue, string sharedName)
         {
-            throw new NotImplementedException();
+            return Preferences.Get(key, defaultValue, sharedName);
         }
 
         public void Set(string key, DateTime value, string sharedName)
