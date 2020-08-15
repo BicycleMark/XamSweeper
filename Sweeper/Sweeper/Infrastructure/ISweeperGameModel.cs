@@ -25,7 +25,7 @@ namespace Sweeper.Infrastructure
         bool Play(GridPoint gp);
         GameStates Play(int r, int c);
         void Resize(ISettingsModel settings);
-        void Save();
+        
         GamePieceModel.PieceValues ToggleFlag(GridPoint gp);
         GameStates ToggleFlag(int r, int c);
     }

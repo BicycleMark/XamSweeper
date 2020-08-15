@@ -122,7 +122,7 @@ namespace Sweeper.Models.Game
             if (loadedFromRepo)
             {
                 throw new NotImplementedException("TODO Add Load From Repo F(x)");
-                object obj = repo.LoadProperty(nameof(Model));
+               // object obj = repo.LoadProperty(nameof(Model));
             }
             else
             {
@@ -207,11 +207,7 @@ namespace Sweeper.Models.Game
             InitializeBoard();
         }
 
-        public void Save()
-        {
-            Repo.SaveProperty(nameof(Model), Model);
-        }
-
+       
         public GamePieceModel this[int r, int c]
         {
             get
