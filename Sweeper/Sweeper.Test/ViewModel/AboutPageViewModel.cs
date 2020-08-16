@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Navigation;
+using Sweeper.Infrastructure;
 using Sweeper.ViewModels;
 
 
@@ -13,12 +14,23 @@ namespace Sweeper.Test.ViewModel
         public void SetUp()
         {
             var nav = new Moq.Mock<INavigationService>();
-            _viewModel = new AboutPageViewModel(nav.Object);
+            var aboutmodel = new Moq.Mock<IAboutModel>();
+            _viewModel = new AboutPageViewModel(nav.Object,aboutmodel.Object);
         }
         [TestMethod]
         public void TestConstruction()
         {
-            Assert.Inconclusive();
+            //Assert.IsNotNull(_viewModel.)
+            Assert.IsNotNull(_viewModel.AboutModel);
+        }
+
+        [TestMethod]
+        public void TestIsActive()
+        {
+            _viewModel.IsActive = true;
+            Assert.IsTrue(_viewModel.IsActive == true);
+            _viewModel.IsActive = false;
+            Assert.IsTrue(_viewModel.IsActive == false);
         }
     }
 }

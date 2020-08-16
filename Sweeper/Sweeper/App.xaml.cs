@@ -11,6 +11,7 @@ using Sweeper.Infrastructure;
 using Unity.Lifetime;
 using System.Threading.Tasks;
 using Sweeper.Models.Game;
+using Xamarin.Essentials;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Sweeper
@@ -45,25 +46,25 @@ namespace Sweeper
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<GamePage, GamePageViewModel>();
             containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
-            var repo = new NullRepo();
+            containerRegistry.RegisterForNavigation<AboutPage, AboutPageViewModel>();
+
+            var repo = new XamarinEssentialsPropertyRepo();
             var provider = new ResouceSettingsProvider();
             var settings = new SettingsModel(repo,provider);
-            containerRegistry.GetContainer().RegisterInstance<ISettingsModel>(settings);
-
+            var appInfo = new XamarinEsentialsAppInfo();  
             var sgm = new SweeperGameModel(repo, settings, false);
+            var aboutmodel = new AboutModel(appInfo);
+
+            containerRegistry.GetContainer().RegisterInstance<ISettingsProvider>(provider);
+            containerRegistry.GetContainer().RegisterInstance<IAppInfo>(appInfo);
+            containerRegistry.GetContainer().RegisterInstance<IAboutModel>(aboutmodel);
+            containerRegistry.GetContainer().RegisterInstance<ISettingsModel>(settings);
             containerRegistry.GetContainer().RegisterInstance<ISweeperGameModel>(sgm);
-
-           
-
-
-
         }
 
         private static IInstanceLifetimeManager GetSingleton()
         {
             return InstanceLifetime.Singleton;
-        }
-        
-       
+        }    
     }
 }

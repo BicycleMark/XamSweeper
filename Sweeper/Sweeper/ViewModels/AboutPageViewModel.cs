@@ -4,6 +4,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Sweeper.Infrastructure;
+using Sweeper.Models;
 
 namespace Sweeper.ViewModels
 {
@@ -15,9 +16,11 @@ namespace Sweeper.ViewModels
 #pragma warning restore 67
 
         public bool IsActive { get; set; }
+        public IAboutModel AboutModel { get; private set; }
 
-        public AboutPageViewModel(INavigationService navigationService) : base (navigationService)
+        public AboutPageViewModel(INavigationService navigationService, IAboutModel aboutModel) : base (navigationService)
         {
+            AboutModel = aboutModel;
         }
     }
 }

@@ -7,12 +7,14 @@ using System.Text;
 
 namespace Sweeper.Models
 {
-    public class AboutModel : BindableBase
+   
+    public class AboutModel : BindableBase, IAboutModel
     {
-        public Version Version { get; }
-        public AboutModel() 
+        public IAppInfo AppInfo { get; private set; }
+
+        public AboutModel(IAppInfo appInfo)
         {
-           
+            AppInfo = appInfo;
 
         }
     }

@@ -8,17 +8,16 @@ namespace Sweeper.Infrastructure
 {
     public class XamarinEssentialsPropertyRepo : IPropertyRepository
     {
-        public bool LoadOnCreate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool LoadOnGet { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool SaveOnSet { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public XamarinEssentialsPropertyRepo(bool loadOnCreate, bool loadOnGet, bool saveOnSet)
+        public bool LoadOnCreate { get; set; }
+        public bool LoadOnGet { get; set; }
+        public bool SaveOnSet { get; set; }
+        public XamarinEssentialsPropertyRepo(bool loadOnCreate = false, bool loadOnGet = false , bool saveOnSet = false)
         {
             LoadOnCreate = loadOnCreate;
             LoadOnGet = loadOnGet;
             SaveOnSet = SaveOnSet;
-
         }
+     
 
         public string GetPrivatePreferencesSharedName(string feature)
         {
@@ -192,7 +191,7 @@ namespace Sweeper.Infrastructure
 
         public void Set(string key, DateTime value, string sharedName)
         {
-            throw new NotImplementedException();
+            Preferences.Set(key, value, sharedName);
         }
     }
 }
