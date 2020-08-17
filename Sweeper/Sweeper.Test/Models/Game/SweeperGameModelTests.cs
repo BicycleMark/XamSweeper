@@ -389,9 +389,23 @@ namespace Sweeper.Test.Models
             else
                 Assert.AreEqual(GameStates.IN_PLAY, playVal);
         }
+        [DataRow(10, 10, 10)]
+        [DataRow(15, 15, 15)]
+        [DataRow(20, 20, 20)]
+        [DataTestMethod]
 
+        public void Test_RowItems(int r, int c, int m)
+        {
+            IGameModel _model = PrepareBoardWithMocks(r,m,c, playFirstRandomPiece: false);
+            Assert.IsNotNull(_model.RowItems);
+            Assert.AreEqual(r, _model.RowItems.Count);
+            foreach (var rw in _model.RowItems )
+            {
+                Assert.AreEqual(c, rw.Count);
 
-
+            }
+        }
     }
+  
 }
 

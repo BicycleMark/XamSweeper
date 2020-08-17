@@ -17,7 +17,6 @@ namespace Sweeper.Models.Game
         }
       
     }
-
     public class GamePieceModel : BindableBase
     {
         public enum PieceValues
@@ -71,6 +70,11 @@ namespace Sweeper.Models.Game
                             value,
                             notifyRelatedProperties);
             }
+        }
+
+        public string Name
+        {
+            get { return $"[{GridPoint.R},{GridPoint.C}]"; }
         }
 
         private void notifyRelatedProperties()

@@ -1,8 +1,10 @@
 ﻿using Sweeper.Infrastructure;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Timers;
+using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 using Timer = System.Timers.Timer;
 
 namespace Sweeper.Models.Game
@@ -60,6 +62,22 @@ namespace Sweeper.Models.Game
         {
             get { return _board; }
             private set { _board = value; }
+        }
+
+        public List<List<GamePieceModel>> RowItems
+        {
+            get { List<List<GamePieceModel>> lst = new List<List<GamePieceModel>>();
+                  for(int r= 0; r < Rows; r++ )
+                  {
+                    List<GamePieceModel> row = new List<GamePieceModel>();
+                    for (int c = 0; c < Columns; c++)
+                    {
+                        row.Add(this[r, c]);
+                    }
+                    lst.Add(row);
+                  }
+                  return lst;
+                }  
         }
 
         IGameModel _game;
@@ -303,6 +321,7 @@ namespace Sweeper.Models.Game
             Columns = _settings.Columns;
             for (int r = 0; r < _settings.Rows; r++)
             {
+               
                 for (int c = 0; c < _settings.Columns; c++)
                 {
                     Model.Add(new GamePieceModel(r, c));

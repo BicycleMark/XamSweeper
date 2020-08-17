@@ -5,17 +5,13 @@
     xmlns:prism="http://prismlibrary.com"
     prism:ViewModelLocator.AutowireViewModel="True"
 	xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    xmlns:local="clr-namespace:Sweeper.Views;assembly=Sweeper"
-    x:Class="Sweeper.Views.GamePage"
-    
+    xmlns:local="clr-namespace:Sweeper.Controls;assembly=Sweeper"
+    x:Class="Sweeper.Views.GamePage"    
     Title="Game">
     <ContentPage.Resources>
         <ResourceDictionary>
-
         </ResourceDictionary>
     </ContentPage.Resources>
-
-
     <yummy:PancakeView BackgroundColor="DarkSeaGreen" CornerRadius="15" Padding="15">
         <Grid RowDefinitions="*,3*">
             <yummy:PancakeView Grid.Row="0" Padding="0">
@@ -25,31 +21,13 @@
                     </Frame>
                     <Frame Grid.Column="1">
                         <Button Text="Ok"></Button>
-
                     </Frame>
                     <Frame Grid.Column="2">
                         <Label HorizontalOptions="Center" VerticalOptions="Center" Text="{Binding Game.Time}"/>
                     </Frame>
-
                 </Grid>
-
             </yummy:PancakeView>
-            <Frame Grid.Row="1" x:Name="frameButtons" Padding="4" >
-                <RelativeLayout>
-                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" Spacing="4">
-                    <yummy:PancakeView Padding="0"  >
-                            <Button BackgroundColor="LightGray" Text="Ok"   />
-                    </yummy:PancakeView >
-                        <yummy:PancakeView Padding="0"  >
-                            <Button  BackgroundColor="LightGray" Text="12"  />
-                    </yummy:PancakeView>
-                
-                    </StackLayout>
-                </RelativeLayout>
 
-            </Frame>
         </Grid>
     </yummy:PancakeView>
-
-
 </ContentPage>

@@ -11,6 +11,7 @@ namespace Sweeper.Infrastructure
     {
         IBoardModel Board { get; }
         IGameModel Game { get; }
+        List<List<GamePieceModel>> RowItems { get; }
         ObservableCollection<GamePieceModel> Model { get; }
         ISettingsModel Settings { get; set; }
         GameStates GameState { get; set; }
