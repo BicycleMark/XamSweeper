@@ -5,15 +5,24 @@ namespace Sweeper.Infrastructure
 {
     public interface ISettingsModel
     {
-        int Columns { get; }
-        SettingsModel.GameTypes GameType { get; }
-        int MineCount { get; }
         int Rows { get; }
-        List<SettingsModel.standardMode> StandardSettings { get; set; }
-        string Theme { get; set; }
-        List<string> Themes { get; set; }
+        int Columns { get; }
+        // GameTypes SelectedGameType { get; set; }
+        List<GameDefintion> GameDefinitions { set; get; }
+        GameDefintion SelectedGameDefinition { get; set; }
 
+        List<string> Themes { get; set; }
+        string CurrentTheme { get; set; }
+        int CustomColumns { get; set; }
+        int CustomMines { get; set; }
+        int CustomRows { get; set; }
+        int MineCount { get; }
+
+        bool DisableTimerUpdatesForTesting { get; }
+        
+       
         bool Load();
         bool Save();
+        
     }
 }

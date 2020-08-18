@@ -9,8 +9,6 @@ namespace Sweeper.ViewModels
 {
     public class MainPageViewModel : AppMapViewModelBase
     {
-
-
         public MainPageViewModel(INavigationService navigationService) : base (navigationService)
         {
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Prism;
 using Prism.Commands;
@@ -13,18 +14,33 @@ namespace Sweeper.ViewModels
 {
     public class SettingsPageViewModel : AppMapViewModelBase, IActiveAware
     {
-
+        IPropertyRepository _propertyRepository;
 #pragma warning disable 67
         public event EventHandler IsActiveChanged;
 #pragma warning restore 67
 
         public bool IsActive { get; set; }
 
-        Sweeper.Models.SettingsModel SettingsModel;
-        public SettingsPageViewModel(INavigationService navigationService) : base (navigationService)
+        ISettingsModel _settingsModel;
+        public ISettingsModel SettingsModel
         {
-           
-            SettingsModel = App.Current.Container.Resolve<SettingsModel>();
+            get => _settingsModel;
+            set { SetProperty(ref _settingsModel, value); }
+        }
+       
+        public SettingsPageViewModel(INavigationService navigationService, ISettingsModel settings) : base (navigationService)
+        {
+            SettingsModel = settings;          
+        }
+
+        public bool Load()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Save()
+        {
+            throw new NotImplementedException();
         }
     }
 }

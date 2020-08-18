@@ -9,6 +9,9 @@ using Prism.Unity;
 using Unity;
 using Sweeper.Infrastructure;
 using Unity.Lifetime;
+using System.Threading.Tasks;
+using Sweeper.Models.Game;
+using Xamarin.Essentials;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Sweeper
@@ -38,25 +41,30 @@ namespace Sweeper
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
-        {
-
-           // ContainerRegistry = containerRegistry;
+        {    
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<GamePage, GamePageViewModel>();
             containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
-            containerRegistry.RegisterSingleton<SettingsModel>();
-            var instance = new SettingsModel();
+            containerRegistry.RegisterForNavigation<AboutPage, AboutPageViewModel>();
 
-            this.Container.GetContainer().RegisterInstance<ISettingsModel>(instance);
-            var s = Container.GetContainer().Resolve<ISettingsModel>();
-           
+            var repo = new XamarinEssentialsPropertyRepo();
+            var provider = new ResouceSettingsProvider();
+            var settings = new SettingsModel(repo,provider);
+            var appInfo = new XamarinEsentialsAppInfo();  
+            var sgm = new SweeperGameModel(repo, settings, false);
+            var aboutmodel = new AboutModel(appInfo);
 
+            containerRegistry.GetContainer().RegisterInstance<ISettingsProvider>(provider);
+            containerRegistry.GetContainer().RegisterInstance<IAppInfo>(appInfo);
+            containerRegistry.GetContainer().RegisterInstance<IAboutModel>(aboutmodel);
+            containerRegistry.GetContainer().RegisterInstance<ISettingsModel>(settings);
+            containerRegistry.GetContainer().RegisterInstance<ISweeperGameModel>(sgm);
         }
 
         private static IInstanceLifetimeManager GetSingleton()
         {
             return InstanceLifetime.Singleton;
-        }
+        }    
     }
 }

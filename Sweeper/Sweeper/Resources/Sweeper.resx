@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExceptionCannotPlaceMinesFromBoardLoadedFromRepo" xml:space="preserve">
+    <value>You cannot randomly place mines when game-board is loaded from repository.</value>
+  </data>
+  <data name="ExceptionExcludePointIsOutOfBounds" xml:space="preserve">
+    <value>Exclude point is outside the bounds of the board.</value>
+  </data>
+  <data name="ExceptionGameDefsMustHave4Definitions" xml:space="preserve">
+    <value>You are required to have at least 4 Game Definitions</value>
+  </data>
   <data name="ExceptionInvalidArguments" xml:space="preserve">
     <value />
   </data>
@@ -132,6 +141,18 @@
   </data>
   <data name="face_wink" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>svg\face-wink.svg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="GameMaxTime" xml:space="preserve">
+    <value>1000</value>
+  </data>
+  <data name="GameTypeDefs" xml:space="preserve">
+    <value>BEGINNER,10,10,10|INTERMEDIATE,15,15,15|ADVANCED,20,20,20|CUSTOM,25,25,25</value>
+  </data>
+  <data name="InvalidBoardOperationException" xml:space="preserve">
+    <value>Cannot Play any pieces when a mine was previously selected. </value>
+  </data>
+  <data name="InvalidGamePlayOperationMustBeInGameStateNOT_STARTED_OR_INPLAY" xml:space="preserve">
+    <value>The Game must be in GameState NOT_STARTED or IN_PLAY</value>
   </data>
   <data name="tango_face_sad" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>svg\tango-face-sad.svg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>

@@ -7,13 +7,16 @@
 	xmlns:local="clr-namespace:Sweeper.Views;assembly=Sweeper"
     x:Class="Sweeper.Views.SettingsPage"
     Title="Settings">
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+        <Label Text="{Binding SettingsModel.SelectedGameDefinition.Name}"/>
+        <Label Text="{Binding SettingsModel.SelectedGameDefinition.Rows}"/>
+        <Label Text="{Binding SettingsModel.SelectedGameDefinition.Columns}"/>
+        <Label Text="{Binding SettingsModel.SelectedGameDefinition.Mines}"/>
 
-
-
-	  <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-          <Label Text="SettingsPage" VerticalOptions="Center" HorizontalOptions="Center" />
-			  </StackLayout>
-    
-
+        <Picker ItemsSource="{Binding SettingsModel.GameDefinitions}" 
+                ItemDisplayBinding="{Binding Name}" 
+                VerticalOptions="Center" HorizontalOptions="Center" 
+                SelectedItem="{Binding SettingsModel.SelectedGameDefinition, Mode=TwoWay}"/>
+    </StackLayout>
 </ContentPage>
 

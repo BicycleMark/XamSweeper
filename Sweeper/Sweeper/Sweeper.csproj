@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controls\UniformGrid.cs" />
+    <Compile Remove="Controls\UniformGrid-WPF.cs" />
+    <Compile Remove="Infrastructure\ISettings.cs" />
+    <Compile Remove="Infrastructure\Preference.cs" />
+    <Compile Remove="Models\Game\BoardModel.cs" />
+    <Compile Remove="Models\Game\GameModel.cs" />
+    <Compile Remove="Models\Game\IGameModel.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,13 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Controls\UniformGrid.cs" />
+    <None Include="Controls\UniformGrid-WPF.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1239" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.2.0.1422" />
-    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.0.1.698" />
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.1.0.714" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,17 +36,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\Resources.Designer.cs">
+    <Compile Update="Resources\Sweeper.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>Sweeper.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\Resources.resx">
+    <EmbeddedResource Update="Resources\Sweeper.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Sweeper.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

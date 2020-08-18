@@ -22,14 +22,14 @@ namespace Sweeper.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class Sweeper {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Sweeper() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Sweeper.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sweeper.Resources.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sweeper.Resources.Sweeper", typeof(Sweeper).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,33 @@ namespace Sweeper.Resources {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You cannot randomly place mines when game-board is loaded from repository..
+        /// </summary>
+        internal static string ExceptionCannotPlaceMinesFromBoardLoadedFromRepo {
+            get {
+                return ResourceManager.GetString("ExceptionCannotPlaceMinesFromBoardLoadedFromRepo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exclude point is outside the bounds of the board..
+        /// </summary>
+        internal static string ExceptionExcludePointIsOutOfBounds {
+            get {
+                return ResourceManager.GetString("ExceptionExcludePointIsOutOfBounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are required to have at least 4 Game Definitions.
+        /// </summary>
+        internal static string ExceptionGameDefsMustHave4Definitions {
+            get {
+                return ResourceManager.GetString("ExceptionGameDefsMustHave4Definitions", resourceCulture);
             }
         }
         
@@ -142,6 +169,42 @@ namespace Sweeper.Resources {
         internal static string face_wink {
             get {
                 return ResourceManager.GetString("face_wink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1000.
+        /// </summary>
+        internal static string GameMaxTime {
+            get {
+                return ResourceManager.GetString("GameMaxTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BEGINNER,10,10,10|INTERMEDIATE,15,15,15|ADVANCED,20,20,20|CUSTOM,25,25,25.
+        /// </summary>
+        internal static string GameTypeDefs {
+            get {
+                return ResourceManager.GetString("GameTypeDefs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot Play any pieces when a mine was previously selected. .
+        /// </summary>
+        internal static string InvalidBoardOperationException {
+            get {
+                return ResourceManager.GetString("InvalidBoardOperationException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Game must be in GameState NOT_STARTED or IN_PLAY.
+        /// </summary>
+        internal static string InvalidGamePlayOperationMustBeInGameStateNOT_STARTED_OR_INPLAY {
+            get {
+                return ResourceManager.GetString("InvalidGamePlayOperationMustBeInGameStateNOT_STARTED_OR_INPLAY", resourceCulture);
             }
         }
         

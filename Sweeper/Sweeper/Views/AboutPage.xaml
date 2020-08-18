@@ -11,8 +11,20 @@
 
 
 	  <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-          <Label Text="AboutPage" VerticalOptions="Center" HorizontalOptions="Center" />
-			  </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Package" VerticalOptions="Center" HorizontalOptions="Center" />
+            <Label Text="{Binding AboutModel.AppInfo.PackageName}" VerticalOptions="Center" HorizontalOptions="Center" />
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Name" VerticalOptions="Center" HorizontalOptions="Center" />
+            <Label Text="{Binding AboutModel.AppInfo.Name}" VerticalOptions="Center" HorizontalOptions="Center" />
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Version" VerticalOptions="Center" HorizontalOptions="Center" />
+            <Label Text="{Binding AboutModel.AppInfo.Version}" VerticalOptions="Center" HorizontalOptions="Center" />
+        </StackLayout>
+
+    </StackLayout>
     
 
 </ContentPage>

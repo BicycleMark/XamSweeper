@@ -11,12 +11,12 @@
 
 
 
-	<local:GamePage />
-	  
-	<local:SettingsPage />
-	  
-	<local:AboutPage />
-	  
+    <local:GamePage />
+
+    <local:SettingsPage />
+
+    <local:AboutPage />
+
 
 </TabbedPage>
 

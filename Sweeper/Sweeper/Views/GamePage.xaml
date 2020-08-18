@@ -4,52 +4,73 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="http://prismlibrary.com"
     prism:ViewModelLocator.AutowireViewModel="True"
-	xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    xmlns:local="clr-namespace:Sweeper.Views;assembly=Sweeper"
-    x:Class="Sweeper.Views.GamePage"
-    
-    Title="Game">
+    xmlns:local="clr-namespace:Sweeper.Controls;assembly=Sweeper"
+    xmlns:cvt="clr-namespace:Sweeper.Views.Converters;assembly=Sweeper"
+    x:Class="Sweeper.Views.GamePage"    
+    Title="Game"
+    x:Name="page">
     <ContentPage.Resources>
-        <ResourceDictionary>
-
-        </ResourceDictionary>
+        <cvt:SizeConverter  x:Key="SizeConverter" />
+        <cvt:CoordinateConverter x:Key="CoordinateConverter" />
     </ContentPage.Resources>
-
-
-    <yummy:PancakeView BackgroundColor="DarkSeaGreen" CornerRadius="15" Padding="15">
+    <Frame BackgroundColor="DarkSeaGreen" CornerRadius="15" Padding="15">
         <Grid RowDefinitions="*,3*">
-            <yummy:PancakeView Grid.Row="0" Padding="0">
+            <Frame Grid.Row="0" Padding="0">
                 <Grid ColumnDefinitions="*,*,*" Padding="0" >
                     <Frame Grid.Column="0">
-                        <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Binding"/>
+                        <Label HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label.Text>
+                                <MultiBinding Converter="{StaticResource CoordinateConverter}">
+                                    <Binding Path="Board.Rows" />
+                                    <Binding Path="Board.Columns" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
                     </Frame>
                     <Frame Grid.Column="1">
                         <Button Text="Ok"></Button>
-
                     </Frame>
                     <Frame Grid.Column="2">
-                        <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Binding"/>
+                        <Label HorizontalOptions="Center" VerticalOptions="Center" Text="{Binding Game.Time}"/>
                     </Frame>
-
                 </Grid>
-
-            </yummy:PancakeView>
-            <Frame Grid.Row="1" x:Name="frameButtons" Padding="4" >
-                <RelativeLayout>
-                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" Spacing="4">
-                    <yummy:PancakeView Padding="0"  >
-                            <Button BackgroundColor="LightGray" Text="Ok"   />
-                    </yummy:PancakeView >
-                        <yummy:PancakeView Padding="0"  >
-                            <Button  BackgroundColor="LightGray" Text="12"  />
-                    </yummy:PancakeView>
-                
-                    </StackLayout>
-                </RelativeLayout>
-
+            </Frame>
+            <Frame Grid.Row="1" x:Name="frameButtons" Padding="4" HasShadow="True" >
+                <StackLayout HorizontalOptions="FillAndExpand" Orientation="Vertical" Spacing="4" 
+                             BindableLayout.ItemsSource="{Binding Board.RowItems}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout BindableLayout.ItemsSource="{Binding}" Orientation="Horizontal" HorizontalOptions="Center">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame Padding="0"  HasShadow="False" BackgroundColor="LightBlue" >
+                                            <Button  Text="{Binding Name}" FontSize="Body" HorizontalOptions="Center" TextColor="Navy"/>
+                                            <Frame.WidthRequest>
+                                                <MultiBinding Converter="{StaticResource SizeConverter}" >
+                                                    <MultiBinding.Bindings>
+                                                        <Binding Source="x:Reference frameButtons" Path="ActualWidth" />
+                                                        <Binding Source="x:Reference frameButtons" Path="Padding" />
+                                                        <Binding Source="x:Reference frameButtons.BindingContext" Path="Board.Columns" />
+                                                    </MultiBinding.Bindings>
+                                                </MultiBinding>
+                                            </Frame.WidthRequest>
+                                            <Frame.HeightRequest>
+                                                <MultiBinding Converter="{StaticResource SizeConverter}" >
+                                                    <MultiBinding.Bindings>
+                                                        <Binding Source="x:Reference frameButtons" Path="ActualHeight"/>
+                                                        <Binding Source="x:Reference frameButtons" Path="Padding" />
+                                                        <Binding Source="x:Reference frameButtons" Path="BindingContext.Board.Rows" />
+                                                    </MultiBinding.Bindings>
+                                                </MultiBinding>
+                                            </Frame.HeightRequest>
+                                        </Frame >
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
             </Frame>
         </Grid>
-    </yummy:PancakeView>
-
-
+    </Frame>
 </ContentPage>
