@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Navigation;
 using Sweeper.Infrastructure;
 using Sweeper.ViewModels;
@@ -12,8 +7,6 @@ using Sweeper.ViewModels;
 namespace Sweeper.Test.ViewModel
 {
     [TestClass]
-
-
     public class SettingsPageViewModelTest
     {
         SettingsPageViewModel _viewModel;

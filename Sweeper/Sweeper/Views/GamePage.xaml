@@ -6,11 +6,12 @@
     prism:ViewModelLocator.AutowireViewModel="True"
 	xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:local="clr-namespace:Sweeper.Controls;assembly=Sweeper"
+    xmlns:cvt="clr-namespace:Sweeper.Views.Converters;assembly=Sweeper"
     x:Class="Sweeper.Views.GamePage"    
-    Title="Game">
+    Title="Game"
+    x:Name="page">
     <ContentPage.Resources>
-        <ResourceDictionary>
-        </ResourceDictionary>
+        <cvt:SizeConverter  x:Key="SizeConverter" />
     </ContentPage.Resources>
     <yummy:PancakeView BackgroundColor="DarkSeaGreen" CornerRadius="15" Padding="15">
         <Grid RowDefinitions="*,3*">
@@ -27,7 +28,43 @@
                     </Frame>
                 </Grid>
             </yummy:PancakeView>
+            <Frame Grid.Row="1" x:Name="frameButtons" Padding="4"  >
+                <StackLayout HorizontalOptions="FillAndExpand" Orientation="Vertical" Spacing="4" 
+                             BindableLayout.ItemsSource="{Binding Board.RowItems}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout BindableLayout.ItemsSource="{Binding}" Orientation="Horizontal">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame Padding="0"  HasShadow="False">
+                                            <!--<Frame.WidthRequest>
+                                                <MultiBinding Converter="{StaticResource SizeConverter}">
+                                                    <MultiBinding.Bindings>
+                                                        <Binding Source="x:Reference Name=frameButtons, Path=ActualWidth"/>
+                                                        <Binding Source="x:Reference Name=frameButtons, Path=Padding" />
+                                                        <Binding Source="x:Reference Name=page Path=BindingContext.Board.Columns " />
+                                                    </MultiBinding.Bindings>
+                                                </MultiBinding>
+                                            </Frame.WidthRequest>
+                                            <Frame.HeightRequest>
+                                                <MultiBinding Converter="{StaticResource SizeConverter}">
+                                                    <MultiBinding.Bindings>
+                                                        <Binding Source="x:Reference Name=frameButtons, Path=ActualHeight"/>
+                                                        <Binding Source="x:Reference Name=frameButtons, Path=Padding" />
+                                                        <Binding Source="x:Reference Name=page Path=BindingContext.Board.Rows " />
+                                                    </MultiBinding.Bindings>
+                                                </MultiBinding>
+                                            </Frame.HeightRequest>-->
 
+                                            <Label BackgroundColor="LightGray" Text="{Binding Name}"  FontSize="Micro" TextColor="Navy"/>
+                                        </Frame >
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </Frame>
         </Grid>
     </yummy:PancakeView>
 </ContentPage>
