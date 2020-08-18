@@ -15,5 +15,14 @@ namespace Sweeper.Test.Views.Converters
             object[] values = new object[] { frameSize, separatorSize, numItems };
             Assert.AreNotEqual(0,sizeConverter.Convert(values, typeof(int), null, System.Globalization.CultureInfo.CurrentCulture));
         }
+
+        [DataRow(100, 2)]
+        [DataTestMethod]
+        public void Test_Coordinate_Converter(int x, int y)
+        {
+            var coordinateConverter = new CoordinateConverter();
+            object[] values = new object[] { x, y };
+            Assert.AreNotEqual(string.Empty, coordinateConverter.Convert(values, typeof(int), null, System.Globalization.CultureInfo.CurrentCulture));
+        }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using Prism.Mvvm;
-using Sweeper.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Text;
+using Sweeper.Views.Converters;
 
 namespace Sweeper.Models.Game
 {
@@ -17,6 +13,8 @@ namespace Sweeper.Models.Game
         }
       
     }
+
+   
     public class GamePieceModel : BindableBase
     {
         public enum PieceValues
@@ -48,6 +46,8 @@ namespace Sweeper.Models.Game
             }
         }
 
+        private static CoordinateConverter converter;
+
         public bool IsFlagged
         {
             get { return ShownValue == PieceValues.FLAGGED; }
@@ -74,7 +74,11 @@ namespace Sweeper.Models.Game
 
         public string Name
         {
-            get { return $"[{GridPoint.R},{GridPoint.C}]"; }
+            get {
+               // return(string) converter.Convert(new object[] { GridPoint.R, GridPoint.C }, typeof(int), null, System.Globalization.CultureInfo.CurrentCulture); 
+                
+               return $"[{GridPoint.R},{GridPoint.C}]"; 
+            }
         }
 
         private void notifyRelatedProperties()
