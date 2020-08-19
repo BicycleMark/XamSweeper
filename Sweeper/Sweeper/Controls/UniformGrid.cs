@@ -6,7 +6,7 @@ using Xamarin.Forms.PancakeView;
 
 namespace Sweeper.Controls
 {
-    public class UniformGrid : PancakeView, IDisposable
+    public class UniformGrid : Frame, IDisposable
     {
         public double ItemHeight { get; private set; }
         public double ItemWidth { get; private set; }
@@ -28,7 +28,15 @@ namespace Sweeper.Controls
         }
 
         public static readonly BindableProperty RowsProperty =
-            BindableProperty.Create("Rows", typeof(int), typeof(UniformGrid), 2, BindingMode.TwoWay);
+             BindableProperty.Create(propertyName: nameof(Rows),
+                                     returnType: typeof(int),
+                                     declaringType: typeof(UniformGrid),
+                                     defaultValue: 2,
+                                     defaultBindingMode: BindingMode.TwoWay,
+                                     propertyChanged: (bindable, oldvalue, newvalue) =>
+                                     {
+                                        ((UniformGrid)bindable).InvalidateLayout();
+                                     });
 
         public int Rows
         {
@@ -37,7 +45,17 @@ namespace Sweeper.Controls
         }
 
         public static readonly BindableProperty ColumnsProperty =
-            BindableProperty.Create(nameof(Columns), typeof(int), typeof(UniformGrid), 2, BindingMode.TwoWay);
+            
+            BindableProperty.Create(propertyName:nameof(Columns),
+                                    returnType: typeof(int),
+                                    declaringType: typeof(UniformGrid),
+                                    defaultValue: 2,
+                                    defaultBindingMode: BindingMode.TwoWay,
+                                    propertyChanged: (bindable, oldvalue, newvalue) =>
+                                    {
+                                        ((UniformGrid)bindable).InvalidateLayout();
+                                    });
+
 
         public int Columns
         {
@@ -75,6 +93,7 @@ namespace Sweeper.Controls
 
         public UniformGrid():base()
         {
+            
            
         }
 
@@ -93,10 +112,29 @@ namespace Sweeper.Controls
             //return (new SizeRequest(new Size(widthConstraint, heightConstraint)));          
         }
 
+
+
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
+        }
+
+        protected override void InvalidateLayout()
+        {
+            var rows = Rows;
+            var cols = Columns;
+            
+            foreach (var ch in Children)
+            {
+                
+            }
+            for (int r = 0; r < rows; r++)
+            {
+
+            }
+            
+            base.InvalidateLayout();
         }
 
         int _rows;

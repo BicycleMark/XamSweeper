@@ -43,23 +43,23 @@
                             <StackLayout BindableLayout.ItemsSource="{Binding}" Orientation="Horizontal" HorizontalOptions="Center">
                                 <BindableLayout.ItemTemplate>
                                     <DataTemplate>
-                                        <Frame Padding="0"  HasShadow="False" BackgroundColor="LightBlue" >
+                                        <Frame Padding="0"  HasShadow="False" BackgroundColor="LightBlue" BindingContext="{x:Reference frameButtons}">
                                             <Button  Text="{Binding Name}" FontSize="Body" HorizontalOptions="Center" TextColor="Navy"/>
                                             <Frame.WidthRequest>
                                                 <MultiBinding Converter="{StaticResource SizeConverter}" >
                                                     <MultiBinding.Bindings>
-                                                        <Binding Source="x:Reference frameButtons" Path="ActualWidth" />
-                                                        <Binding Source="x:Reference frameButtons" Path="Padding" />
-                                                        <Binding Source="x:Reference frameButtons.BindingContext" Path="Board.Columns" />
+                                                        <Binding  Path="WidthRequest" />
+                                                        <Binding  Path="Padding" />
+                                                        <Binding  Path="Board.Columns" />
                                                     </MultiBinding.Bindings>
                                                 </MultiBinding>
                                             </Frame.WidthRequest>
                                             <Frame.HeightRequest>
                                                 <MultiBinding Converter="{StaticResource SizeConverter}" >
                                                     <MultiBinding.Bindings>
-                                                        <Binding Source="x:Reference frameButtons" Path="ActualHeight"/>
-                                                        <Binding Source="x:Reference frameButtons" Path="Padding" />
-                                                        <Binding Source="x:Reference frameButtons" Path="BindingContext.Board.Rows" />
+                                                        <Binding Path="HeightRequest"/>
+                                                        <Binding Path="Padding" />
+                                                        <Binding Path="BindingContext.Board.Rows" />
                                                     </MultiBinding.Bindings>
                                                 </MultiBinding>
                                             </Frame.HeightRequest>
