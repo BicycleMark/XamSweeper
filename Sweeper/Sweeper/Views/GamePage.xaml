@@ -35,7 +35,8 @@
                     </Frame>
                 </Grid>
             </Frame>
-            <Frame Grid.Row="1" x:Name="frameButtons" Padding="4" HasShadow="True" >
+          
+            <FlexLayout Grid.Row="1" x:Name="frameButtons" Padding="4" >
                 <StackLayout HorizontalOptions="FillAndExpand" Orientation="Vertical" Spacing="4" 
                              BindableLayout.ItemsSource="{Binding Board.RowItems}">
                     <BindableLayout.ItemTemplate>
@@ -49,8 +50,8 @@
                                                 <MultiBinding Converter="{StaticResource SizeConverter}" >
                                                     <MultiBinding.Bindings>
                                                         <Binding  Path="WidthRequest" />
-                                                        <Binding  Path="Padding" />
-                                                        <Binding  Path="Board.Columns" />
+                                                        <Binding  Path="Padding.Left" />
+                                                        <Binding  Path="BindingContext.Board.Columns" />
                                                     </MultiBinding.Bindings>
                                                 </MultiBinding>
                                             </Frame.WidthRequest>
@@ -58,7 +59,7 @@
                                                 <MultiBinding Converter="{StaticResource SizeConverter}" >
                                                     <MultiBinding.Bindings>
                                                         <Binding Path="HeightRequest"/>
-                                                        <Binding Path="Padding" />
+                                                        <Binding Path="Padding.Left" />
                                                         <Binding Path="BindingContext.Board.Rows" />
                                                     </MultiBinding.Bindings>
                                                 </MultiBinding>
@@ -70,7 +71,8 @@
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
-            </Frame>
+            </FlexLayout>
+            
         </Grid>
     </Frame>
 </ContentPage>
