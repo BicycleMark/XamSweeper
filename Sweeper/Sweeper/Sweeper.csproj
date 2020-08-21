@@ -18,6 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="button.png" />
+    <None Remove="Resources\button.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Controls\UniformGrid-WPF.cs" />
   </ItemGroup>
 
@@ -33,6 +38,11 @@
     <Page Include="Controls\UniformGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="button.png" />
+    <EmbeddedResource Include="Resources\button.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.PancakeView;
 
 namespace Sweeper.Controls
 {
-    public class UniformGrid : Frame, IDisposable
+    public class UniformGrid : Layout<View>, IDisposable
     {
         public double ItemHeight { get; private set; }
         public double ItemWidth { get; private set; }
@@ -41,7 +42,9 @@ namespace Sweeper.Controls
         public int Rows
         {
             get { return (int)GetValue(RowsProperty); }
-            set { this.SetValue(RowsProperty, value); }
+            set { 
+                this.SetValue(RowsProperty, value); 
+            }
         }
 
         public static readonly BindableProperty ColumnsProperty =
@@ -60,7 +63,9 @@ namespace Sweeper.Controls
         public int Columns
         {
             get { return (int)GetValue(ColumnsProperty); }
-            set { this.SetValue(ColumnsProperty, value); }
+            set { 
+                this.SetValue(ColumnsProperty, value); 
+            }
         }
 
 
@@ -108,76 +113,45 @@ namespace Sweeper.Controls
                 ItemWidth = this.Width / this.Columns;
             }
             isFirstTime = false;
-            return base.OnMeasure(widthConstraint, heightConstraint);
-            //return (new SizeRequest(new Size(widthConstraint, heightConstraint)));          
+            return base.OnMeasure(widthConstraint, heightConstraint);   
         }
-
-
-
-        protected override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-        }
-
+        
         protected override void InvalidateLayout()
         {
+            List<StackLayout> lst = new List<StackLayout>();
             var rows = Rows;
             var cols = Columns;
-            
-            foreach (var ch in Children)
+            if (rows != 0 && cols != 0)
             {
-                
-            }
-            for (int r = 0; r < rows; r++)
-            {
+                Children.Clear();
 
+                StackLayout rl = new StackLayout() { Orientation = StackOrientation.Vertical };
+                for (int r = 0; r < rows; r++)
+                {
+                    StackLayout sl = new StackLayout() { Orientation = StackOrientation.Horizontal };
+                    for (int c = 0; c < cols; c++)
+                    {
+                        sl.Children.Add(new Button() { WidthRequest = ItemWidth, HeightRequest = ItemHeight, Text = "Hello" });
+                    }
+                    rl.Children.Add(sl);
+                }
+                Children.Add(rl);
             }
-            
-            base.InvalidateLayout();
+           // base.InvalidateLayout();
         }
 
         int _rows;
         int _columns;
-        private void UpdateComputedValues()
-        {
-            _columns = Columns;
-            _rows = Rows;
-
-            //parameter checking. 
-           
-            if ((_rows == 0) || (_columns == 0))
-            {
-                int nonCollapsedCount = 1;
-
-                if (_rows == 0)
-                {
-                    if (_columns > 0)
-                    {
-                        // take FirstColumn into account, because it should really affect the result
-                        _rows = (nonCollapsedCount + 0 /*FirstColumn*/ + (_columns - 1)) / _columns;
-                    }
-                    else
-                    {
-                        // both rows and columns are unset -- lay out in a square
-                        _rows = (int)Math.Sqrt(nonCollapsedCount);
-                        if ((_rows * _rows) < nonCollapsedCount)
-                        {
-                            _rows++;
-                        }
-                        _columns = _rows;
-                    }
-                }
-                else if (_columns == 0)
-                {
-                    // guaranteed that _rows is not 0, because we're in the else clause of the check for _rows == 0
-                    _columns = (nonCollapsedCount + (_rows - 1)) / _rows;
-                }
-            }
-        }
+      
         public void Dispose()
         {          
             //throw new NotImplementedException();
+        }
+
+        protected override void LayoutChildren(double x, double y, double width, double height) //: base(x, y, width, height)
+        {
+            InvalidateLayout();
+
         }
     }
 }

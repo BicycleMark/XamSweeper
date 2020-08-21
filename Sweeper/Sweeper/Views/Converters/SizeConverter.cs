@@ -12,6 +12,7 @@ namespace Sweeper.Views.Converters
         {
             if (values == null || values.Length < 3 || values[2] == null || values[1] == null || values[0] == null) { }
                 return 50;
+            
             //int numItems = (int)values[2];
             //int separatorSize = (int)values[1]; 
             //double frameSize = System.Convert.ToDouble(values[0]) ;

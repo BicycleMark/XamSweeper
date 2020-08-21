@@ -61,6 +61,16 @@ namespace Sweeper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Button {
+            get {
+                object obj = ResourceManager.GetObject("Button", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You cannot randomly place mines when game-board is loaded from repository..
         /// </summary>
         internal static string ExceptionCannotPlaceMinesFromBoardLoadedFromRepo {
@@ -173,6 +183,16 @@ namespace Sweeper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Flag {
+            get {
+                object obj = ResourceManager.GetObject("Flag", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 1000.
         /// </summary>
         internal static string GameMaxTime {
@@ -205,6 +225,16 @@ namespace Sweeper.Resources {
         internal static string InvalidGamePlayOperationMustBeInGameStateNOT_STARTED_OR_INPLAY {
             get {
                 return ResourceManager.GetString("InvalidGamePlayOperationMustBeInGameStateNOT_STARTED_OR_INPLAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Pressed {
+            get {
+                object obj = ResourceManager.GetObject("Pressed", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

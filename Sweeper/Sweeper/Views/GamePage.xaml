@@ -35,43 +35,14 @@
                     </Frame>
                 </Grid>
             </Frame>
+            <Frame Grid.Row="1" Padding="2" >
+                <Grid>
+                    <StackLayout x:Name="buttons"/>
+                </Grid>
+            </Frame>
+
+
           
-            <FlexLayout Grid.Row="1" x:Name="frameButtons" Padding="4" >
-                <StackLayout HorizontalOptions="FillAndExpand" Orientation="Vertical" Spacing="4" 
-                             BindableLayout.ItemsSource="{Binding Board.RowItems}">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout BindableLayout.ItemsSource="{Binding}" Orientation="Horizontal" HorizontalOptions="Center">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <Frame Padding="0"  HasShadow="False" BackgroundColor="LightBlue" BindingContext="{x:Reference frameButtons}">
-                                            <Button  Text="{Binding Name}" FontSize="Body" HorizontalOptions="Center" TextColor="Navy"/>
-                                            <Frame.WidthRequest>
-                                                <MultiBinding Converter="{StaticResource SizeConverter}" >
-                                                    <MultiBinding.Bindings>
-                                                        <Binding  Path="WidthRequest" />
-                                                        <Binding  Path="Padding.Left" />
-                                                        <Binding  Path="BindingContext.Board.Columns" />
-                                                    </MultiBinding.Bindings>
-                                                </MultiBinding>
-                                            </Frame.WidthRequest>
-                                            <Frame.HeightRequest>
-                                                <MultiBinding Converter="{StaticResource SizeConverter}" >
-                                                    <MultiBinding.Bindings>
-                                                        <Binding Path="HeightRequest"/>
-                                                        <Binding Path="Padding.Left" />
-                                                        <Binding Path="BindingContext.Board.Rows" />
-                                                    </MultiBinding.Bindings>
-                                                </MultiBinding>
-                                            </Frame.HeightRequest>
-                                        </Frame >
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </StackLayout>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </StackLayout>
-            </FlexLayout>
             
         </Grid>
     </Frame>

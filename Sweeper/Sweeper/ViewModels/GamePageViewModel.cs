@@ -38,6 +38,11 @@ namespace Sweeper.ViewModels
             get => _game;
             set => SetProperty(ref _game, value);
         }
+       
+
+        private int pieceSeparator = 2;
+        public int PieceSeparator { get => pieceSeparator; set => SetProperty(ref pieceSeparator, value); }
+
 #if OLD_CONSTRUCTOR
         public GamePageViewModel(INavigationService navigationService, 
                                  ISettingsModel          settingsModel, 
