@@ -1,14 +1,8 @@
-//#define OLD_CONSTRUCTOR
 using System;
-using System.Linq;
 using Prism;
 using Prism.Commands;
-using Prism.Ioc;
-using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Unity;
 using Sweeper.Infrastructure;
-using Sweeper.Models;
 
 namespace Sweeper.ViewModels
 {
@@ -25,7 +19,8 @@ namespace Sweeper.ViewModels
         public IBoardModel Board { get => _board; 
                                    set => SetProperty(ref _board, value); 
                                  }
-       
+
+        public DelegateCommand<string> PlayComand { get; private set; }
 
         private ISettingsModel _settings;
         public ISettingsModel Settings { get => _settings; 
@@ -43,18 +38,7 @@ namespace Sweeper.ViewModels
         private int pieceSeparator = 2;
         public int PieceSeparator { get => pieceSeparator; set => SetProperty(ref pieceSeparator, value); }
 
-#if OLD_CONSTRUCTOR
-        public GamePageViewModel(INavigationService navigationService, 
-                                 ISettingsModel          settingsModel, 
-                                 IBoardModel        board,
-                                 IGameModel         game) : 
-                                 base(navigationService)
-        {    
-            Settings = settingsModel;
-            Board = board;
-            Game = game;
-        }
-#else
+
         public GamePageViewModel(INavigationService navigationService,
                                  ISettingsModel settingsModel,
                                  ISweeperGameModel sweeperGameModel) :
@@ -63,8 +47,32 @@ namespace Sweeper.ViewModels
             Settings = settingsModel;
             Board = sweeperGameModel.Board;
             Game = sweeperGameModel.Game;
+            PlayComand = new DelegateCommand<string>(ParseAndPlay, CanPlayCommand);
         }
-#endif
 
+        private (int r, int c) Parse(string strToParse)
+        {
+            if (strToParse == null)
+                return(-1,-1);
+            string[] parsed = strToParse.Split(',');
+            return (int.Parse(parsed[0]), int.Parse(parsed[1]));
+        }
+        private bool CanPlayCommand(string arg)
+        {
+            var v = Parse(arg);
+            if (v.r > -1 && v.c > -1)
+                return Board[v.r, v.c].IsPlayed;
+            else
+                return false;
+        }
+
+        private void ParseAndPlay(string arg)
+        {
+            var v = Parse(arg);
+            if (v.r > -1 && v.c > -1)
+                Game.Play(v.r, v.c);
+            else
+                return;
+        }
     }
 }

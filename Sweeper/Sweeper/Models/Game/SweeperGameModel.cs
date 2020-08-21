@@ -1,9 +1,11 @@
-﻿using Sweeper.Infrastructure;
+﻿using Prism.Commands;
+using Sweeper.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Timers;
+using System.Windows.Input;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 using Timer = System.Timers.Timer;
 
@@ -14,6 +16,8 @@ namespace Sweeper.Models.Game
         private Timer _timer;
         private bool loadedFromRepo;
         public ObservableCollection<GamePieceModel> Model { get; private set; }
+
+        
 
         private IPropertyRepository _repo;
         public IPropertyRepository Repo { get => _repo; set => _repo = value; }
@@ -147,7 +151,10 @@ namespace Sweeper.Models.Game
                 // Create a new Empty Board with all items shown with BUTTONS
                 InitializeBoard();
             }
+            
         }
+
+       
 
         public GameStates Play(int r, int c)
         {
