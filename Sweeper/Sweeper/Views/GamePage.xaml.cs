@@ -45,6 +45,7 @@ namespace Sweeper.Views
                     btn.WidthRequest = itemWidth;
                     btn.BindingContext = bc.Board[i, j];
                     btn.Source = ImageSource.FromResource("Sweeper.button.png");
+                    
                     btn.Aspect = Aspect.AspectFill;
                     btn.CommandParameter = $"{i},{j}";
                     btn.Command = bc.PlayComand;

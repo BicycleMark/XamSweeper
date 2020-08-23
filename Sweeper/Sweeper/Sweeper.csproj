@@ -22,8 +22,8 @@
     <None Remove="Resources\button.png" />
     <None Remove="Resources\Eight.png" />
     <None Remove="Resources\Eight_TP.png" />
-    <None Remove="Resources\Five _P.png" />
     <None Remove="Resources\Five.png" />
+    <None Remove="Resources\Five_TP.png" />
     <None Remove="Resources\flag.png" />
     <None Remove="Resources\Four.png" />
     <None Remove="Resources\Four_TP.png" />
@@ -48,10 +48,10 @@
 
   <ItemGroup>
     <Content Include="Resources\minesweeper_icon.png" />
-    <Content Include="Resources\One_TP.png" />
+    <EmbeddedResource Include="Resources\One_TP.png" />
     <Content Include="Resources\pressed.png" />
-    <Content Include="Resources\Seven_TP.png" />
-    <Content Include="Resources\Six_TP.png" />
+    <EmbeddedResource Include="Resources\Seven_TP.png" />
+    <EmbeddedResource Include="Resources\Six_TP.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,7 +76,7 @@
     <EmbeddedResource Include="button.png" />
     <EmbeddedResource Include="Resources\button.png" />
     <EmbeddedResource Include="Resources\Eight_TP.png" />
-    <EmbeddedResource Include="Resources\Five _P.png" />
+    <EmbeddedResource Include="Resources\Five_TP.png" />
     <EmbeddedResource Include="Resources\flag.png" />
     <EmbeddedResource Include="Resources\Four_TP.png" />
     <EmbeddedResource Include="Resources\tango_face_grin.png" />
