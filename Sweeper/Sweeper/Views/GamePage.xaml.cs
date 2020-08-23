@@ -1,4 +1,5 @@
 using Sweeper.ViewModels;
+using System.Reflection;
 using Xamarin.Forms;
 
 namespace Sweeper.Views
@@ -75,6 +76,11 @@ namespace Sweeper.Views
         protected override void LayoutChildren(double x, double y, double width, double height)
         {
              base.LayoutChildren(x, y, width, height);
+        }
+        static GamePage()
+        {
+            Assembly asm = Assembly.GetExecutingAssembly();
+            var lst = asm.GetManifestResourceNames();
         }
     }
 }

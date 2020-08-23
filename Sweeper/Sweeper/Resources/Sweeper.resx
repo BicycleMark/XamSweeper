@@ -121,6 +121,9 @@
   <data name="Button" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>button.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Eight_TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>eight_tp.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="ExceptionCannotPlaceMinesFromBoardLoadedFromRepo" xml:space="preserve">
     <value>You cannot randomly place mines when game-board is loaded from repository.</value>
   </data>
@@ -145,8 +148,14 @@
   <data name="face_wink" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>svg\face-wink.svg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="Five_TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>five _p.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Flag" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>flag.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Four_TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>four_tp.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="GameMaxTime" xml:space="preserve">
     <value>1000</value>
@@ -160,13 +169,46 @@
   <data name="InvalidGamePlayOperationMustBeInGameStateNOT_STARTED_OR_INPLAY" xml:space="preserve">
     <value>The Game must be in GameState NOT_STARTED or IN_PLAY</value>
   </data>
+  <data name="Minesweeper_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>minesweeper_icon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="One_TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>one_tp.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Pressed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>pressed.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Seven_TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>seven_tp.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Six_TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>six_tp.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tango_face_grin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>tango_face_grin.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="tango_face_sad" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>svg\tango-face-sad.svg;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="tango_face_sad1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>tango_face_sad.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tango_face_smile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>tango_face_smile.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tango_face_surprise" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>tango_face_surprise.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tango_face_wink" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>tango_face_wink.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Themes" xml:space="preserve">
     <value>Default, Chocolate, Copper, Key West, Powder Puff</value>
+  </data>
+  <data name="Three_TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>three_tp.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Two_TP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>two_tp.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

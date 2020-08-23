@@ -85,12 +85,7 @@ namespace Sweeper.Models
             set { SetProperty(ref _selectedGameDefinition, value); }
         }
 
-        //private void SetGameType()
-        //{  
-        //    RaisePropertyChanged(nameof(MineCount));
-        //    RaisePropertyChanged(nameof(Rows));
-        //    RaisePropertyChanged(nameof(Columns));   
-        //}
+      
 
         public int MineCount
         {

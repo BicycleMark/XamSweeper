@@ -20,6 +20,38 @@
   <ItemGroup>
     <None Remove="button.png" />
     <None Remove="Resources\button.png" />
+    <None Remove="Resources\Eight.png" />
+    <None Remove="Resources\Eight_TP.png" />
+    <None Remove="Resources\Five _P.png" />
+    <None Remove="Resources\Five.png" />
+    <None Remove="Resources\flag.png" />
+    <None Remove="Resources\Four.png" />
+    <None Remove="Resources\Four_TP.png" />
+    <None Remove="Resources\minesweeper_icon.png" />
+    <None Remove="Resources\One.png" />
+    <None Remove="Resources\One_TP.png" />
+    <None Remove="Resources\pressed.png" />
+    <None Remove="Resources\Seven.png" />
+    <None Remove="Resources\Seven_TP.png" />
+    <None Remove="Resources\Six.png" />
+    <None Remove="Resources\Six_TP.png" />
+    <None Remove="Resources\tango_face_grin.png" />
+    <None Remove="Resources\tango_face_sad.png" />
+    <None Remove="Resources\tango_face_smile.png" />
+    <None Remove="Resources\tango_face_surprise.png" />
+    <None Remove="Resources\tango_face_wink.png" />
+    <None Remove="Resources\Three.png" />
+    <None Remove="Resources\Three_TP.png" />
+    <None Remove="Resources\Two.png" />
+    <None Remove="Resources\Two_TP.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\minesweeper_icon.png" />
+    <Content Include="Resources\One_TP.png" />
+    <Content Include="Resources\pressed.png" />
+    <Content Include="Resources\Seven_TP.png" />
+    <Content Include="Resources\Six_TP.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +75,17 @@
   <ItemGroup>
     <EmbeddedResource Include="button.png" />
     <EmbeddedResource Include="Resources\button.png" />
+    <EmbeddedResource Include="Resources\Eight_TP.png" />
+    <EmbeddedResource Include="Resources\Five _P.png" />
+    <EmbeddedResource Include="Resources\flag.png" />
+    <EmbeddedResource Include="Resources\Four_TP.png" />
+    <EmbeddedResource Include="Resources\tango_face_grin.png" />
+    <EmbeddedResource Include="Resources\tango_face_sad.png" />
+    <EmbeddedResource Include="Resources\tango_face_smile.png" />
+    <EmbeddedResource Include="Resources\tango_face_surprise.png" />
+    <EmbeddedResource Include="Resources\tango_face_wink.png" />
+    <EmbeddedResource Include="Resources\Three_TP.png" />
+    <EmbeddedResource Include="Resources\Two_TP.png" />
   </ItemGroup>
 
   <ItemGroup>

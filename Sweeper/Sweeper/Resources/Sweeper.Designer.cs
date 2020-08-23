@@ -71,6 +71,16 @@ namespace Sweeper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Eight_TP {
+            get {
+                object obj = ResourceManager.GetObject("Eight_TP", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You cannot randomly place mines when game-board is loaded from repository..
         /// </summary>
         internal static string ExceptionCannotPlaceMinesFromBoardLoadedFromRepo {
@@ -185,9 +195,29 @@ namespace Sweeper.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Five_TP {
+            get {
+                object obj = ResourceManager.GetObject("Five_TP", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Flag {
             get {
                 object obj = ResourceManager.GetObject("Flag", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Four_TP {
+            get {
+                object obj = ResourceManager.GetObject("Four_TP", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -231,9 +261,59 @@ namespace Sweeper.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Minesweeper_Icon {
+            get {
+                object obj = ResourceManager.GetObject("Minesweeper_Icon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] One_TP {
+            get {
+                object obj = ResourceManager.GetObject("One_TP", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Pressed {
             get {
                 object obj = ResourceManager.GetObject("Pressed", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Seven_TP {
+            get {
+                object obj = ResourceManager.GetObject("Seven_TP", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Six_TP {
+            get {
+                object obj = ResourceManager.GetObject("Six_TP", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] tango_face_grin {
+            get {
+                object obj = ResourceManager.GetObject("tango_face_grin", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -258,11 +338,71 @@ namespace Sweeper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] tango_face_sad1 {
+            get {
+                object obj = ResourceManager.GetObject("tango_face_sad1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] tango_face_smile {
+            get {
+                object obj = ResourceManager.GetObject("tango_face_smile", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] tango_face_surprise {
+            get {
+                object obj = ResourceManager.GetObject("tango_face_surprise", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] tango_face_wink {
+            get {
+                object obj = ResourceManager.GetObject("tango_face_wink", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default, Chocolate, Copper, Key West, Powder Puff.
         /// </summary>
         internal static string Themes {
             get {
                 return ResourceManager.GetString("Themes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Three_TP {
+            get {
+                object obj = ResourceManager.GetObject("Three_TP", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Two_TP {
+            get {
+                object obj = ResourceManager.GetObject("Two_TP", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }
