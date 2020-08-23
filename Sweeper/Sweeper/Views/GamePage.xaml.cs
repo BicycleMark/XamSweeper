@@ -44,9 +44,9 @@ namespace Sweeper.Views
                     btn.HeightRequest = itemHeight;
                     btn.WidthRequest = itemWidth;
                     btn.BindingContext = bc.Board[i, j];
-                    btn.Source = ImageSource.FromResource("Sweeper.button.png");
+                    btn.Source = ImageSource.FromResource("Sweeper.Resources.Seven_TP.png");
                     
-                    btn.Aspect = Aspect.AspectFill;
+                    btn.Aspect = Aspect.AspectFit;
                     btn.CommandParameter = $"{i},{j}";
                     btn.Command = bc.PlayComand;
                     btn.IsEnabled = true;
