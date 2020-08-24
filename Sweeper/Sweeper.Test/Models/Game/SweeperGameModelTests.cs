@@ -58,7 +58,7 @@ namespace Sweeper.Test.Models
             //Arrange get a fully initialized Board with one or more piecePlayed
             var bm = PrepareBoardWithMocks(rows, cols, mines, true);
             // Find two Mines
-            var testItems = bm.Model.Where(m => m.ItemValue == GamePieceModel.PieceValues.MINE).Take(2).ToArray();
+            var testItems = bm.Model.Where(m => m.ItemValue == PieceValues.MINE).Take(2).ToArray();
             // Play Returns False when you hit a mine
             Assert.IsFalse(bm.Play(testItems[0].GridPoint));
             // Play returns exception on second play 
@@ -88,8 +88,8 @@ namespace Sweeper.Test.Models
             var bm = PrepareBoardWithMocks(rows, cols, mines, true);
 
             var contiguousPieces = from cp in bm.Model
-                                   where cp.ItemValue >= GamePieceModel.PieceValues.ONEMINE &&
-                                         cp.ItemValue <= GamePieceModel.PieceValues.EIGHTMINE
+                                   where cp.ItemValue >= PieceValues.ONEMINE &&
+                                         cp.ItemValue <= PieceValues.EIGHTMINE
                                    select new { cp.GridPoint };
 
 
@@ -99,8 +99,8 @@ namespace Sweeper.Test.Models
             {
                 Assert.IsTrue(bm.Play(gp.GridPoint));
             }
-            var postTestContiguousPieces = bm.Model.Count(m => m.ShownValue >= GamePieceModel.PieceValues.ONEMINE &&
-                                                               m.ShownValue <= GamePieceModel.PieceValues.EIGHTMINE);
+            var postTestContiguousPieces = bm.Model.Count(m => m.ShownValue >= PieceValues.ONEMINE &&
+                                                               m.ShownValue <= PieceValues.EIGHTMINE);
             Assert.AreEqual(tilesToEliminate, postTestContiguousPieces);
         }
 
@@ -119,7 +119,7 @@ namespace Sweeper.Test.Models
 
             foreach (var gp in bm.Model)
             {
-                if (!gp.IsPlayed && gp.ItemValue == GamePieceModel.PieceValues.NOMINE)
+                if (!gp.IsPlayed && gp.ItemValue == PieceValues.NOMINE)
                     Assert.IsTrue(bm.Play(gp.GridPoint));
             }
         }
@@ -139,8 +139,8 @@ namespace Sweeper.Test.Models
 
             foreach (var gp in bm.Model)
             {
-                if (!gp.IsPlayed && gp.ItemValue == GamePieceModel.PieceValues.MINE)
-                    Assert.AreEqual(GamePieceModel.PieceValues.FLAGGED, bm.ToggleFlag(gp.GridPoint));
+                if (!gp.IsPlayed && gp.ItemValue == PieceValues.MINE)
+                    Assert.AreEqual(PieceValues.FLAGGED, bm.ToggleFlag(gp.GridPoint));
             }
         }
 
@@ -213,7 +213,7 @@ namespace Sweeper.Test.Models
 
             if (setFlag)
             {
-                var flaggedItems = bm.Model.Where(m => m.ItemValue == GamePieceModel.PieceValues.MINE);
+                var flaggedItems = bm.Model.Where(m => m.ItemValue == PieceValues.MINE);
                 if (!setIncorrectly)
                 {
                     foreach (var p in flaggedItems)
@@ -250,7 +250,7 @@ namespace Sweeper.Test.Models
             IGameModel _model = PrepareBoardWithMocks(10, 10, 10, false);
             Assert.AreEqual(0, _model.GameTime);
             Assert.AreEqual(GameStates.NOT_STARTED,_model.GameState);
-            var p = _model.Model.First(m => m.ShownValue == GamePieceModel.PieceValues.BUTTON).GridPoint;
+            var p = _model.Model.First(m => m.ShownValue == PieceValues.BUTTON).GridPoint;
             _model.Play(p.R, p.C);
             Assert.IsTrue(_model.GameTime > 0);
             Assert.AreEqual(GameStates.IN_PLAY, _model.GameState);
@@ -265,7 +265,7 @@ namespace Sweeper.Test.Models
             IGameModel _model = PrepareBoardWithMocks(10, 10, 10, true);
            
             Assert.AreEqual(GameStates.IN_PLAY, _model.GameState);
-            var p = _model.Model.First(m => m.ItemValue == GamePieceModel.PieceValues.MINE).GridPoint;
+            var p = _model.Model.First(m => m.ItemValue == PieceValues.MINE).GridPoint;
             _model.Play(p.R, p.C);
             Assert.IsTrue(_model.GameTime > 0);
             Assert.AreEqual(GameStates.LOST, _model.GameState);
@@ -308,13 +308,13 @@ namespace Sweeper.Test.Models
 
             if (testLose)
             {
-                var p = _model.Model.FirstOrDefault(m => m.ItemValue == GamePieceModel.PieceValues.MINE).GridPoint;
+                var p = _model.Model.FirstOrDefault(m => m.ItemValue == PieceValues.MINE).GridPoint;
                 _model.Play(p);
                 Assert.AreEqual(GameStates.LOST, _model.GameState);
             }
             else
             {   
-                var flagList = _model.Model.Where(m => m.ItemValue == GamePieceModel.PieceValues.MINE);
+                var flagList = _model.Model.Where(m => m.ItemValue == PieceValues.MINE);
                 foreach (var p in flagList)
                 {
                     _model.ToggleFlag(p.GridPoint.R, p.GridPoint.C);

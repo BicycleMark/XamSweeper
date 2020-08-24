@@ -1,4 +1,5 @@
 ﻿using Prism.Mvvm;
+using Sweeper.Infrastructure;
 using Sweeper.Views.Converters;
 
 namespace Sweeper.Models.Game
@@ -17,27 +18,27 @@ namespace Sweeper.Models.Game
    
     public class GamePieceModel : BindableBase
     {
-        public enum PieceValues
-        {
-            NOMINE,
-            ONEMINE,
-            TWOMINE,
-            THREEMINE,
-            FOURMINE,
-            FIVEMINE,
-            SIXMINE,
-            SEVENMINE,
-            EIGHTMINE,
-            WRONGCHOICE,
-            MINE,
+        //public enum PieceValues
+        //{
+        //    NOMINE,
+        //    ONEMINE,
+        //    TWOMINE,
+        //    THREEMINE,
+        //    FOURMINE,
+        //    FIVEMINE,
+        //    SIXMINE,
+        //    SEVENMINE,
+        //    EIGHTMINE,
+        //    WRONGCHOICE,
+        //    MINE,
 
-            // Following Values indicate the Item is not yet played
+        //    // Following Values indicate the Item is not yet played
 
-            BLANK,
-            BUTTON,
-            PRESSED,
-            FLAGGED
-        }
+        //    BLANK,
+        //    BUTTON,
+        //    PRESSED,
+        //    FLAGGED
+        //}
 
         public bool IsPlayed { get
             {
@@ -108,7 +109,7 @@ namespace Sweeper.Models.Game
             ItemValue = PieceValues.NOMINE;
         }
 
-        public GamePieceModel.PieceValues ToggleFlag()
+        public PieceValues ToggleFlag()
         {
             if (!IsPlayed)
             {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sweeper.Infrastructure;
 using Sweeper.Models;
 using Sweeper.Models.Game;
 
@@ -12,28 +13,28 @@ namespace Sweeper.Test.Models
         {
 
             GamePieceModel gpm = new GamePieceModel(1,1);
-            Assert.AreEqual(GamePieceModel.PieceValues.BUTTON, gpm.ShownValue);
-            Assert.AreEqual(GamePieceModel.PieceValues.NOMINE, gpm.ItemValue);
+            Assert.AreEqual(PieceValues.BUTTON, gpm.ShownValue);
+            Assert.AreEqual(PieceValues.NOMINE, gpm.ItemValue);
         }
 
-        [DataRow(GamePieceModel.PieceValues.NOMINE, true)]
-        [DataRow(GamePieceModel.PieceValues.ONEMINE, true)]
-        [DataRow(GamePieceModel.PieceValues.TWOMINE, true)]
-        [DataRow(GamePieceModel.PieceValues.THREEMINE, true)]
-        [DataRow(GamePieceModel.PieceValues.FOURMINE, true)]
-        [DataRow(GamePieceModel.PieceValues.FIVEMINE, true)]
-        [DataRow(GamePieceModel.PieceValues.SIXMINE, true)]
-        [DataRow(GamePieceModel.PieceValues.SEVENMINE, true)]
-        [DataRow(GamePieceModel.PieceValues.EIGHTMINE, true)]
-        [DataRow(GamePieceModel.PieceValues.WRONGCHOICE, true)]
-        [DataRow(GamePieceModel.PieceValues.MINE, true)]
+        [DataRow(PieceValues.NOMINE, true)]
+        [DataRow(PieceValues.ONEMINE, true)]
+        [DataRow(PieceValues.TWOMINE, true)]
+        [DataRow(PieceValues.THREEMINE, true)]
+        [DataRow(PieceValues.FOURMINE, true)]
+        [DataRow(PieceValues.FIVEMINE, true)]
+        [DataRow(PieceValues.SIXMINE, true)]
+        [DataRow(PieceValues.SEVENMINE, true)]
+        [DataRow(PieceValues.EIGHTMINE, true)]
+        [DataRow(PieceValues.WRONGCHOICE, true)]
+        [DataRow(PieceValues.MINE, true)]
 
-        [DataRow(GamePieceModel.PieceValues.BLANK, true)]
-        [DataRow(GamePieceModel.PieceValues.BUTTON, false)]
-        [DataRow(GamePieceModel.PieceValues.PRESSED, false)]
-        [DataRow(GamePieceModel.PieceValues.FLAGGED, false)]     
+        [DataRow(PieceValues.BLANK, true)]
+        [DataRow(PieceValues.BUTTON, false)]
+        [DataRow(PieceValues.PRESSED, false)]
+        [DataRow(PieceValues.FLAGGED, false)]     
         [DataTestMethod]
-        public void Test_IsPlayed_Returns_Notification_And_Queries_Correct_Value(GamePieceModel.PieceValues pieceValue, bool shouldReturnIsPlayed)
+        public void Test_IsPlayed_Returns_Notification_And_Queries_Correct_Value(PieceValues pieceValue, bool shouldReturnIsPlayed)
         {
             GamePieceModel gpm = new GamePieceModel(1, 1);
             int played = 0;
@@ -45,23 +46,23 @@ namespace Sweeper.Test.Models
         }
 
         
-        [DataRow(GamePieceModel.PieceValues.FLAGGED, true)]
-        [DataRow(GamePieceModel.PieceValues.BUTTON, true)]
-        [DataRow(GamePieceModel.PieceValues.BLANK, false)]
-        [DataRow(GamePieceModel.PieceValues.EIGHTMINE, false)]
-        [DataRow(GamePieceModel.PieceValues.FIVEMINE, false)]     
-        [DataRow(GamePieceModel.PieceValues.FOURMINE, false)]
-        [DataRow(GamePieceModel.PieceValues.MINE, false)]
-        [DataRow(GamePieceModel.PieceValues.NOMINE, false)]
-        [DataRow(GamePieceModel.PieceValues.PRESSED, false)]
-        [DataRow(GamePieceModel.PieceValues.SEVENMINE, false)]
-        [DataRow(GamePieceModel.PieceValues.SIXMINE, false)]
-        [DataRow(GamePieceModel.PieceValues.THREEMINE, false)]
-        [DataRow(GamePieceModel.PieceValues.TWOMINE, false)]
-        [DataRow(GamePieceModel.PieceValues.WRONGCHOICE, false)]
+        [DataRow(PieceValues.FLAGGED, true)]
+        [DataRow(PieceValues.BUTTON, true)]
+        [DataRow(PieceValues.BLANK, false)]
+        [DataRow(PieceValues.EIGHTMINE, false)]
+        [DataRow(PieceValues.FIVEMINE, false)]     
+        [DataRow(PieceValues.FOURMINE, false)]
+        [DataRow(PieceValues.MINE, false)]
+        [DataRow(PieceValues.NOMINE, false)]
+        [DataRow(PieceValues.PRESSED, false)]
+        [DataRow(PieceValues.SEVENMINE, false)]
+        [DataRow(PieceValues.SIXMINE, false)]
+        [DataRow(PieceValues.THREEMINE, false)]
+        [DataRow(PieceValues.TWOMINE, false)]
+        [DataRow(PieceValues.WRONGCHOICE, false)]
 
         [DataTestMethod]
-        public void Test_ToggleFlag(GamePieceModel.PieceValues shownValue, bool shouldAllowToggle )
+        public void Test_ToggleFlag(PieceValues shownValue, bool shouldAllowToggle )
         {
             GamePieceModel gpm = new GamePieceModel(1, 1);
 
@@ -87,7 +88,7 @@ namespace Sweeper.Test.Models
             Assert.IsFalse(gpm.IsPlayed);
             gpm.PropertyChanged += (s, e) => { if (e.PropertyName == "IsPlayed") ++played; };
 
-            gpm.ShownValue = GamePieceModel.PieceValues.EIGHTMINE;
+            gpm.ShownValue = PieceValues.EIGHTMINE;
             gpm.ToggleFlag();
            
             Assert.IsFalse(gpm.IsFlagged);

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <EmbeddedResource Remove="Controls\UniformGrid.xaml" />
+    <EmbeddedResource Remove="Infrastructure\IBoardValueConverter.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,6 +69,9 @@
 
   <ItemGroup>
     <Page Include="Controls\UniformGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Infrastructure\IBoardValueConverter.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

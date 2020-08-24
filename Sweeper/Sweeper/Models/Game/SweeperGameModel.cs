@@ -49,7 +49,7 @@ namespace Sweeper.Models.Game
         {
             get
             {
-                return Model.Count(m => m.ItemValue == GamePieceModel.PieceValues.MINE);
+                return Model.Count(m => m.ItemValue == PieceValues.MINE);
             }
         }
 
@@ -113,7 +113,7 @@ namespace Sweeper.Models.Game
 
         public int RemainingMines
         {
-            get { return Mines - Model.Count(m => m.ShownValue == GamePieceModel.PieceValues.FLAGGED); }
+            get { return Mines - Model.Count(m => m.ShownValue == PieceValues.FLAGGED); }
         }
 
         public bool AllCorrectlyFlagged
@@ -124,7 +124,7 @@ namespace Sweeper.Models.Game
                     int nMines = Mines;
                     int nMinesFlaggedCorrectly =
                         Model.Count(m => m.IsFlagged &&
-                                         m.ItemValue == GamePieceModel.PieceValues.MINE);
+                                         m.ItemValue == PieceValues.MINE);
                     return (nMinesFlaggedCorrectly == nMines);
                 }
             }
@@ -192,7 +192,7 @@ namespace Sweeper.Models.Game
             return retVal;
         }
 
-        public GamePieceModel.PieceValues ToggleFlag(GridPoint gp)
+        public PieceValues ToggleFlag(GridPoint gp)
         {
             this[gp.R, gp.C].ToggleFlag();
             return this[gp.R, gp.C].ShownValue;
@@ -258,14 +258,14 @@ namespace Sweeper.Models.Game
                     throw new ArgumentOutOfRangeException(Resources.Sweeper.ExceptionExcludePointIsOutOfBounds);
                 }
                 // Do not allow additional plays if a mine has already been selected
-                if (Model.Count(m => m.ShownValue == GamePieceModel.PieceValues.WRONGCHOICE) > 0)
+                if (Model.Count(m => m.ShownValue == PieceValues.WRONGCHOICE) > 0)
                 {
                     throw new InvalidOperationException(Resources.Sweeper.InvalidBoardOperationException);
                 }
                 var didLose = false;
                 var piece = this[gp.R, gp.C];
                 if (!piece.IsFlagged &&
-                     piece.ShownValue == GamePieceModel.PieceValues.BUTTON)
+                     piece.ShownValue == PieceValues.BUTTON)
                 {
                     // If it was loaded from a repo Mine Count will be > 0
                     if (Model.Count(p => p.IsPlayed) != 0)
@@ -273,15 +273,15 @@ namespace Sweeper.Models.Game
                         switch (piece.ItemValue)
                         {
                             // You Lost
-                            case (GamePieceModel.PieceValues.MINE):
+                            case (PieceValues.MINE):
                                 {
-                                    piece.ShownValue = GamePieceModel.PieceValues.WRONGCHOICE;
+                                    piece.ShownValue = PieceValues.WRONGCHOICE;
                                     didLose = true;
                                     GameState = GameStates.LOST;
                                     break;
                                 }
                             // Cool Several Tiles will be turned (all Contiguous Blanks)
-                            case (GamePieceModel.PieceValues.NOMINE):
+                            case (PieceValues.NOMINE):
                                 {
                                     PlayBlankNeighbors(gp.R, gp.C);
                                     break;
@@ -299,7 +299,7 @@ namespace Sweeper.Models.Game
                     {
                         placeMines(gp);
                         setNeighborCounts();
-                        if (this[gp.R, gp.C].ItemValue == GamePieceModel.PieceValues.NOMINE)
+                        if (this[gp.R, gp.C].ItemValue == PieceValues.NOMINE)
                         {
                             PlayBlankNeighbors(gp.R, gp.C);
                         }
@@ -367,7 +367,7 @@ namespace Sweeper.Models.Game
         /////////////////////////////////////// LOCAL ////////////////////////////////////////////////////////////
         private void setNeighborCounts()
         {
-            var mines = from gpm in Model where gpm.ItemValue == GamePieceModel.PieceValues.MINE select gpm;
+            var mines = from gpm in Model where gpm.ItemValue == PieceValues.MINE select gpm;
             foreach (GamePieceModel p in mines)
             {
                 var mincol = p.GridPoint.C - 1; //it does not matter if it is < 0 the Query wont return any values
@@ -378,11 +378,11 @@ namespace Sweeper.Models.Game
                                                          evalPiece.GridPoint.C <= mincol &&
                                                          evalPiece.GridPoint.R >= minrow &&
                                                          evalPiece.GridPoint.R <= maxrow &&
-                                                         evalPiece.ItemValue != GamePieceModel.PieceValues.MINE);
+                                                         evalPiece.ItemValue != PieceValues.MINE);
                 foreach (var n in neighbors)
                 {
                     var val = (int)n.ItemValue + 1;
-                    n.ItemValue = (GamePieceModel.PieceValues)val;
+                    n.ItemValue = (PieceValues)val;
                 }
             }
         }
@@ -392,15 +392,15 @@ namespace Sweeper.Models.Game
             int max = Model.Count;
             Random random = new Random();
             while (_settings.MineCount >
-                   Model.Count(p => p.ItemValue == GamePieceModel.PieceValues.MINE))
+                   Model.Count(p => p.ItemValue == PieceValues.MINE))
             {
                 int proposedIndex = random.Next(max);
                 var propsedGridPoint = Model[proposedIndex].GridPoint;
-                if (Model[proposedIndex].ItemValue != GamePieceModel.PieceValues.MINE &&
+                if (Model[proposedIndex].ItemValue != PieceValues.MINE &&
                     // Don't put mine under the first played item
                     !(propsedGridPoint.R == ep.R && propsedGridPoint.C == ep.C))
                 {
-                    Model[proposedIndex].ItemValue = GamePieceModel.PieceValues.MINE;
+                    Model[proposedIndex].ItemValue = PieceValues.MINE;
                 }
             }
         }
@@ -414,13 +414,13 @@ namespace Sweeper.Models.Game
         private void PlayBlankNeighbors(int r, int c)
         {
             if (!inBounds(r, c)
-                || this[r, c].ItemValue != GamePieceModel.PieceValues.NOMINE
+                || this[r, c].ItemValue != PieceValues.NOMINE
                 || this[r, c].IsPlayed)
             {
                 return;
             }
             //Set To Fill Value
-            this[r, c].ShownValue = GamePieceModel.PieceValues.BLANK;
+            this[r, c].ShownValue = PieceValues.BLANK;
             PlayBlankNeighbors(r + 1, c);
             PlayBlankNeighbors(r - 1, c);
             PlayBlankNeighbors(r, c + 1);
