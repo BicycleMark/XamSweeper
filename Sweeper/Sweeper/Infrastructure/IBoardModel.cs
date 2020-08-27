@@ -1,5 +1,6 @@
 ﻿using Sweeper.Infrastructure;
 using Sweeper.Models.Game;
+using System;
 using System.Collections.ObjectModel;
 
 
@@ -13,9 +14,9 @@ namespace Sweeper.Infrastructure
         ObservableCollection<GamePieceModel> Model { get; }
         int Rows { get; }
         int Mines { get; }
-        bool Play(GridPoint gp);
+        bool Play(GridPoint gp, Action<IBoardModel, GridPoint> minePlacement = null);
         PieceValues ToggleFlag(GridPoint gp);
         void Resize(ISettingsModel settings);
-       
+        void Refresh();
     }
 }

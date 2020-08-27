@@ -25,10 +25,11 @@ namespace Sweeper.Views.Converters
             imageDictionary = new Dictionary<GameStates, ImageSource>
             {
                 
-                { GameStates.NOT_STARTED, null },
-                { GameStates.IN_PLAY, ImageSource.FromResource("Sweeper.Resources.One_TP.png") } ,
-                { GameStates.WON, ImageSource.FromResource("Sweeper.Resources.Two_TP.png") } ,
-                { GameStates.LOST, ImageSource.FromResource("Sweeper.Resources.Three_TP.png") }
+                { GameStates.NOT_STARTED, ImageSource.FromResource("Sweeper.Resources.tango_face_smile.png") },
+                { GameStates.IN_PLAY,  ImageSource.FromResource("Sweeper.Resources.tango_face_smile.png") },
+                 { GameStates.IN_EXTENDED_PLAY,  ImageSource.FromResource("Sweeper.Resources.tango_face_wink.png") },
+                { GameStates.WON,  ImageSource.FromResource("Sweeper.Resources.tango_face_surprise.png") },
+                { GameStates.LOST,  ImageSource.FromResource("Sweeper.Resources.tango_face_smile.png") }
             };
         }
     }

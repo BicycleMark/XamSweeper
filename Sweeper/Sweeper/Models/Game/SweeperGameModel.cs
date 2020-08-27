@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Timers;
 using System.Windows.Input;
+using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 using Timer = System.Timers.Timer;
 
@@ -111,6 +112,16 @@ namespace Sweeper.Models.Game
             }
         }
 
+        public void Refresh()
+        {
+            for (int i = 0; i < Rows; i++)
+                for (int j = 0; j < Columns; j++)
+                {
+                    var temp = this[i, j].ShownValue;
+                    this[i, j].ShownValue = PieceValues.BLANK;
+                    this[i, j].ShownValue = temp;
+                }
+        }
         public int RemainingMines
         {
             get { return Mines - Model.Count(m => m.ShownValue == PieceValues.FLAGGED); }
@@ -158,8 +169,10 @@ namespace Sweeper.Models.Game
 
         public GameStates Play(int r, int c)
         {
+            
             if (GameState == GameStates.IN_PLAY || GameState == GameStates.NOT_STARTED)
             {
+
                 if (Board.Play(new GridPoint(r, c)))
                 {
                     GameState = EvaluateGameState();
@@ -176,7 +189,19 @@ namespace Sweeper.Models.Game
                 throw new InvalidOperationException(
                     Resources.Sweeper.InvalidGamePlayOperationMustBeInGameStateNOT_STARTED_OR_INPLAY);
             }
+            //Board[r, c].ShownValue = Board[r, c].ItemValue;
             return GameState;
+        }
+
+        private void CounterClockWisePlacement(IBoardModel board, GridPoint gp)
+        {
+          
+            int nMinesAdded = 0;
+            int maxMines = board.Mines;
+            for (int r = 0;r < board.Rows; r++)
+            {
+                board[r, 0].ItemValue = PieceValues.MINE;
+            }
         }
 
         public GameStates ToggleFlag(int r, int c)
@@ -248,7 +273,7 @@ namespace Sweeper.Models.Game
             }
         }
 
-        public bool Play(GridPoint gp)
+        public bool Play(GridPoint gp , Action<IBoardModel, GridPoint> minePlacement = null)
         {
             ///////////////////////// Main function ////////////////////////////////////////////////////////////
             {
@@ -278,6 +303,7 @@ namespace Sweeper.Models.Game
                                     piece.ShownValue = PieceValues.WRONGCHOICE;
                                     didLose = true;
                                     GameState = GameStates.LOST;
+                                    ShowAll();
                                     break;
                                 }
                             // Cool Several Tiles will be turned (all Contiguous Blanks)
@@ -297,7 +323,11 @@ namespace Sweeper.Models.Game
                     else // So we need to Initialize the Board and Play the Point user selected 
 
                     {
-                        placeMines(gp);
+                        if (minePlacement == null)
+                        {
+                            minePlacement = placeMines;
+                        }
+                        minePlacement(this,gp);
                         setNeighborCounts();
                         if (this[gp.R, gp.C].ItemValue == PieceValues.NOMINE)
                         {
@@ -308,9 +338,19 @@ namespace Sweeper.Models.Game
                             piece.ShownValue = piece.ItemValue;
                         }
                         GameState = GameStates.IN_PLAY;
+                       
                     }
                 }
                 return !didLose;
+            }
+        }
+
+        private void ShowAll()
+        {
+            //TODO REMOVE these
+            foreach (var gpm in Model)
+            {
+                gpm.ShownValue = gpm.ItemValue;
             }
         }
 
@@ -375,7 +415,7 @@ namespace Sweeper.Models.Game
                 var minrow = p.GridPoint.R - 1; //it does not matter if it is < 0 the Query wont return any values
                 var maxrow = p.GridPoint.R + 1; //it does not matter if it is > Borad.Rows the Query wont return any value
                 var neighbors = Model.Where(evalPiece => evalPiece.GridPoint.C >= mincol &&
-                                                         evalPiece.GridPoint.C <= mincol &&
+                                                         evalPiece.GridPoint.C <= maxcol &&
                                                          evalPiece.GridPoint.R >= minrow &&
                                                          evalPiece.GridPoint.R <= maxrow &&
                                                          evalPiece.ItemValue != PieceValues.MINE);
@@ -387,20 +427,20 @@ namespace Sweeper.Models.Game
             }
         }
 
-        private void placeMines(GridPoint ep)
+        private void placeMines(IBoardModel board, GridPoint ep)
         {
             int max = Model.Count;
             Random random = new Random();
             while (_settings.MineCount >
-                   Model.Count(p => p.ItemValue == PieceValues.MINE))
+                   board.Model.Count(p => p.ItemValue == PieceValues.MINE))
             {
                 int proposedIndex = random.Next(max);
-                var propsedGridPoint = Model[proposedIndex].GridPoint;
-                if (Model[proposedIndex].ItemValue != PieceValues.MINE &&
+                var propsedGridPoint = board.Model[proposedIndex].GridPoint;
+                if (board.Model[proposedIndex].ItemValue != PieceValues.MINE &&
                     // Don't put mine under the first played item
                     !(propsedGridPoint.R == ep.R && propsedGridPoint.C == ep.C))
                 {
-                    Model[proposedIndex].ItemValue = PieceValues.MINE;
+                    board.Model[proposedIndex].ItemValue = PieceValues.MINE;
                 }
             }
         }
@@ -414,13 +454,13 @@ namespace Sweeper.Models.Game
         private void PlayBlankNeighbors(int r, int c)
         {
             if (!inBounds(r, c)
-                || this[r, c].ItemValue != PieceValues.NOMINE
+                || this[r, c].ItemValue != PieceValues.MINE
                 || this[r, c].IsPlayed)
             {
                 return;
             }
             //Set To Fill Value
-            this[r, c].ShownValue = PieceValues.BLANK;
+            this[r, c].ShownValue = this[r, c].ItemValue;
             PlayBlankNeighbors(r + 1, c);
             PlayBlankNeighbors(r - 1, c);
             PlayBlankNeighbors(r, c + 1);

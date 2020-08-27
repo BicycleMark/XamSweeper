@@ -9,6 +9,7 @@ namespace Sweeper.Infrastructure
        
         NOT_STARTED,
         IN_PLAY,
+        IN_EXTENDED_PLAY,
         WON,
         LOST
     }

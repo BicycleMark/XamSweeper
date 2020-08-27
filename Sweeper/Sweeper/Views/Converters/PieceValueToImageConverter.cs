@@ -13,7 +13,7 @@ namespace Sweeper.Views.Converters
         private static Dictionary<PieceValues, ImageSource> imageDictionary;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Resources.Sweeper.Button;
+            return imageDictionary[(PieceValues)value] as ImageSource;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -54,9 +54,9 @@ namespace Sweeper.Views.Converters
                 { PieceValues.SEVENMINE, ImageSource.FromResource("Sweeper.Resources.Seven_TP.png") },
                 { PieceValues.EIGHTMINE, ImageSource.FromResource("Sweeper.Resources.Eight_TP.png") },
                 { PieceValues.WRONGCHOICE, ImageSource.FromResource("Sweeper.Resources.WrongChoice_TP.png") },
-                { PieceValues.MINE, ImageSource.FromResource("Sweeper.Resources.Mine.png") },
+                { PieceValues.MINE, ImageSource.FromResource("Sweeper.Resources.mine.png") },
 
-                { PieceValues.BLANK, null },
+                { PieceValues.BLANK, null  },
                 { PieceValues.BUTTON, ImageSource.FromResource("Sweeper.Resources.Button.png") },
                 { PieceValues.PRESSED, ImageSource.FromResource("Sweeper.Resources.Pressed.png") },
                 { PieceValues.FLAGGED, ImageSource.FromResource("Sweeper.Resources.Flagged.png") }

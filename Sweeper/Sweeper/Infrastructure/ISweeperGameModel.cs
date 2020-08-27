@@ -1,5 +1,6 @@
 ﻿using Sweeper.Infrastructure;
 using Sweeper.Models.Game;
+using System;
 using System.Collections.ObjectModel;
 
 namespace Sweeper.Infrastructure
@@ -22,7 +23,7 @@ namespace Sweeper.Infrastructure
         int Rows { get; }
         ISettingsModel Settings { get; set; }
         void Dispose();
-        bool Play(GridPoint gp);
+        bool Play(GridPoint gp, Action<IBoardModel, GridPoint> minePlacement = null);
         GameStates Play(int r, int c);
         void Resize(ISettingsModel settings);
         

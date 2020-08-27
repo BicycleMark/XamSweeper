@@ -6,6 +6,7 @@ using Sweeper.Infrastructure;
 using Sweeper.Models.Game;
 using System.Threading;
 using Moq;
+using System.Security.Permissions;
 
 namespace Sweeper.Test.Models
 {
@@ -30,6 +31,22 @@ namespace Sweeper.Test.Models
                 Assert.IsTrue(bm.Play(new GridPoint(random.Next(bm.Rows), random.Next(bm.Columns))));
             }
             return bm;
+        }
+
+        private void PlaceMinesContinouslyinMiddleRow(IBoardModel board, GridPoint gp)
+        {
+            int nAdded = 0;
+            int currentRow = (int)(board.Rows / 2);
+            int currentCol = 0;
+            do
+            {
+                board[currentRow, currentCol++].ItemValue = PieceValues.MINE;
+                if (currentCol >= board.Rows)
+                {
+                    currentCol = 0;
+                    ++currentRow;
+                }
+            }while (++nAdded < board.Mines);
         }
 
         //[TestInitialize]

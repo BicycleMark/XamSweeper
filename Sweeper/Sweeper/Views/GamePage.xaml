@@ -40,10 +40,6 @@
                     <StackLayout x:Name="buttons"/>
                 </Grid>
             </Frame>
-
-
-          
-            
         </Grid>
     </Frame>
 </ContentPage>

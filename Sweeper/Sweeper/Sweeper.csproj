@@ -28,6 +28,7 @@
     <None Remove="Resources\flag.png" />
     <None Remove="Resources\Four.png" />
     <None Remove="Resources\Four_TP.png" />
+    <None Remove="Resources\mine.png" />
     <None Remove="Resources\minesweeper_icon.png" />
     <None Remove="Resources\One.png" />
     <None Remove="Resources\One_TP.png" />
@@ -49,6 +50,7 @@
 
   <ItemGroup>
     <Content Include="Resources\minesweeper_icon.png" />
+    <EmbeddedResource Include="Resources\mine.png" />
     <EmbeddedResource Include="Resources\One_TP.png" />
     <Content Include="Resources\pressed.png" />
     <EmbeddedResource Include="Resources\Seven_TP.png" />
