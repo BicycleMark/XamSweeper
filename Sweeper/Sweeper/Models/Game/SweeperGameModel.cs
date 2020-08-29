@@ -462,16 +462,22 @@ namespace Sweeper.Models.Game
         {
             if (!inBounds(r, c)
                 || this[r, c].ItemValue == PieceValues.MINE
+                
                 || this[r, c].IsPlayed)
             {
                 return;
             }
             //Set To Fill Value
             this[r, c].ShownValue = this[r, c].ItemValue;
-            PlayBlankNeighbors(r + 1, c);
-            PlayBlankNeighbors(r - 1, c);
-            PlayBlankNeighbors(r, c + 1);
-            PlayBlankNeighbors(r, c - 1);
+            if (this[r,c].ItemValue == PieceValues.NOMINE )
+                PlayBlankNeighbors(r + 1, c);
+            if (this[r, c].ItemValue == PieceValues.NOMINE)
+                PlayBlankNeighbors(r - 1, c);
+            if (this[r, c].ItemValue == PieceValues.NOMINE)
+                PlayBlankNeighbors(r, c + 1);
+            if (this[r, c].ItemValue == PieceValues.NOMINE)
+                PlayBlankNeighbors(r, c - 1);
+            
         }
         ////GameModel privates
         private void OnGameStateChanged()
