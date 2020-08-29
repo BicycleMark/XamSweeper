@@ -42,7 +42,7 @@ namespace Sweeper.Models.Game
 
         public bool IsPlayed { get
             {
-                bool retVal = (int)_shownValue <= (int)PieceValues.BLANK;
+                bool retVal = (int)_shownValue <= (int)PieceValues.MINE;
                 return retVal;
             }
         }

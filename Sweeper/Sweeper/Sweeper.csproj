@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <Compile Remove="Controls\UniformGrid-WPF.cs" />
-    <Compile Remove="Infrastructure\ISettings.cs" />
-    <Compile Remove="Infrastructure\Preference.cs" />
+    <Compile Remove="Controls\Infrastructure\ISettings.cs" />
+    <Compile Remove="Controls\Infrastructure\Preference.cs" />
     <Compile Remove="Models\Game\BoardModel.cs" />
     <Compile Remove="Models\Game\GameModel.cs" />
     <Compile Remove="Models\Game\IGameModel.cs" />
@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <EmbeddedResource Remove="Controls\UniformGrid.xaml" />
-    <EmbeddedResource Remove="Infrastructure\IBoardValueConverter.xaml" />
+    <EmbeddedResource Remove="Controls\Infrastructure\IBoardValueConverter.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,7 +73,7 @@
     <Page Include="Controls\UniformGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Infrastructure\IBoardValueConverter.xaml">
+    <Page Include="Controls\Infrastructure\IBoardValueConverter.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

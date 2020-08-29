@@ -117,9 +117,9 @@ namespace Sweeper.Models.Game
             for (int i = 0; i < Rows; i++)
                 for (int j = 0; j < Columns; j++)
                 {
-                    var temp = this[i, j].ShownValue;
-                    this[i, j].ShownValue = PieceValues.BLANK;
-                    this[i, j].ShownValue = temp;
+                    
+                    this[i, j].ShownValue = PieceValues.BUTTON;
+                    
                 }
         }
         public int RemainingMines
@@ -323,6 +323,10 @@ namespace Sweeper.Models.Game
                     else // So we need to Initialize the Board and Play the Point user selected 
 
                     {
+                        foreach(var m in Model)
+                        {
+                            m.ShownValue = PieceValues.BUTTON;
+                        }
                         if (minePlacement == null)
                         {
                             minePlacement = placeMines;
@@ -425,6 +429,9 @@ namespace Sweeper.Models.Game
                     n.ItemValue = (PieceValues)val;
                 }
             }
+            var blanks = Model.Where(evalPiece => evalPiece.ItemValue == PieceValues.BLANK).ToList<GamePieceModel>();
+            foreach (var b in blanks)
+                b.ItemValue = PieceValues.NOMINE;
         }
 
         private void placeMines(IBoardModel board, GridPoint ep)
@@ -454,7 +461,7 @@ namespace Sweeper.Models.Game
         private void PlayBlankNeighbors(int r, int c)
         {
             if (!inBounds(r, c)
-                || this[r, c].ItemValue != PieceValues.MINE
+                || this[r, c].ItemValue == PieceValues.MINE
                 || this[r, c].IsPlayed)
             {
                 return;

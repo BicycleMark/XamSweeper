@@ -57,7 +57,7 @@ namespace Sweeper.Views.Converters
                 { PieceValues.MINE, ImageSource.FromResource("Sweeper.Resources.mine.png") },
 
                 { PieceValues.BLANK, null  },
-                { PieceValues.BUTTON, ImageSource.FromResource("Sweeper.Resources.Button.png") },
+                { PieceValues.BUTTON, ImageSource.FromResource("Sweeper.Resources.button.png") },
                 { PieceValues.PRESSED, ImageSource.FromResource("Sweeper.Resources.Pressed.png") },
                 { PieceValues.FLAGGED, ImageSource.FromResource("Sweeper.Resources.Flagged.png") }
             };
