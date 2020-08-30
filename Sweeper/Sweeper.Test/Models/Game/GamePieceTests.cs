@@ -29,10 +29,10 @@ namespace Sweeper.Test.Models
         [DataRow(PieceValues.WRONGCHOICE, true)]
         [DataRow(PieceValues.MINE, true)]
 
-        [DataRow(PieceValues.BLANK, true)]
-        [DataRow(PieceValues.BUTTON, false)]
-        [DataRow(PieceValues.PRESSED, false)]
-        [DataRow(PieceValues.FLAGGED, false)]     
+        //[DataRow(PieceValues.BLANK, true)]
+        //[DataRow(PieceValues.BUTTON, true)]
+        //[DataRow(PieceValues.PRESSED, true)]
+        //[DataRow(PieceValues.FLAGGED, true)]
         [DataTestMethod]
         public void Test_IsPlayed_Returns_Notification_And_Queries_Correct_Value(PieceValues pieceValue, bool shouldReturnIsPlayed)
         {

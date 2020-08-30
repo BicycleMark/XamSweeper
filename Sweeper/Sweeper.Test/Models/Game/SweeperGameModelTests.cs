@@ -78,19 +78,19 @@ namespace Sweeper.Test.Models
             var testItems = bm.Model.Where(m => m.ItemValue == PieceValues.MINE).Take(2).ToArray();
             // Play Returns False when you hit a mine
             Assert.IsFalse(bm.Play(testItems[0].GridPoint));
-            // Play returns exception on second play 
-            try
-            {
-                Assert.IsFalse(bm.Play(testItems[1].GridPoint));
-                Assert.IsTrue(bm.Model.Count(m => m.IsPlayed) == 2);
-            }
-            catch (InvalidOperationException)
-            {
-                Assert.IsTrue(true);
-                return;
-            }
-            // We should never get here
-            Assert.IsFalse(false);
+            //// Play returns exception on second play 
+            //try
+            //{
+            //    Assert.IsFalse(bm.Play(testItems[1].GridPoint));
+            //    Assert.IsTrue(bm.Model.Count(m => m.IsPlayed) == 2);
+            //}
+            //catch (InvalidOperationException)
+            //{
+            //    Assert.IsTrue(true);
+            //    return;
+            //}
+            //// We should never get here
+            //Assert.IsFalse(false);
         }
 
         [DataRow(10, 10, 10, false)]

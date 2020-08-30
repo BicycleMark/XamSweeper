@@ -323,10 +323,7 @@ namespace Sweeper.Models.Game
                     else // So we need to Initialize the Board and Play the Point user selected 
 
                     {
-                        foreach(var m in Model)
-                        {
-                            m.ShownValue = PieceValues.BUTTON;
-                        }
+                       
                         if (minePlacement == null)
                         {
                             minePlacement = placeMines;
@@ -461,22 +458,20 @@ namespace Sweeper.Models.Game
         private void PlayBlankNeighbors(int r, int c)
         {
             if (!inBounds(r, c)
-                || this[r, c].ItemValue == PieceValues.MINE
-                
+                || this[r, c].ItemValue == PieceValues.MINE      
                 || this[r, c].IsPlayed)
             {
                 return;
             }
             //Set To Fill Value
             this[r, c].ShownValue = this[r, c].ItemValue;
-            if (this[r,c].ItemValue == PieceValues.NOMINE )
+            if (this[r, c].ItemValue == PieceValues.NOMINE)
+            {
                 PlayBlankNeighbors(r + 1, c);
-            if (this[r, c].ItemValue == PieceValues.NOMINE)
                 PlayBlankNeighbors(r - 1, c);
-            if (this[r, c].ItemValue == PieceValues.NOMINE)
-                PlayBlankNeighbors(r, c + 1);
-            if (this[r, c].ItemValue == PieceValues.NOMINE)
-                PlayBlankNeighbors(r, c - 1);
+                PlayBlankNeighbors(r    , c + 1);
+                PlayBlankNeighbors(r    , c - 1);
+            }
             
         }
         ////GameModel privates
